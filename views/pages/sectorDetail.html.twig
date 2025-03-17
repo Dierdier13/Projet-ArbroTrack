@@ -1,0 +1,271 @@
+{% extends "../layouts/base.html.twig" %}
+
+{% block style %}
+	<link rel="stylesheet" href="/assets/css/main.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+{% endblock %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block main %}
+	<main class="flex flex-col gap-8 w-[calc(100vw-4rem)] ml-16 md:w-4/5 md:ml-[20%] lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-4 md:px-8 lg:px-16 xl:px-32 py-8">
+		<section class="flex flex-col gap-8">
+			<div class="w-full flex items-center justify-center">
+				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 text-white font-medium px-3 py-1 rounded flex items-center justify-center">
+					<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">
+				</a>
+				<div class="w-full flex items-center justify-center">
+					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Détail de
+						{{ sector.name }}</h2>
+				</div>
+				<button onclick="openEditSectorModal('{{ sector.id }}')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
+					<span>Modifier</span>
+					<img src="/assets/images/edit.png" alt="Modifier propriété" class="h-6">
+				</button>
+			</div>
+			<div id="map-3" class="w-full h-90 rounded-lg"></div>
+			<div class="flex justify-between w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4">
+				<button class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
+					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="h-6">
+					<span>API PlantNet</span>
+				</button>
+				<div class="flex justify-center items-center">
+					<span class="mr-3 font-medium text-white">Article</span>
+					<label class="relative inline-flex items-center cursor-pointer">
+						<input type="checkbox" id="displayToggle" class="sr-only peer">
+						<div class="w-11 h-6 bg-green-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-green-600 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all "></div>
+					</label>
+					<span class="ml-3 font-medium text-white">Liste</span>
+				</div>
+				<div class="flex items-center w-md">
+					<form action="/property/{{ property.id }}/sector/{{ sector.id }}/search" method="GET" class="flex w-full">
+						<input type="text" name="search" placeholder="Rechercher une propriété." value="{{ searchTerm }}" class="w-full px-3 py-1 rounded-l-md bg-white border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"/>
+						<button type="submit" class="w-40 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
+							<img src="/assets/images/search.png" alt="Rechercher" class="mr-1 h-6">
+							<span>Rechercher</span>
+						</button>
+					</form>
+				</div>
+			</div>
+		</section>
+		<section class="flex flex-col gap-4">
+			<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg p-4">
+				<div id="listView" class="view hidden">
+					<div class="flex w-full items-center mb-8 relative">
+						<button class="w-32 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ property.id }}/sector/{{ sector.id }}')">
+							<img src="/assets/images/add.png" alt="Ajouter arbre" class="h-6">
+							<span>Arbre</span>
+						</button>
+						{% if searchTerm|length > 0 %}
+							<h2 class="text-4xl text-white font-semibold absolute left-1/2 transform -translate-x-1/2">Résultats de la recherche pour "{{ searchTerm }}"</h2>
+						{% else %}
+							<h2 class="text-4xl text-white font-semibold absolute left-1/2 transform -translate-x-1/2">Affichage Liste</h2>
+						{% endif %}
+					</div>
+					{% if trees|length > 0 %}
+						<div {#id="trees-container"#} class="sortable-container flex flex-col gap-4">
+							{% for tree in trees %}
+								<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
+									<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 w-full md:w-5/6">
+										<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-black hover:text-white w-1/6">
+											<h3>
+												<span class="font-bold">{{ tree.specy }}
+												</span>
+											</h3>
+										</a>
+										<p class="text-gray-900 w-1/6">
+											<span class="font-bold">Hauteur :
+											</span>
+											{{ tree.height }}
+											m</p>
+										<p class="text-gray-900 w-1/6">
+											<span class="font-bold">Circonférence :
+											</span>
+											{{ tree.diameter }}
+											cm</p>
+										<p class="text-gray-900 w-2/6">
+											<span class="font-bold">État sanitaire :
+											</span>
+											{% set healthColor = {
+    											'Sain': 'green-600',
+    											'Faiblement_affaibli': 'lime-300',
+    											'Modérément_affaibli': 'yellow-300',
+    											'Fortement_affaibli': 'orange-400',
+    											'Dépérissant': 'red-500',
+    											'Mort': 'gray-900'
+											} %}
+											{% set color = healthColor[tree.healthStatut] ?? 'gray-500' %}
+											<span class="text-xl text-{{ color }} px-2 py-1">⬤
+											</span>
+											<span class="font-medium">
+												{{ tree.healthStatut }}</span>
+										</p>
+										{% if tree.sectorId %}
+											<p class="text-gray-900 w-1/6">
+												<span class="font-bold">secteur:
+												</span>
+												{{ tree.sector.name }}</p>
+										{% else %}
+											<p class="text-gray-900 w-1/6">
+												<span class="font-bold">Pas de secteur</span>
+											</p>
+										{% endif %}
+
+									</div>
+									<div class="flex justify-center md:justify-end gap-2 w-full md:w-1/6">
+										<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+											<img src="/assets/images/info.png" alt="Détail de l'arbre" class="h-6">
+										</a>
+										<button onclick="openEditTreeModal('{{ property.id }}', '{{ tree.id }}')" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+											<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
+										</button>
+										<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer text-sm inline-flex items-center px-3 py-1 bg-red-600 text-white font-medium rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+											<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="h-6">
+										</button>
+									</div>
+								</article>
+							{% endfor %}
+						</div>
+					{% else %}
+						<p class="text-white text-center py-4">Aucun Arbre enregistré à
+							{{ sector.name }}
+							pour le moment.</p>
+					{% endif %}
+				</div>
+
+				<div id="articleView" class="view">
+					<div class="flex w-full items-center mb-8 relative">
+						<button class="w-32 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ property.id }}/sector/{{ sector.id }}')">
+							<img src="/assets/images/add.png" alt="Ajouter Arbre" class="h-6">
+							<span>Arbre</span>
+						</button>
+						{% if searchTerm|length > 0 %}
+							<h2 class="text-4xl text-white font-semibold absolute left-1/2 transform -translate-x-1/2">Résultats de la recherche pour "{{ searchTerm }}"</h2>
+						{% else %}
+							<h2 class="text-4xl text-white font-semibold absolute left-1/2 transform -translate-x-1/2">Affichage Articles</h2>
+						{% endif %}
+					</div>
+					{% if trees|length > 0 %}
+						<div {#id="trees-container"#} class="sortable-container box-border flex flex-wrap gap-2 h-full mx-auto">
+							{% for tree in trees %}
+								<article class="bg-[#C3CEA3] flex flex-col justify-between shadow-lg rounded-lg gap-2 p-2 w-full lg:w-[calc(50%-0.35rem)] xl:w-[calc(33%-0.17rem)] 2xl:w-[calc(25%-0.40rem)]">
+									<div class="h-30 w-full flex items-center justify-center rounded-lg overflow-hidden">
+										{% if tree.images|length > 0 %}
+											<img src="/{{ tree.images[0].url }}" alt="Image de l'arbre" class="object-contain w-full">
+										{% else %}
+											<img src="/assets/images/Logo_final_sans_blanc.png" alt="Image de l'arbre" class="object-cover w-full h-full">
+										{% endif %}
+									</div>
+									<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-center hover:text-white">
+										<h3>{{ tree.specy }}</h3>
+									</a>
+									<div class="max-h-max flex flex-col justify-between gap-2">
+										<div>
+											<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
+												<div class="flex">
+													<p class="w-1/2">{% set healthColor = {
+                                                            'Sain': 'green-600',
+                                                            'Faiblement_affaibli': 'lime-300',
+                                                            'Modérément_affaibli': 'yellow-300',
+                                                            'Fortement_affaibli': 'orange-400',
+                                                            'Dépérissant': 'red-500',
+                                                            'Mort': 'gray-900'
+                                                        } %}
+														{% set color = healthColor[tree.healthStatut] ?? 'gray-500' %}
+														<span class="text-xl text-{{ color }} px-2 py-1">⬤</span>
+														<span class="font-medium">{{ tree.healthStatut }}</span>
+													</p>
+													{% if tree.sectorId %}
+														<p class="w-1/2">
+															<span class="font-medium">{{ tree.sector.name }}</span>
+														</p>
+													{% else %}
+														<p class="w-1/2">
+															<span class="font-medium">Pas de secteur</span>
+														</p>
+													{% endif %}
+												</div>
+												<div class="flex">
+													<p class="w-1/2">H :
+														<span class="font-medium">{{ tree.height }}
+															mètres</span>
+													</p>
+													<p class="w-1/2">C :
+														<span class="font-medium">{{ tree.diameter }}
+															centimètres</span>
+													</p>
+												</div>
+											</div>
+
+											<div class="flex flex-col gap-1">
+												<h3 class="text-xl text-gray-900 font-semibold">Historique</h3>
+												<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
+													{% if tree.histories|length > 0 %}
+														{% for history in tree.histories %}
+															<p class="text-gray-900 w-full">-
+																{{ history.formattedDate }}
+																{{ history.action }}
+															</p>
+														{% endfor %}
+													{% else %}
+														<p class="text-gray-900 w-full">
+															<span class="font-medium">Pas d'historique</span>
+														</p>
+													{% endif %}
+												</div>
+											</div>
+
+											<div class="flex flex-col gap-1">
+												<div class="flex gap-6">
+													<h3 class="text-xl font-semibold text-gray-900">Commentaires</h3>
+												</div>
+												<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
+													{% if tree.comments|length > 0 %}
+														{% for comment in tree.comments %}
+															<p class="text-gray-900 w-full">-
+																{{ comment.comment }}</p>
+														{% endfor %}
+													{% else %}
+														<p class="text-gray-900 w-full">
+															<span class="font-medium">Pas de commentaire</span>
+														</p>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+										<div class="flex justify-center gap-4">
+											<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="inline-flex items-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+												<img src="/assets/images/info.png" alt="Détail de l'arbre" class="h-6">
+											</a>
+											<button onclick="openEditTreeModal('{{ property.id }}', '{{ tree.id }}')" class="cursor-pointer inline-flex items-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+												<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
+											</button>
+											<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="inline-flex items-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+												<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="h-6">
+											</button>
+										</div>
+									</div>
+								</article>
+							{% endfor %}
+						</div>
+					{% else %}
+						<p class="text-white text-center py-4">Aucun Arbre enregistré à
+							{{ sector.name }}
+							pour le moment.</p>
+					{% endif %}
+				</div>
+			</div>
+		</section>
+
+	</main>
+
+{% endblock %}
+{% block script %}
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<script src="/assets/js/map3.js"></script>
+	<script src="/assets/js/modal.js"></script>
+	<script src="/assets/js/main.js"></script>
+	<script src="/assets/js/toggleList-Art.js"></script>
+{% endblock %}

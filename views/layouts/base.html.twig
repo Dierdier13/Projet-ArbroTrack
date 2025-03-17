@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/assets/css/tailwind.css"> {% block title %}{% endblock %}{% block style %}{% endblock %}
+
+		</head>
+		<body>
+			{% if not isMainPage %}
+				{% include '../partials/header.html.twig' %}
+				{% include '../partials/toast.html.twig' %}
+				{% block main %}{% endblock %}
+				{% include '../partials/footer.html.twig' %}
+			{% else %}
+				{% include '../partials/sidebar.html.twig' %}
+				{% include '../partials/toast.html.twig' %}
+				{% block main %}{% endblock %}
+				{% include '../partials/modalUser.html.twig' %}
+				{% include '../partials/modalProperty.html.twig' %}
+				{% include '../partials/modalSector.html.twig' %}
+				{% include '../partials/modalTree.html.twig' %}
+				{% include '../partials/modalHistory.html.twig' %}
+				{% include '../partials/modalComment.html.twig' %}
+				{% include '../partials/footer-2.html.twig' %}
+			{% endif %}
+
+
+			{% block script %}{% endblock %}
+
+		</body>
+	</html>

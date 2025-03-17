@@ -1,0 +1,8 @@
+model Sector {
+    id         Int      @id @default(autoincrement())
+    name       String
+    comment    String
+    propertyId Int
+    property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+    trees      Tree[]
+}

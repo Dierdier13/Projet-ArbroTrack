@@ -1,0 +1,10 @@
+model User {
+    id         Int        @id @default(autoincrement())
+    name       String
+    firstname  String
+    mail       String     @unique
+    password   String
+    avatar     String?    @db.VarChar(255)
+    pro        Pro?
+    properties Property[]
+}

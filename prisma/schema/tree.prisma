@@ -1,0 +1,23 @@
+model Tree {
+    id           Int          @id @default(autoincrement())
+    specy        String
+    height       Int?
+    diameter     Int?
+    healthStatut HealthStatut @default(Sain)
+    propertyId   Int
+    property     Property     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+    sectorId     Int?
+    sector       Sector?      @relation(fields: [sectorId], references: [id])
+    images       Image[]
+    comments     Comment[]
+    histories    History[]
+}
+
+enum HealthStatut {
+    Sain
+    Faiblement_affaibli
+    Modérément_affaibli
+    Fortement_affaibli
+    Dépérissant
+    Mort
+}

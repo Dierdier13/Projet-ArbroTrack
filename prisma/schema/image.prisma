@@ -1,0 +1,6 @@
+model Image {
+    id     Int    @id @default(autoincrement())
+    url    String @db.VarChar(255)
+    treeId Int
+    tree   Tree   @relation(fields: [treeId], references: [id], onDelete: Cascade)
+}

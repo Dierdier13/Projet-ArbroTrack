@@ -1,0 +1,16 @@
+model Property {
+    id         Int      @id @default(autoincrement())
+    name       String
+    adress     String
+    codePostal Int
+    city       String
+    latitude   Float?
+    longitude  Float?
+    polygon    String?  @db.Text
+    proId      Int?
+    pro        Pro?     @relation(fields: [proId], references: [id])
+    ownerId    Int
+    owner      User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+    sectors    Sector[]
+    trees      Tree[]
+}

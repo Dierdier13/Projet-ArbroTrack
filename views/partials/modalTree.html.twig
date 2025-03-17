@@ -1,0 +1,164 @@
+<div id="treeModal" class="fixed z-10 inset-0 bg-gray-400/60 backdrop-blur-xs hidden items-center justify-center transition-opacity duration-300">
+	<form action="/property/{{ property.id }}/addTree" method="POST" enctype="multipart/form-data" class="w-full max-w-md mx-auto p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
+		<h2 class="text-white text-2xl font-semibold text-center mb-4">Ajouter un Arbre</h2>
+		<input type="hidden" id="returnUrl" name="returnUrl" value="">
+		<input type="hidden" id="initialSectorId" name="initialSectorId" value="">
+		<div class="mb-4">
+			<label for="specy" class="block text-sm font-medium text-white mb-2">Essence de l'arbre :</label>
+			<input type="text" id="specy" name="specy" placeholder="Platane, pin, etc..." class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" required>
+		</div>
+		<div class="mb-4">
+			<label for="height" class="block text-sm font-medium text-white mb-2">Hauteur (m) :</label>
+			<input type="number" id="height" name="height" placeholder="Hauteur en mètres" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" required>
+		</div>
+		<div class="mb-4">
+			<label for="diameter" class="block text-sm font-medium text-white mb-2">Circonférence (cm) :</label>
+			<input type="number" id="diameter" name="diameter" placeholder="Circonférence du tronc" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" required>
+		</div>
+		<div class="mb-4">
+			<label for="healthStatut" class="block text-sm font-medium text-white mb-2">État Sanitaire :</label>
+			<select id="healthStatut" name="healthStatut" required class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<option value="Sain">Sain</option>
+				<option value="Faiblement_affaibli">Faiblement affaibli</option>
+				<option value="Modérément_affaibli">Modérément affaibli</option>
+				<option value="Fortement_affaibli">Fortement affaibli</option>
+				<option value="Dépérissant">Dépérissant</option>
+				<option value="Mort">Mort</option>
+			</select>
+		</div>
+		<div class="mb-4">
+			<label for="sectorId" class="block text-sm font-medium text-white mb-2">Secteur :</label>
+			<select id="sectorId" name="sectorId" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<option value="" disabled selected>Aucun Secteur</option>
+				{% for sector in sectors %}
+					<option value="{{ sector.id }}">{{ sector.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="mb-4">
+			<label for="images" class="block text-sm font-medium text-white mb-2">Télécharger des images (max 2) :</label>
+			<input type="file" id="images" name="images" multiple accept="image/png, image/jpeg, image/webp" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<p class="mt-1 text-sm text-gray-300">PNG, JPG, JPEG, WEBP jusqu'à 5MB</p>
+		</div>
+		<div class="mb-4 relative">
+			<label for="images" class="block text-sm font-medium text-white mb-2">Choisissez jusqu'à 2 images</label>
+			<div class="flex items-center">
+				<input type="file" id="images" name="images" multiple class="hidden" onchange="updateFileName(this)">
+				<label for="images" class="cursor-pointer bg-white px-4 py-2 border border-green-300 rounded-md hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+					</svg>
+					<span id="file-name">Télécharger les images</span>
+				</label>
+			</div>			
+			<p class="mt-1 text-sm text-gray-300">PNG, JPG, JPEG, WEBP jusqu'à 5MB</p>
+		</div>
+		<div class="flex justify-center space-x-4">
+			<button type="submit" class="w-1/3 py-2 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:ring-2 focus:ring-green-400/75 transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/add.png" alt="Ajouter arbre" class="h-6">
+			</button>
+			<button type="button" onclick="closeModal('treeModal')" class="w-1/3 py-2 bg-gray-600 text-white font-medium rounded-md shadow hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">
+			</button>
+		</div>
+	</form>
+</div>
+
+<div id="editTreeModal" class="fixed z-10 inset-0 bg-gray-400/60 backdrop-blur-xs hidden items-center justify-center transition-opacity duration-300">
+	<form action="/property/{{ property.id }}/editTree" method="POST" class="w-full max-w-md mx-auto p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
+		<h2 class="text-white text-2xl font-semibold text-center mb-4">Modifier l'arbre</h2>
+		<input type="hidden" id="treeId" name="treeId">
+		<div class="mb-4">
+			<label for="specy" class="block text-sm font-medium text-white mb-2">Essence de l'arbre :</label>
+			<input type="text" id="specy" name="specy" value="{{ tree.specy}}" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+		</div>
+		<div class="mb-4">
+			<label for="height" class="block text-sm font-medium text-white mb-2">Hauteur (m) :</label>
+			<input type="number" id="height" name="height" value="{{ tree.height}}" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+		</div>
+		<div class="mb-4">
+			<label for="diameter" class="block text-sm font-medium text-white mb-2">Circonférence (cm) :</label>
+			<input type="number" id="diameter" name="diameter" value="{{ tree.diameter}}" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+		</div>
+		<div class="mb-4">
+			<label for="healthStatut" class="block text-sm font-medium text-white mb-2">État Sanitaire :</label>
+			<select id="healthStatut" name="healthStatut" required class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<option value="Sain">Sain</option>
+				<option value="Faiblement_affaibli">Faiblement affaibli</option>
+				<option value="Modérément_affaibli">Modérément affaibli</option>
+				<option value="Fortement_affaibli">Fortement affaibli</option>
+				<option value="Dépérissant">Dépérissant</option>
+				<option value="Mort">Mort</option>
+			</select>
+		</div>
+		<div class="mb-4">
+			<label for="sectorId" class="block text-sm font-medium text-white mb-2">Secteur :</label>
+			<select id="sectorId" name="sectorId" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<option value="" disabled selected>Aucun Secteur</option>
+				{% for sector in sectors %}
+					<option value="{{ sector.id }}">{{ sector.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="flex justify-center space-x-4">
+			<button type="submit" class="cursor-pointer w-1/3 py-2 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/edit.png" alt="Modifier arbre" class="h-6">
+			</button>
+			<button type="button" onclick="closeModal('editTreeModal')" class="cursor-pointer w-1/3 py-2 bg-gray-600 text-white font-medium rounded-md shadow hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:outline-none transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">
+			</button>
+		</div>
+	</form>
+</div>
+
+<div id="editImagesTreeModal" class="fixed z-10 inset-0 bg-gray-400/60 backdrop-blur-xs hidden items-center justify-center transition-opacity duration-300">
+	<form action="/editImagesTree" method="POST" enctype="multipart/form-data" class="w-full max-w-md mx-auto p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
+		<h2 class="text-white text-2xl font-semibold text-center mb-4">Modifier les images de l'Arbre</h2>
+		<input type="hidden" id="treeId" name="treeId">
+		<div class="mb-4 relative">
+			<label for="images" class="block text-sm font-medium text-white mb-2">
+				Choisissez jusqu'à 2 images
+			</label>
+			<div class="flex items-center">
+				<input type="file" id="images" name="images" multiple class="hidden" onchange="updateFileName(this)">
+				<label for="images" class="cursor-pointer bg-white px-4 py-2 border border-green-300 rounded-md hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+					</svg>
+					<span id="file-name">Télécharger les images</span>
+				</label>
+			</div>			
+			<p class="mt-1 text-sm text-gray-300">PNG, JPG, JPEG, WEBP jusqu'à 5MB</p>
+		</div>
+		<div class="mb-4">
+				<label for="images" class="block text-sm font-medium text-white mb-2">Télécharger des images (max 2) :</label>
+				<input type="file" id="images" name="images" multiple accept="image/png, image/jpeg, image/webp" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+				<p class="mt-1 text-sm text-gray-300">PNG, JPG, JPEG, WEBP jusqu'à 5MB</p>
+			</div>
+		<div class="flex justify-center space-x-4">
+			<button type="submit" class="cursor-pointer w-1/3 py-2 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/edit-photo.png" alt="Modifier imeges arbre" class="h-6">
+			</button>
+			<button type="button" onclick="closeModal('editImagesTreeModal')" class="cursor-pointer w-1/3 py-2 bg-gray-600 text-white font-medium rounded-md shadow hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:outline-none transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">
+			</button>
+		</div>
+	</form>
+</div>
+
+<div id="deleteTreeConfirmModal" class="fixed z-10 inset-0 bg-gray-400/60 backdrop-blur-xs hidden items-center justify-center transition-opacity duration-300">
+	<div class="w-full max-w-md mx-auto p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
+		<h2 class="text-white text-2xl font-semibold text-center mb-4">Confirmer la suppression</h2>
+		<p class="text-white text-center mb-6">Êtes-vous sûr de vouloir supprimer l'arbre
+			<span id="treeName" class="font-bold"></span>
+			? Cette action est irréversible.</p>
+		<div class="flex justify-center space-x-4">
+			<a id="deleteTree" href="#" class="w-1/3 py-2 bg-red-600 text-white font-medium rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/delete.png" alt="Supprimer arbre" class="h-6">
+			</a>
+			<button onclick="closeModal('deleteTreeConfirmModal')" class="cursor-pointer w-1/3 py-2 bg-gray-600 text-white font-medium rounded-md shadow hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:outline-none transition duration-300 flex items-center justify-center">
+				<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">
+			</button>
+		</div>
+	</div>
+</div>

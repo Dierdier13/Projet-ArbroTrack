@@ -1,0 +1,8 @@
+model Pro {
+    id          Int        @id @default(autoincrement())
+    companyName String
+    siret       String     @unique
+    userId      Int        @unique
+    user        User       @relation(fields: [userId], references: [id])
+    properties  Property[]
+}

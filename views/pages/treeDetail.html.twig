@@ -1,0 +1,165 @@
+{% extends "../layouts/base.html.twig" %}
+
+{% block style %}
+	<link rel="stylesheet" href="/assets/css/main.css">
+{% endblock %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block main %}
+	<main class="flex flex-col gap-8 w-[calc(100vw-4rem)] ml-16 md:w-4/5 md:ml-[20%] lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-4 md:px-8 lg:px-16 xl:px-32 py-8">
+		<section>
+			<div class="flex">
+				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 text-white font-medium px-3 py-1 rounded flex items-center justify-center">
+					<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">
+				</a>
+				<div class="w-full flex items-center justify-center">
+					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Détail de
+						{{ tree.specy }}</h2>
+				</div>
+			</div>
+		</section>
+		<section>
+			<div class="flex flex-col mx-auto mb-4 p-6 bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg gap-6">
+				<div class="flex gap-6">
+					<div class="w-1/4 flex flex-col justify-between gap-4">
+						<div class="image-carousel relative w-full h-100 flex items-center justify-center bg-gray-200 rounded-lg overflow-hidden">
+							{% if images|length > 0 %}
+								{% for image in images %}
+									<img src="/{{image.url}}" alt="Image de l'arbre" class="object-cover w-full h-full hidden">
+								{% endfor %}
+							{% else %}
+								<img src="/assets/images/Logo_final_sans_blanc.png" alt="Image de l'arbre" class="object-cover w-full h-full">
+							{% endif %}
+						</div>
+						{% if images|length > 1 %}
+							<div class="flex justify-around">
+								<button class="text-white cursor-pointer" onclick="changeImage(-1)">&#10094;</button>
+								<button class="text-white cursor-pointer" onclick="changeImage(1)">&#10095;</button>
+							</div>
+						{% endif %}
+						<div class="flex justify-center mt-2">
+							<button onclick="openModal('editAvatarUserModal')" class="inline-flex items-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+								<img src="/assets/images/edit-photo.png" alt="Modifier" class="h-6">
+							</button>
+						</div>
+					</div>
+
+					<div class="flex flex-col justify-between w-3/4 gap-6">
+						<div class="bg-[#C3CEA3] space-y-6 shadow-lg rounded-lg p-4">
+							<h2 class="text-2xl text-center font-semibold underline">Informations de l'arbre</h2>
+							<div class="flex flex-col bg-white border border-green-500 rounded-md p-2 gap-2">
+								<div class="flex">
+									<p class="w-1/2">État sanitaire :
+										{% set healthColor = {
+        									'Sain': 'green-600',
+    										'Faiblement_affaibli': 'lime-300',
+    										'Modérément_affaibli': 'yellow-300',
+    										'Fortement_affaibli': 'orange-400',
+    										'Dépérissant': 'red-500',
+    										'Mort': 'gray-900'
+    									} %}
+										{% set color = healthColor[tree.healthStatut] ?? 'gray-500' %}
+										<span class="text-xl text-{{ color }} px-2 py-1">⬤</span>
+										<span class="font-medium">{{ tree.healthStatut }}</span>
+									</p>
+									{% if tree.sectorId %}
+										<p class="w-1/2">secteur:
+											<span class="font-medium">{{ tree.sector.name }}</span>
+										</p>
+									{% else %}
+										<p class="text-gray-900 w-1/2">
+											<span class="font-medium">Pas de secteur</span>
+										</p>
+									{% endif %}
+								</div>
+								<div class="flex">
+									<p class="w-1/2">Hauteur :
+										<span class="font-medium">{{ tree.height }}
+											mètres</span>
+									</p>
+									<p class="w-1/2">Circonférence :
+										<span class="font-medium">{{ tree.diameter }}
+											centimètres</span>
+									</p>
+								</div>
+							</div>
+
+							<div class="flex flex-col gap-2">
+								<div class="flex gap-6">
+									<h3 class="text-xl text-gray-900 font-semibold">Historique</h3>
+									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('historyModal')">
+										<img src="/assets/images/add.png" alt="Ajouter historique" class="h-6">
+									</button>
+								</div>
+								<div class="flex flex-col bg-white border border-green-500 rounded-md p-2 gap-2">
+									{% if histories|length > 0 %}
+										{% for history in histories %}
+											<div class="flex justify-between">
+												<p class="text-gray-900 w-full">-
+													{{ history.formattedDate }}
+													<span class="font-medium">Intervention:
+													</span>
+													{{ history.action }}
+												</p>
+												<button onclick="openDeleteModal('deleteHistoryConfirmModal', this)" data-id="{{ history.id }}" class="cursor-pointer inline-flex items-center px-1 py-0.5 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+													<img src="/assets/images/delete.png" alt="Supprimer historique" class="h-6">
+												</button>
+											</div>
+										{% endfor %}
+									{% else %}
+										<p class="text-gray-900 w-full">
+											<span class="font-medium">Pas d'historique</span>
+										</p>
+									{% endif %}
+								</div>
+							</div>
+
+							<div class="flex flex-col gap-2">
+								<div class="flex gap-6">
+									<h3 class="text-xl font-semibold text-gray-900">Commentaires</h3>
+									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('commentModal')">
+										<img src="/assets/images/add.png" alt="Ajouter commentaire" class="h-6">
+									</button>
+								</div>
+								<div class="flex flex-col bg-white border border-green-500 rounded-md p-2 gap-2">
+									{% if comments|length > 0 %}
+										{% for comment in comments %}
+											<div class="flex justify-between">
+												<p class="text-gray-900 w-full">-
+													{{ comment.comment }}</p>
+												<button onclick="openDeleteModal('deleteCommentConfirmModal', this)" data-id="{{ comment.id }}" class="cursor-pointer inline-flex items-center px-1 py-0.5 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+													<img src="/assets/images/delete.png" alt="Supprimer commentaire" class="h-6">
+												</button>
+											</div>
+										{% endfor %}
+									{% else %}
+										<p class="text-gray-900 w-full">
+											<span class="font-medium">Pas de commetaire</span>
+										</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="flex justify-center gap-4">
+							<button onclick="openEditTreeModal('{{ property.id }}', '{{ tree.id }}')" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+								<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
+							</button>
+							<button onclick="openModal('deleteTreeConfirmModal')" class="cursor-pointer inline-flex items-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+								<img src="/assets/images/delete.png" alt="Supprimer arbre" class="h-6">
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+{% endblock %}
+{% block script %}
+	<script src="/assets/js/modal.js"></script>
+	<script src="/assets/js/main.js"></script>
+	<script src="/assets/js/treeDetail.js"></script>
+{% endblock %}
