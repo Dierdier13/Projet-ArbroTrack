@@ -6,8 +6,9 @@ const prisma = new PrismaClient({ log: ['error'] });
 
 /////////////////////////////// Ajouter Historique ///////////////////////////////////////
 
-historyRouter.post('/addHistory/:treeId', authguard, async (req, res) => {
+historyRouter.post('/property/:propertyId/tree/:treeId/addHistory', authguard, async (req, res) => {
     const { date, action } = req.body;
+    const propertyId = parseInt(req.params.propertyId);
     const treeId = parseInt(req.params.treeId);
     try {
         const history = await prisma.history.create({
@@ -18,13 +19,10 @@ historyRouter.post('/addHistory/:treeId', authguard, async (req, res) => {
             }
         });
         req.flash('success', 'Historique ajouté avec succès !');
-        res.redirect('/tree/' + treeId)
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
     } catch (error) {
-        res.render('pages/treeDetail.html.twig', {
-            isMainPage: true,
-            title: "Détail de l'arbre",
-            error
-        });
+        req.flash('error', "Erreur lors de l'ajout de l'historique!");
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
     }
 })
 
@@ -38,21 +36,19 @@ historyRouter.get('/deleteHistory/:historyId', authguard, async (req, res)=>{
                 id: historyId
             }
         });
-        const treeId = history.treeId;
         const deleteHistory = await prisma.history.delete({
             where: {
                 id: historyId
             }
         });
-        req.flash('success', 'Historique supprimé avec succès !');
-        res.redirect('/tree/' + treeId);
-    } catch (error) {
-        const flash = { error: "Erreur lors de la suppression de l'historique." };
-        res.render('pages/treeDetail.html.twig', {
-            isMainPage: true,
-            title: "Détail de l'arbre",
-            flash
+        const tree = await prisma.tree.findUnique({
+            where: { id: history.treeId }
         });
+        req.flash('success', 'Historique supprimé avec succès !');
+        res.redirect('/property/' + tree.propertyId + '/tree/' + history.treeId);
+    } catch (error) {
+        req.flash('error', "Erreur lors de la suppression de l'historique.");
+        res.redirect('/');
     }
 })
 

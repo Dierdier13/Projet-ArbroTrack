@@ -6,7 +6,7 @@ const prisma = new PrismaClient({ log: ['error'] });
 
 ///////////////////////////////////////////////// Ajouter Secteur //////////////////////////////////////////////////////
 
-sectorRouter.post('/addSector/:propertyId', authguard, async (req, res) => {
+sectorRouter.post('/property/:propertyId/addSector', authguard, async (req, res) => {
     const { name, comment } = req.body;
     const propertyId = parseInt(req.params.propertyId);
     try {
@@ -20,13 +20,8 @@ sectorRouter.post('/addSector/:propertyId', authguard, async (req, res) => {
         req.flash('success', 'Secteur ajouté avec succès !');
         res.redirect('/property/' + propertyId);
     } catch (error) {
-        const flash = { error: "Erreur lors de l'ajout du secteur." };
-        res.render('pages/dashboard.html.twig', {
-            isMainPage: true,
-            title: "Dashboard",
-            error,
-            flash
-        });
+        req.flash('error', "Erreur lors de l'ajout du secteur");
+        res.redirect('/property/' + propertyId);
     }
 })
 

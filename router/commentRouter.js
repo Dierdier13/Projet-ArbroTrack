@@ -6,7 +6,8 @@ const prisma = new PrismaClient({ log: ['error'] });
 
 /////////////////////////////// Ajouter Commentaire ///////////////////////////////////////
 
-commentRouter.post('/addComment/:treeId', authguard, async (req, res) => {
+commentRouter.post('/property/:propertyId/tree/:treeId/addComment', authguard, async (req, res) => {
+    const propertyId = parseInt(req.params.propertyId);
     const treeId = parseInt(req.params.treeId);
     try {
         const comment = await prisma.comment.create({
@@ -16,13 +17,10 @@ commentRouter.post('/addComment/:treeId', authguard, async (req, res) => {
             }
         });
         req.flash('success', 'Commentaire ajouté avec succès !');
-        res.redirect('/tree/' + treeId)
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
     } catch (error) {
-        res.render('pages/treeDetail.html.twig', {
-            isMainPage: true,
-            title: "Détail de l'arbre",
-            error
-        });
+        req.flash('error', "Erreur lors de l'ajout du commentaire!");
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
     }
 })
 
@@ -36,21 +34,19 @@ commentRouter.get('/deleteComment/:commentId', authguard, async (req, res)=>{
                 id: commentId
             }
         });
-        const treeId = comment.treeId;
         const deleteComment = await prisma.comment.delete({
             where: {
                 id: commentId
             }
         });
-        req.flash('success', 'Commentaire supprimé avec succès !');
-        res.redirect('/tree/' + treeId);
-    } catch (error) {
-        const flash = { error: "Erreur lors de la suppression du commentaire." };
-        res.render('pages/treeDetail.html.twig', {
-            isMainPage: true,
-            title: "Détail de l'arbre",
-            flash
+        const tree = await prisma.tree.findUnique({
+            where: { id: comment.treeId }
         });
+        req.flash('success', 'Commentaire supprimé avec succès !');
+        res.redirect('/property/' + tree.propertyId + '/tree/' + comment.treeId);
+    } catch (error) {
+        req.flash('error', 'Erreur lors de la suppression du commentaire.');
+        res.redirect('/');
     }
 })
 

@@ -17,7 +17,7 @@
 					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="h-6">
 				</a>
 				<div class="w-full flex items-center justify-center">
-					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Propriété
+					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Propriété :
 						{{ property.name }}</h2>
 				</div>
 				<button onclick="openEditPropertyModal('{{ property.id }}')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
@@ -25,7 +25,7 @@
 					<img src="/assets/images/edit.png" alt="Modifier propriété" class="h-6">
 				</button>
 			</div>
-			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} class="w-full h-90 rounded-lg"></div>
+			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} data-CP={{property.codePostal}} class="w-full h-90 rounded-lg"></div>
 			<div class="flex justify-between w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4">
 				<button onclick="openModal('sectorModal')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
 					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="h-6">
@@ -51,14 +51,14 @@
 							{% for sector in sectors %}
 								<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-4 w-full lg:w-[calc(50%-0.35rem)] xl:w-[calc(33%-0.17rem)] 2xl:w-[calc(25%-0.40rem)]">
 									<div class="flex flex-col gap-2">
-										<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-black text-center hover:text-white">
+										<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-[#1B3C01] text-center hover:text-white">
 											<h3>{{ sector.name }}</h3>
 										</a>
-										<p class="text-gray-900">
+										<p class="text-[#1B3C01]">
 											<span class="font-bold">Description:
 											</span>
 											{{ sector.comment }}</p>
-										<p class="text-gray-900">
+										<p class="text-[#1B3C01]">
 											<span class="font-bold">Nb Arbre:
 											</span>
 											{{ sectorTreeCountsMap[sector.id]|default(0) }}</p>
@@ -85,24 +85,24 @@
 							{% for tree in trees %}
 								<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
 									<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 w-full md:w-5/6">
-										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg font-semibold text-black hover:text-white w-1/6">
+										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg font-semibold text-[#1B3C01] hover:text-white w-1/6">
 											<h3>
 												<span class="font-bold">{{ tree.specy }}</span>
 											</h3>
 										</a>
-										<p class="text-gray-900 w-1/6">
+										<p class="text-[#1B3C01] w-1/6">
 											<span class="font-bold">Hauteur:
 											</span>
 											{{ tree.height }}
 											m
 										</p>
-										<p class="text-gray-900 w-1/6">
+										<p class="text-[#1B3C01] w-1/6">
 											<span class="font-bold">Circonférence:
 											</span>
 											{{ tree.diameter }}
 											cm
 										</p>
-										<p class="text-gray-900 w-2/6">
+										<p class="text-[#1B3C01] w-2/6">
 											<span class="font-bold">État sanitaire:
 											</span>
 											{% set healthColor = {
@@ -119,13 +119,13 @@
 											<span class="font-medium">{{ tree.healthStatut }}</span>
 										</p>
 										{% if tree.sectorId %}
-											<p class="text-gray-900 w-1/6">
+											<p class="text-[#1B3C01] w-1/6">
 												<span class="font-bold">secteur:
 												</span>
 												{{ tree.sector.name }}
 											</p>
 										{% else %}
-											<p class="text-gray-900 w-1/6">
+											<p class="text-[#1B3C01] w-1/6">
 												<span class="font-bold">Pas de secteur</span>
 											</p>
 										{% endif %}
@@ -163,14 +163,14 @@
 									{% for sector in sectors %}
 										<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-4 w-full lg:w-[calc(50%-0.35rem)] xl:w-[calc(33%-0.17rem)] 2xl:w-[calc(25%-0.40rem)]">
 											<div class="flex flex-col gap-2">
-												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-black text-center hover:text-white">
+												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-[#1B3C01] text-center hover:text-white">
 													<h3>{{ sector.name }}</h3>
 												</a>
-												<p class="text-gray-900">
+												<p class="text-[#1B3C01]">
 													<span class="font-bold">Description:
 													</span>
 													{{ sector.comment }}</p>
-												<p class="text-gray-900">
+												<p class="text-[#1B3C01]">
 													<span class="font-bold">Nb Arbre:
 													</span>
 													{{ sectorTreeCountsMap[sector.id]|default(0) }}</p>
@@ -215,24 +215,24 @@
 									{% for tree in trees %}
 										<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
 											<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 w-full md:w-5/6">
-												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg font-semibold text-black hover:text-white w-1/6">
+												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg font-semibold text-[#1B3C01] hover:text-white w-1/6">
 													<h3>
 														<span class="font-bold">{{ tree.specy }}</span>
 													</h3>
 												</a>
-												<p class="text-gray-900 w-1/6">
+												<p class="text-[#1B3C01] w-1/6">
 													<span class="font-bold">Hauteur:
 													</span>
 													{{ tree.height }}
 													m
 												</p>
-												<p class="text-gray-900 w-1/6">
+												<p class="text-[#1B3C01] w-1/6">
 													<span class="font-bold">Circonférence:
 													</span>
 													{{ tree.diameter }}
 													cm
 												</p>
-												<p class="text-gray-900 w-2/6">
+												<p class="text-[#1B3C01] w-2/6">
 													<span class="font-bold">État sanitaire:
 													</span>
 													{% set healthColor = {
@@ -249,13 +249,13 @@
 													<span class="font-medium">{{ tree.healthStatut }}</span>
 												</p>
 												{% if tree.sectorId %}
-													<p class="text-gray-900 w-1/6">
+													<p class="text-[#1B3C01] w-1/6">
 														<span class="font-bold">secteur:
 														</span>
 														{{ tree.sector.name }}
 													</p>
 												{% else %}
-													<p class="text-gray-900 w-1/6">
+													<p class="text-[#1B3C01] w-1/6">
 														<span class="font-bold">Pas de secteur</span>
 													</p>
 												{% endif %}

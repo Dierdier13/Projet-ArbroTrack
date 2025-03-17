@@ -11,9 +11,9 @@
 {% block main %}
 	<main class="flex flex-col gap-8 w-[calc(100vw-4rem)] ml-16 md:w-4/5 md:ml-[20%] lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-4 md:px-8 lg:px-16 xl:px-32 py-8">
 		<section>
-			<div class="flex">
-				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 text-white font-medium px-3 py-1 rounded flex items-center justify-center">
-					<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">
+			<div class="w-full flex items-center justify-center">
+				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 px-3 py-1 rounded flex items-center justify-center transition duration-300">
+					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="h-6">
 				</a>
 				<div class="w-full flex items-center justify-center">
 					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Détail de
@@ -49,10 +49,10 @@
 
 					<div class="flex flex-col justify-between w-3/4 gap-6">
 						<div class="bg-[#C3CEA3] space-y-6 shadow-lg rounded-lg p-4">
-							<h2 class="text-2xl text-center font-semibold underline">Informations de l'arbre</h2>
+							<h2 class="text-2xl text-[#1B3C01] text-center font-semibold underline">Informations de l'arbre</h2>
 							<div class="flex flex-col bg-white border border-green-500 rounded-md p-2 gap-2">
 								<div class="flex">
-									<p class="w-1/2">État sanitaire :
+									<p class="text-[#1B3C01] w-1/2">État sanitaire :
 										{% set healthColor = {
         									'Sain': 'green-600',
     										'Faiblement_affaibli': 'lime-300',
@@ -66,30 +66,46 @@
 										<span class="font-medium">{{ tree.healthStatut }}</span>
 									</p>
 									{% if tree.sectorId %}
-										<p class="w-1/2">secteur:
+										<p class="text-[#1B3C01] w-1/2">secteur:
 											<span class="font-medium">{{ tree.sector.name }}</span>
 										</p>
 									{% else %}
-										<p class="text-gray-900 w-1/2">
+										<p class="text-[#1B3C01] w-1/2">
 											<span class="font-medium">Pas de secteur</span>
 										</p>
 									{% endif %}
 								</div>
 								<div class="flex">
-									<p class="w-1/2">Hauteur :
+									<p class="text-[#1B3C01] w-1/2">Hauteur :
 										<span class="font-medium">{{ tree.height }}
 											mètres</span>
 									</p>
-									<p class="w-1/2">Circonférence :
+									<p class="text-[#1B3C01] w-1/2">Circonférence :
 										<span class="font-medium">{{ tree.diameter }}
 											centimètres</span>
 									</p>
 								</div>
 							</div>
-
+							<div class="flex flex-col gap-2">
+								<h3 class="text-xl text-[#1B3C01] font-semibold">Secteur</h3>
+								<div class="flex justify-between bg-white border border-green-500 rounded-md p-2 gap-2">
+									{% if tree.sectorId %}
+										<p class="text-[#1B3C01] w-full">-
+											{{ tree.sector.name }}
+										</p>
+										<a href="/property/{{ property.id }}/deleteSectorTree/{{ tree.id }}" class="cursor-pointer inline-flex items-center px-1 py-0.5 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+											<img src="/assets/images/delete.png" alt="Supprimer historique" class="h-6">
+										</a>
+									{% else %}
+										<p class="text-[#1B3C01] w-full">
+											<span class="font-medium">Pas de secteur</span>
+										</p>
+									{% endif %}
+								</div>
+							</div>
 							<div class="flex flex-col gap-2">
 								<div class="flex gap-6">
-									<h3 class="text-xl text-gray-900 font-semibold">Historique</h3>
+									<h3 class="text-xl text-[#1B3C01] font-semibold">Historique</h3>
 									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('historyModal')">
 										<img src="/assets/images/add.png" alt="Ajouter historique" class="h-6">
 									</button>
@@ -98,7 +114,7 @@
 									{% if histories|length > 0 %}
 										{% for history in histories %}
 											<div class="flex justify-between">
-												<p class="text-gray-900 w-full">-
+												<p class="text-[#1B3C01] w-full">-
 													{{ history.formattedDate }}
 													<span class="font-medium">Intervention:
 													</span>
@@ -110,7 +126,7 @@
 											</div>
 										{% endfor %}
 									{% else %}
-										<p class="text-gray-900 w-full">
+										<p class="text-[#1B3C01] w-full">
 											<span class="font-medium">Pas d'historique</span>
 										</p>
 									{% endif %}
@@ -119,7 +135,7 @@
 
 							<div class="flex flex-col gap-2">
 								<div class="flex gap-6">
-									<h3 class="text-xl font-semibold text-gray-900">Commentaires</h3>
+									<h3 class="text-xl font-semibold text-[#1B3C01]">Commentaires</h3>
 									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('commentModal')">
 										<img src="/assets/images/add.png" alt="Ajouter commentaire" class="h-6">
 									</button>
@@ -128,7 +144,7 @@
 									{% if comments|length > 0 %}
 										{% for comment in comments %}
 											<div class="flex justify-between">
-												<p class="text-gray-900 w-full">-
+												<p class="text-[#1B3C01] w-full">-
 													{{ comment.comment }}</p>
 												<button onclick="openDeleteModal('deleteCommentConfirmModal', this)" data-id="{{ comment.id }}" class="cursor-pointer inline-flex items-center px-1 py-0.5 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 													<img src="/assets/images/delete.png" alt="Supprimer commentaire" class="h-6">
@@ -136,7 +152,7 @@
 											</div>
 										{% endfor %}
 									{% else %}
-										<p class="text-gray-900 w-full">
+										<p class="text-[#1B3C01] w-full">
 											<span class="font-medium">Pas de commetaire</span>
 										</p>
 									{% endif %}
@@ -147,7 +163,7 @@
 							<button onclick="openEditTreeModal('{{ property.id }}', '{{ tree.id }}')" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 								<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
 							</button>
-							<button onclick="openModal('deleteTreeConfirmModal')" class="cursor-pointer inline-flex items-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+							<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer inline-flex items-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 								<img src="/assets/images/delete.png" alt="Supprimer arbre" class="h-6">
 							</button>
 						</div>
@@ -156,7 +172,6 @@
 			</div>
 		</section>
 	</main>
-
 {% endblock %}
 {% block script %}
 	<script src="/assets/js/modal.js"></script>

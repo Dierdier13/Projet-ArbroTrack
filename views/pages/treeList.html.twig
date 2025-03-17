@@ -20,7 +20,7 @@
 					<h2 class="text-white text-4xl text-center font-semibold bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Liste de tous les arbres</h2>
 				</div>
 			</div>
-			<div id="map-2" class="w-full h-90 rounded-lg"></div>
+			<div id="map-3" class="w-full h-90 rounded-lg"></div>
 			<div class="flex justify-between w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4">
 				<button class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
 					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="h-6">
@@ -65,23 +65,23 @@
 							{% for tree in trees %}
 								<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
 									<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 w-full md:w-5/6">
-										<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-black hover:text-white w-1/6">
+										<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-[#1B3C01] hover:text-white w-1/6">
 											<h3>
 												<span class="font-bold">{{ tree.specy }}
 												</span>
 											</h3>
 										</a>
-										<p class="text-gray-900 w-1/6">
+										<p class="text-[#1B3C01] w-1/6">
 											<span class="font-bold">Hauteur :
 											</span>
 											{{ tree.height }}
 											m</p>
-										<p class="text-gray-900 w-1/6">
+										<p class="text-[#1B3C01] w-1/6">
 											<span class="font-bold">Circonférence :
 											</span>
 											{{ tree.diameter }}
 											cm</p>
-										<p class="text-gray-900 w-2/6">
+										<p class="text-[#1B3C01] w-2/6">
 											<span class="font-bold">État sanitaire :
 											</span>
 											{% set healthColor = {
@@ -99,12 +99,12 @@
 												{{ tree.healthStatut }}</span>
 										</p>
 										{% if tree.sectorId %}
-											<p class="text-gray-900 w-1/6">
+											<p class="text-[#1B3C01] w-1/6">
 												<span class="font-bold">secteur:
 												</span>
 												{{ tree.sector.name }}</p>
 										{% else %}
-											<p class="text-gray-900 w-1/6">
+											<p class="text-[#1B3C01] w-1/6">
 												<span class="font-bold">Pas de secteur</span>
 											</p>
 										{% endif %}
@@ -159,7 +159,7 @@
 										<div>
 											<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
 												<div class="flex">
-													<p class="w-1/2">{% set healthColor = {
+													<p class="text-[#1B3C01] w-1/2">{% set healthColor = {
                                                             'Sain': 'green-600',
                                                             'Faiblement_affaibli': 'lime-300',
                                                             'Modérément_affaibli': 'yellow-300',
@@ -172,21 +172,21 @@
 														<span class="font-medium">{{ tree.healthStatut }}</span>
 													</p>
 													{% if tree.sectorId %}
-														<p class="w-1/2">
+														<p class="text-[#1B3C01] w-1/2">
 															<span class="font-medium">{{ tree.sector.name }}</span>
 														</p>
 													{% else %}
-														<p class="w-1/2">
+														<p class="text-[#1B3C01] w-1/2">
 															<span class="font-medium">Pas de secteur</span>
 														</p>
 													{% endif %}
 												</div>
 												<div class="flex">
-													<p class="w-1/2">H :
+													<p class="text-[#1B3C01] w-1/2">H :
 														<span class="font-medium">{{ tree.height }}
 															mètres</span>
 													</p>
-													<p class="w-1/2">C :
+													<p class="text-[#1B3C01] w-1/2">C :
 														<span class="font-medium">{{ tree.diameter }}
 															centimètres</span>
 													</p>
@@ -194,17 +194,17 @@
 											</div>
 
 											<div class="flex flex-col gap-1">
-												<h3 class="text-xl text-gray-900 font-semibold">Historique</h3>
+												<h3 class="text-xl text-[#1B3C01] font-semibold">Historique</h3>
 												<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
 													{% if tree.histories|length > 0 %}
 														{% for history in tree.histories %}
-															<p class="text-gray-900 w-full">-
+															<p class="text-[#1B3C01] w-full">-
 																{{ history.formattedDate }}
 																{{ history.action }}
 															</p>
 														{% endfor %}
 													{% else %}
-														<p class="text-gray-900 w-full">
+														<p class="text-[#1B3C01] w-full">
 															<span class="font-medium">Pas d'historique</span>
 														</p>
 													{% endif %}
@@ -213,16 +213,16 @@
 
 											<div class="flex flex-col gap-1">
 												<div class="flex gap-6">
-													<h3 class="text-xl font-semibold text-gray-900">Commentaires</h3>
+													<h3 class="text-xl font-semibold text-[#1B3C01]">Commentaires</h3>
 												</div>
 												<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
 													{% if tree.comments|length > 0 %}
 														{% for comment in tree.comments %}
-															<p class="text-gray-900 w-full">-
+															<p class="text-[#1B3C01] w-full">-
 																{{ comment.comment }}</p>
 														{% endfor %}
 													{% else %}
-														<p class="text-gray-900 w-full">
+														<p class="text-[#1B3C01] w-full">
 															<span class="font-medium">Pas de commentaire</span>
 														</p>
 													{% endif %}

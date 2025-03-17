@@ -69,23 +69,23 @@
 							{% for tree in trees %}
 								<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
 									<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 w-full md:w-5/6">
-										<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-black hover:text-white w-1/6">
+										<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-[#1B3C01] hover:text-white w-1/6">
 											<h3>
 												<span class="font-bold">{{ tree.specy }}
 												</span>
 											</h3>
 										</a>
-										<p class="text-gray-900 w-1/6">
+										<p class="text-[#1B3C01] w-1/6">
 											<span class="font-bold">Hauteur :
 											</span>
 											{{ tree.height }}
 											m</p>
-										<p class="text-gray-900 w-1/6">
+										<p class="text-[#1B3C01] w-1/6">
 											<span class="font-bold">Circonférence :
 											</span>
 											{{ tree.diameter }}
 											cm</p>
-										<p class="text-gray-900 w-2/6">
+										<p class="text-[#1B3C01] w-2/6">
 											<span class="font-bold">État sanitaire :
 											</span>
 											{% set healthColor = {
@@ -103,12 +103,12 @@
 												{{ tree.healthStatut }}</span>
 										</p>
 										{% if tree.sectorId %}
-											<p class="text-gray-900 w-1/6">
+											<p class="text-[#1B3C01] w-1/6">
 												<span class="font-bold">secteur:
 												</span>
 												{{ tree.sector.name }}</p>
 										{% else %}
-											<p class="text-gray-900 w-1/6">
+											<p class="text-[#1B3C01] w-1/6">
 												<span class="font-bold">Pas de secteur</span>
 											</p>
 										{% endif %}
@@ -175,24 +175,24 @@
                                                         } %}
 														{% set color = healthColor[tree.healthStatut] ?? 'gray-500' %}
 														<span class="text-xl text-{{ color }} px-2 py-1">⬤</span>
-														<span class="font-medium">{{ tree.healthStatut }}</span>
+														<span class="font-medium text-[#1B3C01]">{{ tree.healthStatut }}</span>
 													</p>
 													{% if tree.sectorId %}
-														<p class="w-1/2">
+														<p class="text-[#1B3C01] w-1/2">
 															<span class="font-medium">{{ tree.sector.name }}</span>
 														</p>
 													{% else %}
-														<p class="w-1/2">
+														<p class="w-1/2 text-[#1B3C01]">
 															<span class="font-medium">Pas de secteur</span>
 														</p>
 													{% endif %}
 												</div>
 												<div class="flex">
-													<p class="w-1/2">H :
+													<p class="text-[#1B3C01] w-1/2">H :
 														<span class="font-medium">{{ tree.height }}
 															mètres</span>
 													</p>
-													<p class="w-1/2">C :
+													<p class="text-[#1B3C01] w-1/2">C :
 														<span class="font-medium">{{ tree.diameter }}
 															centimètres</span>
 													</p>
@@ -200,17 +200,17 @@
 											</div>
 
 											<div class="flex flex-col gap-1">
-												<h3 class="text-xl text-gray-900 font-semibold">Historique</h3>
+												<h3 class="text-xl text-[#1B3C01] font-semibold">Historique</h3>
 												<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
 													{% if tree.histories|length > 0 %}
 														{% for history in tree.histories %}
-															<p class="text-gray-900 w-full">-
+															<p class="text-[#1B3C01] w-full">-
 																{{ history.formattedDate }}
 																{{ history.action }}
 															</p>
 														{% endfor %}
 													{% else %}
-														<p class="text-gray-900 w-full">
+														<p class="text-[#1B3C01] w-full">
 															<span class="font-medium">Pas d'historique</span>
 														</p>
 													{% endif %}
@@ -219,16 +219,16 @@
 
 											<div class="flex flex-col gap-1">
 												<div class="flex gap-6">
-													<h3 class="text-xl font-semibold text-gray-900">Commentaires</h3>
+													<h3 class="text-xl font-semibold text-[#1B3C01]">Commentaires</h3>
 												</div>
 												<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
 													{% if tree.comments|length > 0 %}
 														{% for comment in tree.comments %}
-															<p class="text-gray-900 w-full">-
+															<p class="text-[#1B3C01] w-full">-
 																{{ comment.comment }}</p>
 														{% endfor %}
 													{% else %}
-														<p class="text-gray-900 w-full">
+														<p class="text-[#1B3C01] w-full">
 															<span class="font-medium">Pas de commentaire</span>
 														</p>
 													{% endif %}

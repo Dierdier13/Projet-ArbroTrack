@@ -1153,8 +1153,8 @@
   .whitespace-nowrap {
     white-space: nowrap;
   }
-  .text-black {
-    color: var(--color-black);
+  .text-\[\#1B3C01\] {
+    color: #1B3C01;
   }
   .text-gray-200 {
     color: var(--color-gray-200);
@@ -1173,9 +1173,6 @@
   }
   .text-gray-800 {
     color: var(--color-gray-800);
-  }
-  .text-gray-900 {
-    color: var(--color-gray-900);
   }
   .text-green-500 {
     color: var(--color-green-500);

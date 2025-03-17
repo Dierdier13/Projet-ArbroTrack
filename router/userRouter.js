@@ -209,24 +209,29 @@ userRouter.get('/logout', authguard, async (req, res) => {
 
 userRouter.get('/profil/:id', authguard, async (req, res) => {
     const propertyCount = await prisma.property.count();
-    const user = await prisma.user.findUnique({
-        where: {
-            id: req.session.user.id
-        },
-        include: {
-            properties: true
-        }
-    });
-    res.render('pages/profil.html.twig', {
-        title: "Profil utilisateur - ArboTrack",
-        user,
-        properties: user.properties,
-        isMainPage: true,
-        isPropertyPage: true,
-        propertyCount: propertyCount
-    });
+    try {       
+        const user = await prisma.user.findUnique({
+            where: {
+                id: req.session.user.id
+            },
+            include: {
+                properties: true
+            }
+        });
+        res.render('pages/profil.html.twig', {
+            title: "Profil utilisateur - ArboTrack",
+            user,
+            properties: user.properties,
+            isMainPage: true,
+            isPropertyPage: true,
+            propertyCount: propertyCount
+        });
+    
+    } catch (error) {
+        req.flash('error', "Erreur lors de l'affichage du profil.")
+        res.redirect('/');
+    }
 })
-
 ///////////////////////////////////////////////// Modifier Profil User //////////////////////////////////////////////////////
 
 userRouter.post('/editUser/:id', authguard, async (req, res) => {

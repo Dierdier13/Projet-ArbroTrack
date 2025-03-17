@@ -115,15 +115,12 @@ treeRouter.post('/property/:propertyId/editTree/:treeId', authguard, async (req,
     }
 })
 
-///////////////////////////////////////// Ajouter arbre au secteur //////////////////////////////////////////////////
+///////////////////////////////////////// Ajouter secteur a l'arbre //////////////////////////////////////////////////
 
 treeRouter.post('/property/:propertyId/addSectorTree/:treeId', authguard, async (req, res) => {
     const propertyId = parseInt(req.params.propertyId)
     const treeId = parseInt(req.params.treeId)
     try {
-        const sector = await prisma.findUnique({
-            where: { id: propertyId }
-        });
         const tree = await prisma.tree.update({
             where: {
                 id: treeId
@@ -132,10 +129,10 @@ treeRouter.post('/property/:propertyId/addSectorTree/:treeId', authguard, async 
                 sectorId: parseInt(req.body.sectorId)
             }
         });
-        req.flash('success', 'Arbre ajouté au secteur avec succès')
-        res.redirect("/property/" + propertyId)
+        req.flash('success', "Secteur ajouté à l'arbre avec succès !")
+        res.redirect('/property/' + propertyId + '/tree/' + treeId)
     } catch (error) {
-        const flash = { error: "Erreur lors de l'ajout de l'arbre au secteur'." };
+        const flash = { error: "Erreur lors de l'ajout de secteur à l'arbre." };
         res.render("pages/dasboard.html.twig", {
             isMainPage: true,
             title: "Dashboard",
@@ -144,6 +141,28 @@ treeRouter.post('/property/:propertyId/addSectorTree/:treeId', authguard, async 
             error
         }
         )
+    }
+})
+
+///////////////////////////////////////////////// Supprimer secteur a l'arbre ////////////////////////////////////////////////
+
+treeRouter.get('/property/:propertyId/deleteSectorTree/:treeId', authguard, async (req, res) => {
+    const propertyId = parseInt(req.params.propertyId);
+    const treeId = parseInt(req.params.treeId);
+    try {
+        const tree = await prisma.tree.update({
+            where: {
+                id: treeId
+            },
+            data: {
+                sectorId: null
+            }
+        });
+        req.flash('success', "Secteur supprimer de l'arbre avec succé !" );
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
+    } catch (error) {
+        req.flash('error', "Erreur lors de la suppression du secteur à l'arbre.")
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
     }
 })
 
