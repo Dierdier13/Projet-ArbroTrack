@@ -49,21 +49,21 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
         if (existingUser) {
             throw ({ mail: "Ce mail est déjà utilisé" });
         }
-        if (req.file) {
-            const outputFilename = `optimized-${path.basename(req.file.path, path.extname(req.file.path))}.webp`;
-            const outputPath = path.join('uploads', outputFilename);
+        // if (req.file) {
+        //     const outputFilename = `optimized-${path.basename(req.file.path, path.extname(req.file.path))}.webp`;
+        //     const outputPath = path.join('uploads', outputFilename);
 
-            await sharp(req.file.path)
-                .resize(800, 800, {
-                    fit: 'inside',
-                    withoutEnlargement: true
-                })
-                .webp({ quality: 80 })
-                .toFile(outputPath);
+        //     await sharp(req.file.path)
+        //         .resize(800, 800, {
+        //             fit: 'inside',
+        //             withoutEnlargement: true
+        //         })
+        //         .webp({ quality: 80 })
+        //         .toFile(outputPath);
 
-         //   fs.unlinkSync(req.file.path);
-            avatarPath = outputPath;
-        }
+        //  //   fs.unlinkSync(req.file.path);
+        //     avatarPath = outputPath;
+        // }
         console.log(avatarPath);
         const user = await prisma.user.create({
             data: {
