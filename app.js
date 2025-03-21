@@ -11,8 +11,8 @@ const commentRouter = require("./router/commentRouter");
 const app = express();
 
 app.use(express.static("./public"));
-app.use('/uploads', express.static('./uploads'));
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('./uploads'));
 
 app.use(session({
   secret: 'yolo',
@@ -27,14 +27,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-// app.use((req, res, next) => {
-//   if (req.accepts('json')) {
-//     res.status(404).json({ error: 'Route not found' });
-//   } else {
-//     res.status(404).send('<h1>Page not found</h1>');
-//   }
-// });
 
 app.use(flash());
 app.use((req, res, next) => {

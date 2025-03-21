@@ -3,6 +3,7 @@ const hashPasswordExtension = require('../services/extensions/hashPasswordExtens
 const bcrypt = require("bcrypt");
 const path = require("path");
 const fs = require("fs");
+const sharp = require('sharp');
 const authguard = require('../services/authguard');
 const upload = require('../services/uploadConfig');
 
@@ -13,7 +14,7 @@ const prisma = new PrismaClient({ log: ['error'] }).$extends(hashPasswordExtensi
 ///////////////////////////////////////////////// Afficher page Connexion //////////////////////////////////////////////////////
 
 userRouter.get('/login', async (req, res) => {
-    try {     
+    try {
         const user = await prisma.user.findMany();
         res.render('pages/login.html.twig', { title: "Connexion - ArboTrack", isMainPage: false });
     } catch (error) {
@@ -31,37 +32,60 @@ userRouter.get('/register', (req, res) => {
 ///////////////////////////////////////////////// S'Enregistrer //////////////////////////////////////////////////////
 
 userRouter.post('/register', upload.single('avatar'), async (req, res) => {
+
     const { name, firstname, mail, password, confirmpassword } = req.body;
-    const avatarPath = req.file ? req.file.path : null;
+    let avatarPath = null;
+
     try {
         if (!name || !firstname || !mail || !password || !confirmpassword) {
             throw ({ fields: "Tous les champs doivent être remplis" });
         }
         if (password != confirmpassword) {
             throw ({ confirmPassword: "Le mot de passe ne corresponde pas" });
-        } else {
-            const existingUser = await prisma.user.findUnique({
-                where: { mail }
-            });
-            if (existingUser) {
-                throw ({ mail: "Ce mail est déjà utilisé" });
-            }
-            const user = await prisma.user.create({
-                data: {
-                    name,
-                    firstname,
-                    mail,
-                    password,
-                    avatar: avatarPath
-                }
-            });
-            req.flash('success', 'Compte créé avec succès !');
-            res.redirect('/login');
         }
+        const existingUser = await prisma.user.findUnique({
+            where: { mail }
+        });
+        if (existingUser) {
+            throw ({ mail: "Ce mail est déjà utilisé" });
+        }
+        if (req.file) {
+            const outputFilename = `optimized-${path.basename(req.file.path, path.extname(req.file.path))}.webp`;
+            const outputPath = path.join('uploads', outputFilename);
+
+            await sharp(req.file.path)
+                .resize(800, 800, {
+                    fit: 'inside',
+                    withoutEnlargement: true
+                })
+                .webp({ quality: 80 })
+                .toFile(outputPath);
+
+            fs.unlinkSync(req.file.path);
+            avatarPath = outputPath;
+        }
+        console.log(avatarPath);
+        const user = await prisma.user.create({
+            data: {
+                name,
+                firstname,
+                mail,
+                password,
+                avatar: avatarPath
+            }
+        });
+
+        req.flash('success', 'Compte créé avec succès !');
+        res.redirect('/login');
+
     } catch (error) {
+        console.error("Erreur lors de la création du compte :", error);
+        if (avatarPath && fs.existsSync(avatarPath)) {
+            fs.unlinkSync(avatarPath);
+        }
         const flash = { error: "Erreur lors de la création du compte." };
         res.render('pages/register.html.twig', {
-            title: "inscription - ArboTrack",
+            title: "Inscription - ArboTrack",
             error,
             flash,
             name,
@@ -70,6 +94,7 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
             avatar: avatarPath
         });
     }
+
 })
 
 ///////////////////////////////////////////////// Supprimer User //////////////////////////////////////////////////////
@@ -81,6 +106,14 @@ userRouter.get('/deleteUser/:id', authguard, async (req, res) => {
                 id: parseInt(req.session.user.id)
             }
         });
+        if (deleteUser && deleteUser.avatar) {
+            const oldAvatarPath = path.join(process.cwd(), deleteUser.avatar);
+            fs.unlink(oldAvatarPath, (err) => {
+                if (err && err.code !== 'ENOENT') {
+                    console.error("Erreur lors de la suppression de l'ancien avatar :", err);
+                }
+            });
+        }
         req.flash('success', 'Compte supprimé avec succès !');
         res.redirect('/login');
     } catch (error) {
@@ -126,7 +159,7 @@ userRouter.post('/login', async (req, res) => {
 userRouter.get('/', authguard, async (req, res) => {
     const searchTerm = req.query.search;
     const isJson = req.query.format === 'json';
-    
+
     try {
         let properties = [];
         let isSearch = false;
@@ -209,7 +242,7 @@ userRouter.get('/logout', authguard, async (req, res) => {
 
 userRouter.get('/profil/:id', authguard, async (req, res) => {
     const propertyCount = await prisma.property.count();
-    try {       
+    try {
         const user = await prisma.user.findUnique({
             where: {
                 id: req.session.user.id
@@ -226,7 +259,7 @@ userRouter.get('/profil/:id', authguard, async (req, res) => {
             isPropertyPage: true,
             propertyCount: propertyCount
         });
-    
+
     } catch (error) {
         req.flash('error', "Erreur lors de l'affichage du profil.")
         res.redirect('/');
@@ -260,8 +293,7 @@ userRouter.post('/editUser/:id', authguard, async (req, res) => {
 
 userRouter.post('/editAvatarUser/:id', authguard, upload.single('avatar'), async (req, res) => {
     const userId = parseInt(req.params.id, 10);
-    const avatarPath = req.file ? req.file.path : null;
-    let user;
+    let avatarPath = null;
 
     try {
         const currentUser = await prisma.user.findUnique({
@@ -269,27 +301,46 @@ userRouter.post('/editAvatarUser/:id', authguard, upload.single('avatar'), async
             select: { avatar: true }
         });
 
-        if (currentUser && currentUser.avatar) {
-            const oldAvatarPath = path.join(process.cwd(), currentUser.avatar);
-            fs.unlink(oldAvatarPath, (err) => {
-                if (err && err.code !== 'ENOENT') {
-                    console.error("Erreur lors de la suppression de l'ancien avatar :", err);
-                }
-            });
-        }
+        if (currentUser?.avatar) {
+            const oldAvatarPath = path.resolve(__dirname, '..', currentUser.avatar);
+            
+            try {
+              await fs.promises.access(oldAvatarPath, fs.constants.F_OK);
+              await fs.promises.unlink(oldAvatarPath);
+            } catch (err) {
+              if (err.code !== 'ENOENT') { // Ignore si fichier non trouvé
+                console.error("Erreur suppression avatar :", err);
+              }
+            }
+          }
 
-        user = await prisma.user.update({
+        if (req.file) {
+            const outputFilename = `avatar-${userId}-${Date.now()}.webp`;
+            const uploadsDir = path.join(__dirname, '..', 'uploads');
+            avatarPath = path.join('uploads', outputFilename);
+            const outputPath = path.join(uploadsDir, outputFilename);
+
+            await sharp(req.file.path)
+                .resize(800, 800, {
+                    fit: 'inside',
+                    withoutEnlargement: true
+                })
+                .webp({ quality: 80 })
+                .toFile(outputPath);
+
+            fs.unlinkSync(req.file.path);
+        }
+        await prisma.user.update({
             where: { id: userId },
             data: { avatar: avatarPath }
         });
-
-        req.flash('success', 'Avatar modifié avec succés !');
-        res.redirect('/profil/' + userId);
+        req.flash('success', 'Avatar modifié avec succès !');
+        res.redirect(`/profil/${userId}`);
     } catch (error) {
-        req.flash('error', 'Erreur lors de la modification du profil.')
-        res.redirect('/profil/' + userId);
+        console.error("Erreur complète :", error);
+        req.flash('error', `Échec de la modification : ${error.message}`);
+        res.redirect(`/profil/${userId}`);
     }
 });
-
 
 module.exports = userRouter
