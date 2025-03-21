@@ -10,6 +10,8 @@ const commentRouter = require("./router/commentRouter");
 
 const app = express();
 
+require("dotenv").config()
+
 app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('./uploads'));
@@ -41,6 +43,6 @@ app.use(treeRouter);
 app.use(historyRouter);
 app.use(commentRouter);
 
-app.listen(3002, () => {
+app.listen(process.env.PORT, () => {
   console.log("Écoute sur le port 3002");
 })
