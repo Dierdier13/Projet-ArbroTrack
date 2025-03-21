@@ -61,7 +61,7 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
                 .webp({ quality: 80 })
                 .toFile(outputPath);
 
-            fs.unlinkSync(req.file.path);
+         //   fs.unlinkSync(req.file.path);
             avatarPath = outputPath;
         }
         console.log(avatarPath);
