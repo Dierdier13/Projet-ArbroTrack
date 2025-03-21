@@ -238,6 +238,15 @@ userRouter.get('/logout', authguard, async (req, res) => {
     res.redirect('/login');
 })
 
+userRouter.get("/test" ,async(req,res)=>{
+    try {
+        const user = await prisma.user.findMany();
+        res.json(user)
+    } catch (error) {
+        res.json(error.message)
+    }
+})
+
 ///////////////////////////////////////////////// Afficher Profil User //////////////////////////////////////////////////////
 
 userRouter.get('/profil/:id', authguard, async (req, res) => {
