@@ -49,22 +49,22 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
         if (existingUser) {
             throw ({ mail: "Ce mail est déjà utilisé" });
         }
-        // if (req.file) {
-        //     const outputFilename = `optimized-${path.basename(req.file.path, path.extname(req.file.path))}.webp`;
-        //     const outputPath = path.join('uploads', outputFilename);
+        if (req.file) {
+            const outputFilename = `avatar-${Date.now()}${path.extname(req.file.originalname)}`;
+            const outputPath = path.join(__dirname, '..', 'uploads', outputFilename);
 
-        //     await sharp(req.file.path)
-        //         .resize(800, 800, {
-        //             fit: 'inside',
-        //             withoutEnlargement: true
-        //         })
-        //         .webp({ quality: 80 })
-        //         .toFile(outputPath);
+            await sharp(req.file.path)
+                .resize(800, 800, {
+                    fit: 'inside',
+                    withoutEnlargement: true
+                })
+                .webp({ quality: 80 })
+                .toFile(outputPath);
 
-        //  //   fs.unlinkSync(req.file.path);
-        //     avatarPath = outputPath;
-        // }
-        console.log(avatarPath);
+            fs.unlinkSync(req.file.path);
+            avatarPath = `/uploads/${outputFilename}`;
+        }
+ 
         const user = await prisma.user.create({
             data: {
                 name,
@@ -80,8 +80,14 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
 
     } catch (error) {
         console.error("Erreur lors de la création du compte :", error);
-        if (avatarPath && fs.existsSync(avatarPath)) {
-            fs.unlinkSync(avatarPath);
+        if (req.file?.path) {
+            fs.unlinkSync(req.file.path);
+        }
+        if (avatarPath) {
+            const fullPath = path.join(__dirname, '..', avatarPath);
+            if (fs.existsSync(fullPath)) {
+                fs.unlinkSync(fullPath);
+            }
         }
         const flash = { error: "Erreur lors de la création du compte." };
         res.render('pages/register.html.twig', {
@@ -94,7 +100,6 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
             avatar: avatarPath
         });
     }
-
 })
 
 ///////////////////////////////////////////////// Supprimer User //////////////////////////////////////////////////////
