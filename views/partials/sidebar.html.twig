@@ -1,4 +1,10 @@
-<header class="fixed flex flex-col top-0 left-0 w-16 md:w-1/5 lg:w-1/6 xl:w-1/7 bg-[#1B3C01]/60 backdrop-blur-2xl h-screen border-r border-[#C3CEA3]">
+<button id="mobile-menu-toggle" class="fixed top-2 left-2 z-50 md:hidden">
+  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+  </svg>
+</button>
+
+<header class="sidebar fixed z-40 flex flex-col top-0 left-0 w-1/2 md:w-1/5 lg:w-1/6 xl:w-1/7 bg-[#1B3C01]/60 backdrop-blur-2xl h-screen border-r border-[#C3CEA3] transition-all duration-300 ease-in-out transform -translate-x-full md:translate-x-0">
 	<div class="flex items-center justify-center h-14">
 		<h1 class="text-white text-3xl hidden md:block">ArboTrack</h1>
 	</div>
@@ -13,14 +19,13 @@
 				</div>
 			</li>
 			<li>
-				<a href="/" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-green-50 text-white hover:text-green-800 border-l-4 border-transparent hover:border-green-500 pr-6">
+				<a href="/" class="relative flex items-center h-11 focus:outline-none hover:bg-green-50 text-white hover:text-green-800 border-l-4 border-transparent hover:border-green-500 pr-6">
 					<span class="inline-flex justify-center items-center ml-4">
 						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
 						</svg>
 					</span>
 					<span class="ml-2 text-lg tracking-wide truncate">Propriétés</span>
-					{# <span class="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-800 bg-green-50 rounded-full">{{propertyCount|default('0')}}</span> #}
 				</a>
 			</li>
 			{% if not isPropertyPage %}
@@ -35,17 +40,6 @@
 						<span class="ml-2 text-lg tracking-wide truncate">Dashboard</span>
 					</a>
 				</li>
-				{# <li>
-					<a href="#" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-green-50 text-white hover:text-green-800 border-l-4 border-transparent hover:border-green-500 pr-6">
-						<span class="inline-flex justify-center items-center ml-4">
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-								<circle cx="12" cy="12" r="10"/>
-								<path d="M16.24 7.76L14 14l-6.24 2.24L10 10z"/>
-							</svg>
-						</span>
-						<span class="ml-2 text-lg tracking-wide truncate">Secteurs</span>
-					</a>
-				</li> #}
 				<li>
 					<a href="/property/{{ property.id }}/treelist" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-green-50 text-white hover:text-green-800 border-l-4 border-transparent hover:border-green-500 pr-6">
 						<span class="inline-flex justify-center items-center ml-4">

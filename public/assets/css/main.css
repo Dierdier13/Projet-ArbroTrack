@@ -1,4 +1,4 @@
-body{
+body {
     background-image: url("/assets/images/fond.webp");
     background-size: cover;
     background-position: center;
@@ -7,4 +7,12 @@ body{
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+#mobile-menu-toggle {
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-open #mobile-menu-toggle {
+    transform: translateX(calc(50vw - 3rem));
 }

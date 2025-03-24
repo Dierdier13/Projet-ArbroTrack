@@ -9,14 +9,14 @@
 {% endblock %}
 
 {% block main %}
-	<main class="flex flex-col gap-8 w-[calc(100vw-4rem)] ml-16 md:w-4/5 md:ml-[20%] lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-4 md:px-8 lg:px-16 xl:px-32 py-8">
+	<main class="flex flex-col gap-8 w-full ml-0 md:w-4/5 md:ml-[20%] lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-4 md:px-8 lg:px-16 xl:px-32 py-8">
 		<section>
-			<div class="w-full flex items-center justify-center">
+			<div class="w-full flex items-center justify-center gap-2">
 				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 px-3 py-1 rounded flex items-center justify-center transition duration-300">
 					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="h-6">
 				</a>
 				<div class="w-full flex items-center justify-center">
-					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Détail de
+					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Détail de
 						{{ tree.specy }}</h2>
 				</div>
 			</div>
@@ -107,7 +107,7 @@
 													<option value="{{ sector.id }}">{{ sector.name }}</option>
 												{% endfor %}
 											</select>
-											<button type="submit" class="flex justify-center items-center cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" >
+											<button type="submit" class="flex justify-center items-center cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md">
 												<img src="/assets/images/add.png" alt="Ajouter historique" class="h-6">
 											</button>
 										</form>
@@ -185,6 +185,7 @@
 	</main>
 {% endblock %}
 {% block script %}
+	<script src="/assets/js/sidebar.js"></script>
 	<script src="/assets/js/modal.js"></script>
 	<script src="/assets/js/main.js"></script>
 	<script src="/assets/js/treeDetail.js"></script>
