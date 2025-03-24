@@ -17,7 +17,7 @@
 					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="h-6">
 				</a>
 				<div class="w-full flex items-center justify-center">
-					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Propriété :
+					<h2 class="text-white text-xl md:text-2xl lg:text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-4 py-2">Propriété :
 						{{ property.name }}</h2>
 				</div>
 				<button onclick="openEditPropertyModal('{{ property.id }}')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
@@ -64,13 +64,13 @@
 											{{ sectorTreeCountsMap[sector.id]|default(0) }}</p>
 									</div>
 									<div class="flex justify-center gap-2">
-										<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class=" inline-flex items-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+										<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 											<img src="/assets/images/dashboard.png" alt="Dashboard" class="h-6">
 										</a>
-										<button onclick="openEditSectorModal('{{ sector.id }}')" class="cursor-pointer text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+										<button onclick="openEditSectorModal('{{ sector.id }}')" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 											<img src="/assets/images/edit.png" alt="Modifier secteur" class="h-6">
 										</button>
-										<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer inline-flex items-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+										<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 											<img src="/assets/images/delete.png" alt="Supprimer secteur" class="h-6">
 										</button>
 									</div>
@@ -132,13 +132,13 @@
 
 									</div>
 									<div class="flex justify-center md:justify-end gap-2 w-full md:w-1/6">
-										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 											<img src="/assets/images/info.png" alt="Detail de l'arbre" class="h-6">
 										</a>
-										<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="cursor-pointer text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+										<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 											<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
 										</button>
-										<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer text-sm inline-flex items-center px-3 py-1 bg-red-600 text-white font-medium rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+										<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 											<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="h-6">
 										</button>
 									</div>
@@ -156,7 +156,7 @@
 									<img src="/assets/images/add.png" alt="Ajouter secteur" class="h-6">
 									<span>Secteur</span>
 								</button>
-								<h2 class="text-4xl text-white font-semibold absolute left-1/2 transform -translate-x-1/2">Liste des Secteurs</h2>
+								<h2 class="text-xl md:text-2xl lg:text-4xl text-white font-semibold absolute left-1/2 transform -translate-x-1/2">Liste des Secteurs</h2>
 							</div>
 							{% if sectors|length > 0 %}
 								<div id="sectors-container" class="sortable-container flex flex-wrap gap-2 mx-auto">
@@ -176,13 +176,13 @@
 													{{ sectorTreeCountsMap[sector.id]|default(0) }}</p>
 											</div>
 											<div class="flex justify-center gap-2">
-												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class=" inline-flex items-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 													<img src="/assets/images/dashboard.png" alt="Dashboard" class="h-6">
 												</a>
-												<button onclick="openEditSectorModal('{{ sector.id }}')" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+												<button onclick="openEditSectorModal('{{ sector.id }}')" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 													<img src="/assets/images/edit.png" alt="Modifier secteur" class="h-6">
 												</button>
-												<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer inline-flex items-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+												<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 													<img src="/assets/images/delete.png" alt="Supprimer secteur" class="h-6">
 												</button>
 											</div>
@@ -203,7 +203,7 @@
 									<span>Arbre</span>
 								</button>
 								<div class=" flex absolute left-1/2 transform -translate-x-1/2 gap-4">
-									<h2 class="text-4xl text-white font-semibold">Liste des Arbres</h2>
+									<h2 class="text-xl md:text-2xl lg:text-4xl text-white font-semibold">Liste des Arbres</h2>
 									<a href="/property/{{ propertyId }}/treelist" class="inline-flex justify-center items-center px-3 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 										<img src="/assets/images/info.png" alt="Afficher liste" class="h-6">
 									</a>
@@ -262,13 +262,13 @@
 
 											</div>
 											<div class="flex justify-center md:justify-end gap-2 w-full md:w-1/6">
-												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 													<img src="/assets/images/info.png" alt="Détail de l'arbre" class="h-6">
 												</a>
-												<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="text-sm inline-flex items-center px-3 py-1 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+												<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 													<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
 												</button>
-												<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer text-sm inline-flex items-center px-3 py-1 bg-red-600 text-white font-medium rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+												<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 													<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="h-6">
 												</button>
 											</div>
