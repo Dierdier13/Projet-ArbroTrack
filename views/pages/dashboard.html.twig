@@ -11,21 +11,21 @@
 
 {% block main %}
 	<main class="flex flex-col gap-8 w-full ml-0 lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] 2xl:w-7/8 2xl:ml-[12.5%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-8 md:px-16 lg:px-24 xl:px-32 py-8">
-		<section class="flex flex-col gap-8">
-			<div class="w-full flex items-center justify-center gap-2">
-				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 px-3 py-1 rounded flex items-center justify-center transition duration-300">
+		<section class="flex flex-col gap-6">
+			<div class="w-full flex items-center justify-between gap-2">
+				<a href="{{ previousUrl }}" id="bouton-retour" class="max-w-20 bg-green-500 hover:bg-green-700 px-3 py-1 rounded flex items-center justify-center transition duration-300">
 					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="w-6 h-6">
 				</a>
-				<div class="w-full flex items-center justify-center">
-					<h2 class="text-white text-xl md:text-2xl lg:text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Propriété :
-						{{ property.name }}</h2>
-				</div>
-				<button onclick="openEditPropertyModal('{{ property.id }}')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
+				<button onclick="openEditPropertyModal('{{ property.id }}')" class="cursor-pointer max-w-30 bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
 					<span>Modifier</span>
 					<img src="/assets/images/edit.png" alt="Modifier propriété" class="w-6 h-6">
 				</button>
 			</div>
-			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} data-CP={{property.codePostal}} class="w-full h-90 rounded-lg"></div>
+			<div class="w-full flex items-center justify-center">
+				<h2 class="text-white text-xl md:text-2xl lg:text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Propriété :
+					{{ property.name }}</h2>
+			</div>
+			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} data-cp={{property.codePostal}} class="w-full h-90 rounded-lg"></div>
 			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
 				<button onclick="openModal('sectorModal')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
 					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="w-6 h-6">
@@ -33,8 +33,8 @@
 				</button>
 				<div class="flex items-center w-full md:w-md">
 					<form action="/property/{{ propertyId }}/search" method="GET" class="flex w-full">
-						<input type="text" name="search" placeholder="Rechercher une propriété." value="{{ searchTerm }}" class="w-full px-3 py-1 rounded-l-md bg-white border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"/>
-						<button type="submit" class="w-40 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
+						<input type="text" name="search" placeholder="Rechercher une propriété." value="{{ searchTerm }}" class="w-full px-2 py-1 rounded-l-md bg-white border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"/>
+						<button type="submit" class="max-w-40 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
 							<img src="/assets/images/search.png" alt="Rechercher" class="mr-1 w-6 h-6">
 							<span>Rechercher</span>
 						</button>
@@ -81,7 +81,7 @@
 						<p class="text-white text-center py-4">Aucun secteur trouvé pour la recherche "{{ searchTerm }}".</p>
 					{% endif %}
 					{% if trees|length > 0 %}
-						<div id="trees-container" class="flex flex-col gap-4">
+						<div id="trees-container" class="flex flex-col gap-2">
 							{% for tree in trees %}
 								<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between items-center w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
 									<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 w-full md:w-5/6">
@@ -152,18 +152,18 @@
 					<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg flex flex-col gap-8 p-4 relative">
 						<div>
 							<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
-								<button class="max-w-1/3 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
+								<button class="max-w-1/3 cursor-pointer bg-green-600 hover:bg-green-800 text-white text-sm md:text-lg font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
 									<img src="/assets/images/add.png" alt="Ajouter secteur" class="w-6 h-6">
 									<span>Secteur</span>
 								</button>
-								<h2 class="w-2/3 text-xl md:text-2xl lg:text-4xl text-white font-semibold relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2">Liste des Secteurs</h2>
+								<h2 class="w-full text-lg md:text-2xl lg:text-4xl text-white text-center font-semibold">Liste des Secteurs</h2>
 							</div>
 							{% if sectors|length > 0 %}
 								<div id="sectors-container" class="sortable-container flex flex-wrap gap-2 mx-auto">
 									{% for sector in sectors %}
-										<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between items-center p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1 md:gap-4 w-full sm:w-[calc(50%-0.35rem)] lg:w-[calc(33%-0.17rem)] 2xl:w-[calc(25%-0.40rem)]">
+										<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between items-center p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1 md:gap-4 w-full sm:w-[calc(50%-0.35rem)] md:w-[calc(33%-0.22rem)] 2xl:w-[calc(25%-0.40rem)]">
 											<div class="flex flex-col gap-0.5 md:gap-2">
-												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-[#1B3C01] text-center hover:text-white">
+												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-[#1B3C01] text-center md:text-start hover:text-white">
 													<h3>{{ sector.name }}</h3>
 												</a>
 												<p class="text-[#1B3C01]">
@@ -198,20 +198,20 @@
 						</div>
 						<div>
 							<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
-								<button class="max-w-1/3 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ propertyId }}')">
+								<button class="max-w-1/3 cursor-pointer bg-green-600 hover:bg-green-800 text-white text-sm md:text-lg font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ propertyId }}')">
 									<img src="/assets/images/add.png" alt="Ajouter arbre" class="w-6 h-6">
 									<span>Arbre</span>
 								</button>
-								<div class="w-2/3 relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-									<h2 class="text-xl md:text-2xl lg:text-4xl text-white font-semibold">Liste des Arbres</h2>
-									<a href="/property/{{ propertyId }}/treelist" class="inline-flex justify-center items-center px-3 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+								<div class="flex items-center justify-center w-full text-lg md:text-2xl lg:text-4xl text-white  font-semibold gap-2">
+									<h2 class="">Liste des Arbres</h2>
+									<a href="/property/{{ propertyId }}/treelist" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 										<img src="/assets/images/info.png" alt="Afficher liste" class="w-6 h-6">
 									</a>
 								</div>
 
 							</div>
 							{% if trees|length > 0 %}
-								<div id="trees-container" class="sortable-container flex flex-col gap-4">
+								<div id="trees-container" class="sortable-container flex flex-col gap-2">
 									{% for tree in trees %}
 										<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between items-center w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
 											<div class="flex flex-col md:flex-row items-center gap-0.5 md:gap-2 w-full md:w-5/6">
