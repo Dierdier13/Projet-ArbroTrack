@@ -10,11 +10,11 @@
 {% endblock %}
 
 {% block main %}
-	<main class="flex flex-col gap-8 w-full ml-0 md:w-4/5 md:ml-[20%] lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-4 md:px-8 lg:px-16 xl:px-32 py-8">
+	<main class="flex flex-col gap-8 w-full ml-0 lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] 2xl:w-7/8 2xl:ml-[12.5%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-8 md:px-16 lg:px-24 xl:px-32 py-8">
 		<section class="flex flex-col gap-8">
 			<div class="w-full flex items-center justify-center gap-2">
 				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 px-3 py-1 rounded flex items-center justify-center transition duration-300">
-					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="h-6">
+					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="w-6 h-6">
 				</a>
 				<div class="w-full flex items-center justify-center">
 					<h2 class="text-white text-xl md:text-2xl lg:text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Propriété :
@@ -22,20 +22,20 @@
 				</div>
 				<button onclick="openEditPropertyModal('{{ property.id }}')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
 					<span>Modifier</span>
-					<img src="/assets/images/edit.png" alt="Modifier propriété" class="h-6">
+					<img src="/assets/images/edit.png" alt="Modifier propriété" class="w-6 h-6">
 				</button>
 			</div>
 			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} data-CP={{property.codePostal}} class="w-full h-90 rounded-lg"></div>
-			<div class="flex justify-between w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4">
+			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
 				<button onclick="openModal('sectorModal')" class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300">
-					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="h-6">
+					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="w-6 h-6">
 					<span>API PlantNet</span>
 				</button>
-				<div class="flex items-center w-md">
+				<div class="flex items-center w-full md:w-md">
 					<form action="/property/{{ propertyId }}/search" method="GET" class="flex w-full">
 						<input type="text" name="search" placeholder="Rechercher une propriété." value="{{ searchTerm }}" class="w-full px-3 py-1 rounded-l-md bg-white border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"/>
 						<button type="submit" class="w-40 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
-							<img src="/assets/images/search.png" alt="Rechercher" class="mr-1 h-6">
+							<img src="/assets/images/search.png" alt="Rechercher" class="mr-1 w-6 h-6">
 							<span>Rechercher</span>
 						</button>
 					</form>
@@ -64,14 +64,14 @@
 											{{ sectorTreeCountsMap[sector.id]|default(0) }}</p>
 									</div>
 									<div class="flex justify-center gap-2">
-										<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-											<img src="/assets/images/dashboard.png" alt="Dashboard" class="h-6">
+										<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+											<img src="/assets/images/dashboard.png" alt="Dashboard" class="w-6 h-6">
 										</a>
-										<button onclick="openEditSectorModal('{{ sector.id }}')" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-											<img src="/assets/images/edit.png" alt="Modifier secteur" class="h-6">
+										<button onclick="openEditSectorModal('{{ sector.id }}')" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+											<img src="/assets/images/edit.png" alt="Modifier secteur" class="w-6 h-6">
 										</button>
-										<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
-											<img src="/assets/images/delete.png" alt="Supprimer secteur" class="h-6">
+										<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+											<img src="/assets/images/delete.png" alt="Supprimer secteur" class="w-6 h-6">
 										</button>
 									</div>
 								</article>
@@ -132,14 +132,14 @@
 
 									</div>
 									<div class="flex justify-center md:justify-end gap-2 w-full md:w-1/6">
-										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-											<img src="/assets/images/info.png" alt="Detail de l'arbre" class="h-6">
+										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+											<img src="/assets/images/info.png" alt="Detail de l'arbre" class="w-6 h-6">
 										</a>
-										<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-											<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
+										<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+											<img src="/assets/images/edit.png" alt="Modifier Arbre" class="w-6 h-6">
 										</button>
-										<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
-											<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="h-6">
+										<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+											<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="w-6 h-6">
 										</button>
 									</div>
 								</article>
@@ -151,18 +151,18 @@
 				{% else %}
 					<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg flex flex-col gap-8 p-4 relative">
 						<div>
-							<div class="flex w-full items-center mb-8 relative">
-								<button class="w-32 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
-									<img src="/assets/images/add.png" alt="Ajouter secteur" class="h-6">
+							<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
+								<button class="max-w-1/3 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
+									<img src="/assets/images/add.png" alt="Ajouter secteur" class="w-6 h-6">
 									<span>Secteur</span>
 								</button>
-								<h2 class="text-xl md:text-2xl lg:text-4xl text-white font-semibold absolute left-1/2 transform -translate-x-1/2">Liste des Secteurs</h2>
+								<h2 class="w-2/3 text-xl md:text-2xl lg:text-4xl text-white font-semibold relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2">Liste des Secteurs</h2>
 							</div>
 							{% if sectors|length > 0 %}
 								<div id="sectors-container" class="sortable-container flex flex-wrap gap-2 mx-auto">
 									{% for sector in sectors %}
-										<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between items-center p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-4 w-full lg:w-[calc(50%-0.35rem)] xl:w-[calc(33%-0.17rem)] 2xl:w-[calc(25%-0.40rem)]">
-											<div class="flex flex-col gap-2">
+										<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between items-center p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1 md:gap-4 w-full sm:w-[calc(50%-0.35rem)] lg:w-[calc(33%-0.17rem)] 2xl:w-[calc(25%-0.40rem)]">
+											<div class="flex flex-col gap-0.5 md:gap-2">
 												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-[#1B3C01] text-center hover:text-white">
 													<h3>{{ sector.name }}</h3>
 												</a>
@@ -176,14 +176,14 @@
 													{{ sectorTreeCountsMap[sector.id]|default(0) }}</p>
 											</div>
 											<div class="flex justify-center gap-2">
-												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-													<img src="/assets/images/dashboard.png" alt="Dashboard" class="h-6">
+												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+													<img src="/assets/images/dashboard.png" alt="Dashboard" class="w-6 h-6">
 												</a>
-												<button onclick="openEditSectorModal('{{ sector.id }}')" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-													<img src="/assets/images/edit.png" alt="Modifier secteur" class="h-6">
+												<button onclick="openEditSectorModal('{{ sector.id }}')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+													<img src="/assets/images/edit.png" alt="Modifier secteur" class="w-6 h-6">
 												</button>
-												<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
-													<img src="/assets/images/delete.png" alt="Supprimer secteur" class="h-6">
+												<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+													<img src="/assets/images/delete.png" alt="Supprimer secteur" class="w-6 h-6">
 												</button>
 											</div>
 										</article>
@@ -197,15 +197,15 @@
 							<hr class="border-t border-[#C3CEA3]">
 						</div>
 						<div>
-							<div class="flex w-full items-center mb-8 relative">
-								<button class="w-32 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ propertyId }}')">
-									<img src="/assets/images/add.png" alt="Ajouter arbre" class="h-6">
+							<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
+								<button class="max-w-1/3 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ propertyId }}')">
+									<img src="/assets/images/add.png" alt="Ajouter arbre" class="w-6 h-6">
 									<span>Arbre</span>
 								</button>
-								<div class=" flex absolute left-1/2 transform -translate-x-1/2 gap-4">
+								<div class="w-2/3 relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
 									<h2 class="text-xl md:text-2xl lg:text-4xl text-white font-semibold">Liste des Arbres</h2>
 									<a href="/property/{{ propertyId }}/treelist" class="inline-flex justify-center items-center px-3 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-										<img src="/assets/images/info.png" alt="Afficher liste" class="h-6">
+										<img src="/assets/images/info.png" alt="Afficher liste" class="w-6 h-6">
 									</a>
 								</div>
 
@@ -214,25 +214,25 @@
 								<div id="trees-container" class="sortable-container flex flex-col gap-4">
 									{% for tree in trees %}
 										<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between items-center w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
-											<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 w-full md:w-5/6">
-												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg font-semibold text-[#1B3C01] hover:text-white w-1/6">
+											<div class="flex flex-col md:flex-row items-center gap-0.5 md:gap-2 w-full md:w-5/6">
+												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg text-center font-semibold text-[#1B3C01] hover:text-white w-full md:w-1/6">
 													<h3>
 														<span class="font-bold">{{ tree.specy }}</span>
 													</h3>
 												</a>
-												<p class="text-[#1B3C01] w-1/6">
+												<p class="text-[#1B3C01] w-full md:w-1/6">
 													<span class="font-bold">Hauteur:
 													</span>
 													{{ tree.height }}
 													m
 												</p>
-												<p class="text-[#1B3C01] w-1/6">
+												<p class="text-[#1B3C01] w-full md:w-1/6">
 													<span class="font-bold">Circonférence:
 													</span>
 													{{ tree.diameter }}
 													cm
 												</p>
-												<p class="text-[#1B3C01] w-2/6">
+												<p class="text-[#1B3C01] w-full md:w-1/6">
 													<span class="font-bold">État sanitaire:
 													</span>
 													{% set healthColor = {
@@ -249,27 +249,27 @@
 													<span class="font-medium">{{ tree.healthStatut }}</span>
 												</p>
 												{% if tree.sectorId %}
-													<p class="text-[#1B3C01] w-1/6">
+													<p class="text-[#1B3C01] w-full md:w-1/6">
 														<span class="font-bold">secteur:
 														</span>
 														{{ tree.sector.name }}
 													</p>
 												{% else %}
-													<p class="text-[#1B3C01] w-1/6">
+													<p class="text-[#1B3C01] w-full md:w-1/6">
 														<span class="font-bold">Pas de secteur</span>
 													</p>
 												{% endif %}
 
 											</div>
 											<div class="flex justify-center md:justify-end gap-2 w-full md:w-1/6">
-												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-													<img src="/assets/images/info.png" alt="Détail de l'arbre" class="h-6">
+												<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+													<img src="/assets/images/info.png" alt="Détail de l'arbre" class="w-6 h-6">
 												</a>
-												<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-													<img src="/assets/images/edit.png" alt="Modifier Arbre" class="h-6">
+												<button onclick="openEditTreeModal('{{ propertyId }}', '{{  tree.id }}')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+													<img src="/assets/images/edit.png" alt="Modifier Arbre" class="w-6 h-6">
 												</button>
-												<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-12 h-8 min-w-[3rem] min-h-[2rem] flex items-center justify-center px-3 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
-													<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="h-6">
+												<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+													<img src="/assets/images/delete.png" alt="Supprimer Arbre" class="w-6 h-6">
 												</button>
 											</div>
 										</article>

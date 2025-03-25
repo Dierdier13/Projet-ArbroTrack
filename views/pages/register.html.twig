@@ -12,7 +12,7 @@
 {% block main %}
 	<main class="flex-grow flex items-center justify-center">
 		<section class="flex flex-col gap-8 w-3xl my-8 mx-2">
-			<h1 class="text-green-800 text-center bg-[#C3CEA3]/60 backdrop-blur-xl py-2 rounded-md text-2xl sm:text-3xl lg:text-4xl font-semibold">Inscription ArboTrack</h1>
+			<h1 class="text-green-800 text-center bg-[#C3CEA3]/60 backdrop-blur-xl py-2 rounded-md text-2xl sm:text-3xl lg:text-4xl font-semibold">Inscription <strong>ArboTrack</strong></h1>
 			<div id="container" class="container rounded-md shadow-md relative overflow-hidden max-w-full h-150" >
 				{# <div class="form-container sign-up-container p-6 bg-[#C3CEA3]/60 backdrop-blur-2xl">
 					<form action="/registerPro" method="POST" enctype="multipart/form-data">
@@ -96,7 +96,7 @@
 									<span id="file-name">Choisissez votre avatar</span>
 								</label>
 							</div>
-							<p class="mt-1 text-sm text-gray-500">PNG, JPG, JPEG, WEBP jusqu'à 5MB</p>
+							<p class="mt-1 text-sm text-gray-200">PNG, JPG, JPEG, WEBP jusqu'à 5MB</p>
 						</div>
 						{% if error.fields %}
 							<span class="block text-red-500 text-sm text-center mb-4">{{ error.fields }}</span>

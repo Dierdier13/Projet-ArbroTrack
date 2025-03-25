@@ -45,32 +45,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /////////////////////////////////// Drag and Drop Sortable ////////////////////////////
 
-document.addEventListener('DOMContentLoaded', function () {
-    const containers = document.querySelectorAll('.sortable-container');
-    if (containers) {
-        containers.forEach((container, index) => {
-            const containerId = container.id || `container-${index}`;
+// document.addEventListener('DOMContentLoaded', function () {
+//     const containers = document.querySelectorAll('.sortable-container');
+//     if (containers) {
+//         containers.forEach((container, index) => {
+//             const containerId = container.id || `container-${index}`;
 
-            const savedOrder = JSON.parse(localStorage.getItem(`${containerId}Order`)) || [];
+//             const savedOrder = JSON.parse(localStorage.getItem(`${containerId}Order`)) || [];
 
-            if (savedOrder.length > 0) {
-                savedOrder.forEach(id => {
-                    const article = container.querySelector(`[data-id="${id}"]`);
-                    if (article) {
-                        container.appendChild(article);
-                    }
-                });
-            }
+//             if (savedOrder.length > 0) {
+//                 savedOrder.forEach(id => {
+//                     const article = container.querySelector(`[data-id="${id}"]`);
+//                     if (article) {
+//                         container.appendChild(article);
+//                     }
+//                 });
+//             }
 
-            new Sortable(container, {
-                animation: 150,
-                group: containerId,
-                onEnd: () => {
-                    const newOrder = Array.from(container.children).map(el => el.dataset.id);
-                    localStorage.setItem(`${containerId}Order`, JSON.stringify(newOrder));
-                    console.log(`Nouvel ordre sauvegardé pour ${containerId}:`, newOrder);
-                }
-            });
-        });
-    }
-});
+//             new Sortable(container, {
+//                 animation: 150,
+//                 group: containerId,
+//                 onEnd: () => {
+//                     const newOrder = Array.from(container.children).map(el => el.dataset.id);
+//                     localStorage.setItem(`${containerId}Order`, JSON.stringify(newOrder));
+//                     console.log(`Nouvel ordre sauvegardé pour ${containerId}:`, newOrder);
+//                 }
+//             });
+//         });
+//     }
+// });

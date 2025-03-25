@@ -1,3 +1,8 @@
+:root {
+    --sidebar-width-mobile: 50vw;
+    --sidebar-width-desktop: 25vw;
+}
+
 body {
     background-image: url("/assets/images/fond.webp");
     background-size: cover;
@@ -14,5 +19,11 @@ body {
 }
 
 .sidebar-open #mobile-menu-toggle {
-    transform: translateX(calc(50vw - 3rem));
+    transform: translateX(calc(var(--sidebar-width-mobile) - 2.5rem));
+}
+
+@media (min-width: 640px) {
+    .sidebar-open #mobile-menu-toggle {
+        transform: translateX(calc(var(--sidebar-width-desktop) - 2.5rem));
+    }
 }
