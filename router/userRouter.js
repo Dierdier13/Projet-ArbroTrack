@@ -62,7 +62,7 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
                 .toFile(outputPath);
 
             fs.unlinkSync(req.file.path);
-            avatarPath = `../uploads/${outputFilename}`;
+            avatarPath = `/uploads/${outputFilename}`;
         }
  
         const user = await prisma.user.create({
@@ -81,12 +81,7 @@ userRouter.post('/register', upload.single('avatar'), async (req, res) => {
     } catch (error) {
         console.error("Erreur lors de la création du compte :", error);
         if (req.file?.path) {
-           console.log( req.file.path);
-           console.log(fs.existsSync("uploads/" + req.file.filename));
-           
-              
-       
-            fs.unlinkSync("uploads/" + req.file.filename);
+            fs.unlinkSync(req.file.path);
         }
         if (avatarPath) {
             const fullPath = path.join(__dirname, '..', avatarPath);
