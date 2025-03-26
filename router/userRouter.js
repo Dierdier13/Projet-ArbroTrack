@@ -2,7 +2,9 @@ const { PrismaClient } = require('@prisma/client');
 const hashPasswordExtension = require('../services/extensions/hashPasswordExtension');
 const bcrypt = require("bcrypt");
 const path = require("path");
+const formidable = require('formidable');
 const fs = require("fs");
+const fsPromise = require('fs').promises
 const sharp = require('sharp');
 const authguard = require('../services/authguard');
 const upload = require('../services/uploadConfig');
@@ -31,76 +33,71 @@ userRouter.get('/register', (req, res) => {
 
 ///////////////////////////////////////////////// S'Enregistrer //////////////////////////////////////////////////////
 
-userRouter.post('/register', upload.single('avatar'), async (req, res) => {
-
-    const { name, firstname, mail, password, confirmpassword } = req.body;
-    let avatarPath = null;
-
-    try {
-        if (!name || !firstname || !mail || !password || !confirmpassword) {
-            throw ({ fields: "Tous les champs doivent être remplis" });
-        }
-        if (password != confirmpassword) {
-            throw ({ confirmPassword: "Le mot de passe ne corresponde pas" });
-        }
-        const existingUser = await prisma.user.findUnique({
-            where: { mail }
-        });
-        if (existingUser) {
-            throw ({ mail: "Ce mail est déjà utilisé" });
-        }
-        if (req.file) {
-            const outputFilename = `avatar-${Date.now()}${path.extname(req.file.originalname)}`;
-            const outputPath = path.join(__dirname, '..', 'uploads', outputFilename);
-
-            await sharp(req.file.path)
-                .resize(800, 800, {
-                    fit: 'inside',
-                    withoutEnlargement: true
-                })
-                .webp({ quality: 80 })
-                .toFile(outputPath);
-
-            fs.unlinkSync(req.file.path);
-            avatarPath = `/uploads/${outputFilename}`;
-        }
- 
-        const user = await prisma.user.create({
-            data: {
-                name,
-                firstname,
-                mail,
-                password,
-                avatar: avatarPath
+userRouter.post('/register', async (req, res) => {
+    const form = new formidable.IncomingForm({
+        multiples: false 
+      });
+      form.keepExtensions = true; // Garde l'extension originale
+    form.parse(req, async (err, fields, files) => {
+        try {
+            if (err) {
+                console.error("Erreur lors du parsing du formulaire :", err);
+                return res.status(400).json({ error: "Erreur lors du traitement du formulaire." });
             }
-        });
 
-        req.flash('success', 'Compte créé avec succès !');
-        res.redirect('/login');
+            console.log("Champs reçus :", fields);
+            console.log("Fichier reçu :", files.avatar);
 
-    } catch (error) {
-        console.error("Erreur lors de la création du compte :", error);
-        if (req.file?.path) {
-            fs.unlinkSync(req.file.path);
-        }
-        if (avatarPath) {
-            const fullPath = path.join(__dirname, '..', avatarPath);
-            if (fs.existsSync(fullPath)) {
-                fs.unlinkSync(fullPath);
+            let { name, firstname, mail, password, confirmpassword } = fields;
+            name = name[0]
+            firstname = firstname[0]
+            mail = mail[0]
+            password = password[0]
+            confirmpassword = confirmpassword[0]
+            if (!name || !firstname || !mail || !password|| !confirmpassword) {
+                return res.status(400).json({ error: "Tous les champs doivent être remplis." });
+                
             }
+            if (password !== confirmpassword) {
+                return res.status(400).json({ error: "Le mot de passe ne correspond pas." });
+            }
+
+            const existingUser = await prisma.user.findUnique({ where: { mail } });
+            if (existingUser) {
+                return res.status(400).json({ error: "Ce mail est déjà utilisé." });
+            }
+
+            // 🔹 Gestion de l'avatar
+            let avatarPath = null;
+            if (files.avatar) {
+                const file = files.avatar[0];
+                
+                const buffer =  fs.readFileSync(file.filepath); // Lire le fichier en buffer
+                const fileName = `uploads/${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+
+                await sharp(buffer)
+                    .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                    .webp({ quality: 80 })
+                    .toFile(fileName);
+
+                avatarPath = fileName; // Enregistrer le chemin de l'avatar
+                 fs.unlinkSync(file.filepath); // Supprimer le fichier temporaire
+            }
+
+            // 🔹 Création de l'utilisateur
+            await prisma.user.create({
+                data: { name, firstname, mail, password, avatar: avatarPath }
+            });
+
+            req.flash('success', 'Compte créé avec succès !');
+            return res.redirect('/login');
+
+        } catch (error) {
+            console.error("Erreur :", error);
+            return res.status(500).json({ error: "Erreur lors de la création du compte." });
         }
-        const flash = { error: "Erreur lors de la création du compte." };
-        res.render('pages/register.html.twig', {
-            title: "Inscription - ArboTrack",
-            error,
-            flash,
-            name,
-            firstname,
-            mail,
-            avatar: avatarPath
-        });
-    }
-})
+    });
+});
 
 ///////////////////////////////////////////////// Supprimer User //////////////////////////////////////////////////////
 
@@ -243,7 +240,7 @@ userRouter.get('/logout', authguard, async (req, res) => {
     res.redirect('/login');
 })
 
-userRouter.get("/test" ,async(req,res)=>{
+userRouter.get("/test", async (req, res) => {
     try {
         const user = await prisma.user.findMany();
         res.json(user)
@@ -317,16 +314,16 @@ userRouter.post('/editAvatarUser/:id', authguard, upload.single('avatar'), async
 
         if (currentUser?.avatar) {
             const oldAvatarPath = path.resolve(__dirname, '..', currentUser.avatar);
-            
+
             try {
-              await fs.promises.access(oldAvatarPath, fs.constants.F_OK);
-              await fs.promises.unlink(oldAvatarPath);
+                await fs.promises.access(oldAvatarPath, fs.constants.F_OK);
+                await fs.promises.unlink(oldAvatarPath);
             } catch (err) {
-              if (err.code !== 'ENOENT') { // Ignore si fichier non trouvé
-                console.error("Erreur suppression avatar :", err);
-              }
+                if (err.code !== 'ENOENT') { // Ignore si fichier non trouvé
+                    console.error("Erreur suppression avatar :", err);
+                }
             }
-          }
+        }
 
         if (req.file) {
             const outputFilename = `avatar-${userId}-${Date.now()}.webp`;
