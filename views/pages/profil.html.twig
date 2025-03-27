@@ -17,7 +17,7 @@
 				</a>
 				<div class="w-full flex items-center justify-center">
 					<h2 class="text-white text-xl md:text-2xl lg:text-4xl text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Profil de
-						{{ user.name }}
+						{{ user.lastname }}
 						{{ user.firstname }}</h2>
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 					<div class="w-full lg:w-1/4 flex flex-col justify-between gap-2">
 						<div class="w-full h-80">
 							{% if user.avatar %}
-								<img src="/uploads/{{ user.avatar }}" alt="Avatar" class="object-cover w-full h-full rounded-lg">
+								<img src="/{{ user.avatar }}" alt="Avatar" class="object-cover w-full h-full rounded-lg">
 							{% else %}
 								<img src="/assets/images/avatar.jpg" alt="Avatar vide" class="object-cover w-full h-full rounded-lg">
 							{% endif %}
@@ -43,7 +43,7 @@
 						<div class="bg-[#C3CEA3] space-y-6 shadow-lg rounded-lg p-4">
 							<div class="flex flex-col bg-white border border-green-500 rounded-md p-2 gap-2">
 								<p class="text-[#1B3C01]">Nom :
-									<span class="font-medium">{{ user.name }}</span>
+									<span class="font-medium">{{ user.lastname }}</span>
 								</p>
 								<p class="text-[#1B3C01]">Prénom :
 									<span class="font-medium">{{ user.firstname }}</span>

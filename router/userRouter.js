@@ -2,11 +2,10 @@ const { PrismaClient } = require('@prisma/client');
 const hashPasswordExtension = require('../services/extensions/hashPasswordExtension');
 const bcrypt = require("bcrypt");
 const path = require("path");
-const formidable = require('formidable');
 const fs = require("fs");
-const fsPromise = require('fs').promises
 const sharp = require('sharp');
 const authguard = require('../services/authguard');
+const uploadMiddleware = require('../services/uploadFormidable');
 const upload = require('../services/uploadConfig');
 
 const userRouter = require('express').Router();
@@ -33,70 +32,70 @@ userRouter.get('/register', (req, res) => {
 
 ///////////////////////////////////////////////// S'Enregistrer //////////////////////////////////////////////////////
 
-userRouter.post('/register', async (req, res) => {
-    const form = new formidable.IncomingForm({
-        multiples: false 
-      });
-      form.keepExtensions = true; // Garde l'extension originale
-    form.parse(req, async (err, fields, files) => {
-        try {
-            if (err) {
-                console.error("Erreur lors du parsing du formulaire :", err);
-                return res.status(400).json({ error: "Erreur lors du traitement du formulaire." });
-            }
+userRouter.post('/register', uploadMiddleware(), async (req, res) => {
+    try {
+        const { lastname, firstname, mail, password, confirmpassword } = req.body;
+        console.log("Fichiers reçus :", req.files);
 
-            console.log("Champs reçus :", fields);
-            console.log("Fichier reçu :", files.avatar);
-
-            let { name, firstname, mail, password, confirmpassword } = fields;
-            name = name[0]
-            firstname = firstname[0]
-            mail = mail[0]
-            password = password[0]
-            confirmpassword = confirmpassword[0]
-            if (!name || !firstname || !mail || !password|| !confirmpassword) {
-                return res.status(400).json({ error: "Tous les champs doivent être remplis." });
-                
-            }
-            if (password !== confirmpassword) {
-                return res.status(400).json({ error: "Le mot de passe ne correspond pas." });
-            }
-
-            const existingUser = await prisma.user.findUnique({ where: { mail } });
-            if (existingUser) {
-                return res.status(400).json({ error: "Ce mail est déjà utilisé." });
-            }
-
-            // 🔹 Gestion de l'avatar
-            let avatarPath = null;
-            if (files.avatar) {
-                const file = files.avatar[0];
-                
-                const buffer =  fs.readFileSync(file.filepath); // Lire le fichier en buffer
-                const fileName = `uploads/${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
-
-                await sharp(buffer)
-                    .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
-                    .webp({ quality: 80 })
-                    .toFile(fileName);
-
-                avatarPath = fileName; // Enregistrer le chemin de l'avatar
-                 fs.unlinkSync(file.filepath); // Supprimer le fichier temporaire
-            }
-
-            // 🔹 Création de l'utilisateur
-            await prisma.user.create({
-                data: { name, firstname, mail, password, avatar: avatarPath }
-            });
-
-            req.flash('success', 'Compte créé avec succès !');
-            return res.redirect('/login');
-
-        } catch (error) {
-            console.error("Erreur :", error);
-            return res.status(500).json({ error: "Erreur lors de la création du compte." });
+        if (!lastname || !firstname || !mail || !password || !confirmpassword) {
+            throw ({ fields: "Tous les champs doivent être remplis" });
         }
-    });
+        if (password !== confirmpassword) {
+            throw ({ confirmPassword: "Le mot de passe ne corresponde pas" });
+        }
+
+        const existingUser = await prisma.user.findUnique({ where: { mail } });
+        if (existingUser) {
+            throw ({ mail: "Ce mail est déjà utilisé" });
+        }
+
+        let avatarPath = null;
+        if (req.files && req.files.avatar) {
+            const file = Array.isArray(req.files.avatar) ? req.files.avatar[0] : req.files.avatar;
+
+            console.log("Fichier reçu :", file);
+
+            if (!file.filepath && !file.path) {
+                console.error("Erreur : filepath est undefined !");
+                return res.status(400).json({ error: "Problème avec l'upload du fichier." });
+            }
+
+            const filePath = file.filepath || file.path;
+            const buffer = fs.readFileSync(filePath);
+            const fileName = `avatar-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+            const outputPath = path.join(__dirname, '..', 'uploads', fileName);
+
+            await sharp(buffer)
+                .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                .webp({ quality: 80 })
+                .toFile(outputPath);
+
+            avatarPath = `uploads/${fileName}`;
+            fs.unlinkSync(filePath);
+            console.log("Avatar traité et enregistré :", avatarPath);
+        } else {
+            console.log("Aucun fichier avatar reçu");
+        }
+
+
+        await prisma.user.create({
+            data: { lastname, firstname, mail, password, avatar: avatarPath }
+        });
+
+        req.flash('success', 'Compte créé avec succès !');
+        return res.redirect('/login');
+
+    } catch (error) {
+        const flash = { error: "Erreur lors de la création du compte." };
+        res.redirect('/register.html.twig', {
+            title: "inscription - ArboTrack",
+            error,
+            flash,
+            lastname,
+            firstname,
+            mail
+        });
+    }
 });
 
 ///////////////////////////////////////////////// Supprimer User //////////////////////////////////////////////////////
@@ -172,7 +171,7 @@ userRouter.get('/', authguard, async (req, res) => {
                 where: {
                     ownerId: req.session.user.id,
                     OR: [
-                        { name: { contains: searchTerm } },
+                        { propertyName: { contains: searchTerm } },
                         { adress: { contains: searchTerm } },
                         { city: { contains: searchTerm } }
                     ],
@@ -280,14 +279,14 @@ userRouter.get('/profil/:id', authguard, async (req, res) => {
 
 userRouter.post('/editUser/:id', authguard, async (req, res) => {
     const userId = parseInt(req.params.id, 10);
-    const { name, firstname, mail } = req.body;
+    const { lastname, firstname, mail } = req.body;
     try {
         const user = await prisma.user.update({
             where: {
                 id: userId
             },
             data: {
-                name,
+                lastname,
                 firstname,
                 mail,
             }

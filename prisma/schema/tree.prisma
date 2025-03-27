@@ -3,6 +3,8 @@ model Tree {
     specy        String
     height       Int?
     diameter     Int?
+    latitude     Float?
+    longitude    Float?
     healthStatut HealthStatut @default(Sain)
     propertyId   Int
     property     Property     @relation(fields: [propertyId], references: [id], onDelete: Cascade)

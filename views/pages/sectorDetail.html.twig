@@ -23,7 +23,7 @@
 			</div>
 			<div class="w-full flex items-center justify-center">
 				<h2 class="text-white text-xl md:text-2xl lg:text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Détail de
-					{{ sector.name }}</h2>
+					{{ sector.sectorName }}</h2>
 			</div>
 			<div id="map-3" class="w-full h-90 rounded-lg"></div>
 			<div class="flex justify-between flex-wrap md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
@@ -106,7 +106,7 @@
 											<p class="text-[#1B3C01] w-full md:w-1/7">
 												<span class="font-bold">secteur:
 												</span>
-												{{ tree.sector.name }}
+												{{ tree.sector.sectorName }}
 											</p>
 										{% else %}
 											<p class="text-[#1B3C01] w-full md:w-1/7">
@@ -131,7 +131,7 @@
 						</div>
 					{% else %}
 						<p class="text-white text-center py-4">Aucun Arbre enregistré à
-							{{ sector.name }}
+							{{ sector.sectorName }}
 							pour le moment.</p>
 					{% endif %}
 				</div>
@@ -180,7 +180,7 @@
 													</p>
 													{% if tree.sectorId %}
 														<p class="text-[#1B3C01] w-1/2">
-															<span class="font-medium">{{ tree.sector.name }}</span>
+															<span class="font-medium">{{ tree.sector.sectorName }}</span>
 														</p>
 													{% else %}
 														<p class="w-1/2 text-[#1B3C01]">
@@ -253,7 +253,7 @@
 						</div>
 					{% else %}
 						<p class="text-white text-center py-4">Aucun Arbre enregistré à
-							{{ sector.name }}
+							{{ sector.sectorName }}
 							pour le moment.</p>
 					{% endif %}
 				</div>

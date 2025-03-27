@@ -7,12 +7,12 @@ const prisma = new PrismaClient({ log: ['error'] });
 ///////////////////////////////////////////////// Ajouter Secteur //////////////////////////////////////////////////////
 
 sectorRouter.post('/property/:propertyId/addSector', authguard, async (req, res) => {
-    const { name, comment } = req.body;
+    const { sectorName, comment } = req.body;
     const propertyId = parseInt(req.params.propertyId);
     try {
         const sector = await prisma.sector.create({
             data: {
-                name,
+                sectorName,
                 comment,
                 propertyId: propertyId
             }
@@ -72,14 +72,14 @@ sectorRouter.get('/editSector/:id', authguard, async (req, res) => {
 
 sectorRouter.post('/editSector/:id', authguard, async (req, res) => {
     const sectorId = parseInt(req.params.id, 10);
-    const { name, comment } = req.body;
+    const { sectorName, comment } = req.body;
     try {
         const sector = await prisma.sector.update({
             where: {
                 id: sectorId
             },
             data: {
-                name,
+                sectorName,
                 comment
             }
         });

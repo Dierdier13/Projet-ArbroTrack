@@ -9,7 +9,7 @@ const fetch = (...args) =>
 ///////////////////////////////////////////////// Ajouter Propriété //////////////////////////////////////////////////////
 
 propertyRouter.post('/addProperty', authguard, async (req, res) => {
-    const { name, adress, codePostal, city } = req.body;
+    const { propertyName, adress, codePostal, city } = req.body;
     const isApi = req.query.api === 'true';
 
     try {
@@ -35,7 +35,7 @@ propertyRouter.post('/addProperty', authguard, async (req, res) => {
 
         const property = await prisma.property.create({
             data: {
-                name,
+                propertyName,
                 adress,
                 codePostal: parseInt(codePostal),
                 city,
@@ -106,14 +106,14 @@ propertyRouter.get('/editProperty/:id', authguard, async (req, res) => {
 
 propertyRouter.post('/editProperty/:id', authguard, async (req, res) => {
     const propertyId = parseInt(req.params.id, 10);
-    const { name, adress, codePostal, city } = req.body;
+    const { propertyName, adress, codePostal, city } = req.body;
     try {
         const property = await prisma.property.update({
             where: {
                 id: propertyId
             },
             data: {
-                name,
+                propertyName,
                 adress,
                 codePostal: parseInt(codePostal),
                 city
@@ -208,7 +208,7 @@ propertyRouter.get('/property/:propertyId/search', authguard, async (req, res) =
                 where: {
                     propertyId: propertyId,
                     OR: [
-                        { name: { contains: searchTerm } },
+                        { propertyName: { contains: searchTerm } },
                         { comment: { contains: searchTerm } }
                     ],
                 },
@@ -303,7 +303,7 @@ propertyRouter.get('/property/:propertyId/treeList/search', authguard, async (re
                     propertyId: propertyId,
                     OR: [
                         { specy: { contains: searchTerm } },
-                        { sector: { name: { contains: searchTerm } } },
+                        { sector: { sectorName: { contains: searchTerm } } },
                         { comments: { some: { comment: { contains: searchTerm } } } },
                         { histories: { some: { action: { contains: searchTerm } } } }
                     ]
@@ -418,7 +418,7 @@ propertyRouter.get('/property/:propertyId/sector/:sectorId/search', authguard, a
                     sectorId: sectorId,
                     OR: [
                         { specy: { contains: searchTerm } },
-                        { sector: { name: { contains: searchTerm } } },
+                        { sector: { sectorName: { contains: searchTerm } } },
                         { comments: { some: { comment: { contains: searchTerm } } } },
                         { histories: { some: { action: { contains: searchTerm } } } }
                     ]

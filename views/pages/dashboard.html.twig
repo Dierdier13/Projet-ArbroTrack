@@ -23,7 +23,7 @@
 			</div>
 			<div class="w-full flex items-center justify-center">
 				<h2 class="text-white text-xl md:text-2xl lg:text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Propriété :
-					{{ property.name }}</h2>
+					{{ property.propertyName }}</h2>
 			</div>
 			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} data-cp={{property.codePostal}} class="w-full h-90 rounded-lg"></div>
 			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
@@ -70,7 +70,7 @@
 										<button onclick="openEditSectorModal('{{ sector.id }}')" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 											<img src="/assets/images/edit.png" alt="Modifier secteur" class="w-6 h-6">
 										</button>
-										<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+										<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.sectorName }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 											<img src="/assets/images/delete.png" alt="Supprimer secteur" class="w-6 h-6">
 										</button>
 									</div>
@@ -122,7 +122,7 @@
 											<p class="text-[#1B3C01] w-1/6">
 												<span class="font-bold">secteur:
 												</span>
-												{{ tree.sector.name }}
+												{{ tree.sector.sectorName }}
 											</p>
 										{% else %}
 											<p class="text-[#1B3C01] w-1/6">
@@ -164,7 +164,7 @@
 										<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between items-center p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1 md:gap-4 w-full sm:w-[calc(50%-0.35rem)] md:w-[calc(33%-0.22rem)] 2xl:w-[calc(25%-0.40rem)]">
 											<div class="flex flex-col gap-0.5 md:gap-2">
 												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" class="text-lg font-semibold text-[#1B3C01] text-center md:text-start hover:text-white">
-													<h3>{{ sector.name }}</h3>
+													<h3>{{ sector.sectorName }}</h3>
 												</a>
 												<p class="text-[#1B3C01]">
 													<span class="font-bold">Description:
@@ -182,7 +182,7 @@
 												<button onclick="openEditSectorModal('{{ sector.id }}')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 													<img src="/assets/images/edit.png" alt="Modifier secteur" class="w-6 h-6">
 												</button>
-												<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.name }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+												<button onclick="openDeleteModal('deleteSectorConfirmModal', this)" data-id="{{ sector.id }}" data-name="{{ sector.sectorName }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 													<img src="/assets/images/delete.png" alt="Supprimer secteur" class="w-6 h-6">
 												</button>
 											</div>
@@ -252,7 +252,7 @@
 													<p class="text-[#1B3C01] w-full md:w-1/6">
 														<span class="font-bold">secteur:
 														</span>
-														{{ tree.sector.name }}
+														{{ tree.sector.sectorName }}
 													</p>
 												{% else %}
 													<p class="text-[#1B3C01] w-full md:w-1/6">
