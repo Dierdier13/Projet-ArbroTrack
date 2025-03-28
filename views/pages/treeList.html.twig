@@ -20,7 +20,7 @@
 					<h2 class="text-white text-xl md:text-2xl lg:text-4xl text-center font-semibold bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Liste de tous les arbres</h2>
 				</div>
 			</div>
-			<div id="map-3" class="w-full h-90 rounded-lg"></div>
+			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} data-cp={{property.codePostal}} class="w-full h-60 sm:h-80 rounded-lg"></div>
 			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
 				<button class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
 					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="w-6 h-6">
@@ -61,28 +61,28 @@
 						{% endif %}
 					</div>
 					{% if trees|length > 0 %}
-						<div {#id="trees-container"#} class="sortable-container flex flex-col gap-2">
+						<div id="trees-container" class="sortable-container flex flex-col gap-2">
 							{% for tree in trees %}
 								<article data-id="{{ tree.id }}" class="flex flex-col md:flex-row justify-between items-center w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
-									<div class="flex flex-col md:flex-row items-center gap-0.5 md:gap-2 w-full md:w-5/6">
-										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg text-center font-semibold text-[#1B3C01] hover:text-white w-full md:w-1/6">
+									<div class="flex flex-col md:flex-row items-center gap-0.5 md:gap-2 w-full">
+										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="text-lg text-center md:text-start font-semibold text-[#1B3C01] hover:text-white w-full md:w-1/7">
 											<h3>
 												<span class="font-bold">{{ tree.specy }}</span>
 											</h3>
 										</a>
-										<p class="text-[#1B3C01] w-full md:w-1/6">
+										<p class="text-[#1B3C01] w-full md:w-1/7">
 											<span class="font-bold">Hauteur:
 											</span>
 											{{ tree.height }}
 											m
 										</p>
-										<p class="text-[#1B3C01] w-full md:w-1/6">
+										<p class="text-[#1B3C01] w-full md:w-2/7">
 											<span class="font-bold">Circonférence:
 											</span>
 											{{ tree.diameter }}
 											cm
 										</p>
-										<p class="text-[#1B3C01] w-full md:w-1/6">
+										<p class="text-[#1B3C01] w-full md:w-2/7">
 											<span class="font-bold">État sanitaire:
 											</span>
 											{% set healthColor = {
@@ -99,7 +99,7 @@
 											<span class="font-medium">{{ tree.healthStatut }}</span>
 										</p>
 										{% if tree.sectorId %}
-											<p class="text-[#1B3C01] w-full md:w-1/6">
+											<p class="text-[#1B3C01] w-full md:w-1/7">
 												<span class="font-bold">secteur:
 												</span>
 												{{ tree.sector.sectorName }}
@@ -111,7 +111,7 @@
 										{% endif %}
 
 									</div>
-									<div class="flex justify-center md:justify-end gap-2 w-full md:w-1/6">
+									<div class="flex justify-center md:justify-end gap-2 w-full md:w-1/7">
 										<a href="/property/{{ propertyId }}/tree/{{ tree.id }}" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 											<img src="/assets/images/info.png" alt="Détail de l'arbre" class="w-6 h-6">
 										</a>
@@ -126,7 +126,9 @@
 							{% endfor %}
 						</div>
 					{% else %}
-						<p class="text-white text-center py-4">Aucun Arbre enregistré pour le moment.</p>
+						<p class="text-white text-center py-4">Aucun Arbre ajouté a
+							{{ sector.sectorName }}
+							pour le moment.</p>
 					{% endif %}
 				</div>
 
@@ -153,14 +155,14 @@
 											<img src="/assets/images/Logo_final_sans_blanc.png" alt="Image de l'arbre" class="object-cover w-full h-full">
 										{% endif %}
 									</div>
-									<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-center hover:text-white">
+									<a href="/property/{{ property.id }}/tree/{{ tree.id }}" class="text-lg font-semibold text-center text-[#1B3C01] hover:text-white">
 										<h3>{{ tree.specy }}</h3>
 									</a>
 									<div class="max-h-max flex flex-col justify-between gap-2">
 										<div>
 											<div class="flex flex-col bg-white border border-green-500 rounded-md p-1 gap-1">
-												<div class="flex">
-													<p class="text-[#1B3C01] w-1/2">{% set healthColor = {
+												<div class="flex items-center">
+													<p class="text-[#1B3C01] w-1/2 flex items-center">{% set healthColor = {
                                                             'Sain': 'green-600',
                                                             'Faiblement_affaibli': 'lime-300',
                                                             'Modérément_affaibli': 'yellow-300',

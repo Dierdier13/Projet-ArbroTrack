@@ -17,7 +17,7 @@
 					{{ user.lastname }}
 					{{ user.firstname }}</h2>
 			</div>
-			<div id="map" class="w-full h-80 rounded-lg"></div>
+			<div id="map" class="w-full h-60 sm:h-80 rounded-lg"></div>
 			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
 				<button class="max-w-40 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300" onclick="openModal('propertyModal')">
 					<img src="/assets/images/add-photo.png" alt="API plantNet" class="w-6 h-6">
@@ -44,9 +44,9 @@
 						<span>Propriété</span>
 					</button>
 					{% if isSearch %}
-						<h2 class="w-full text-lg md:text-2xl lg:text-4xl text-white text-center font-semibold">Résultats de la recherche pour "{{ searchTerm }}"</h2>
+						<h2 class="w-full text-lg md:text-2xl lg:text-3xl text-white text-center font-semibold translate-x-0 sm:-translate-x-12">Résultats de la recherche pour "{{ searchTerm }}"</h2>
 					{% else %}
-						<h2 class="w-full text-lg md:text-2xl lg:text-4xl text-white text-center font-semibold">Liste des Propriétés</h2>
+						<h2 class="w-full text-lg md:text-2xl lg:text-4xl text-white text-center font-semibold translate-x-0 sm:-translate-x-12">Liste des Propriétés</h2>
 					{% endif %}
 				</div>
 				{% if properties|length > 0 %}

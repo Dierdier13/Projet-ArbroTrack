@@ -7,6 +7,7 @@ function uploadMiddleware(options = {}) {
             multiples: true,
             keepExtensions: true,
             uploadDir: options.uploadDir || path.join(__dirname, '..', 'uploads'),
+            maxTotalFileSize: 20 * 1024 * 1024,
             maxFileSize:  options.maxFileSize || 5 * 1024 * 1024,
             filter: (part) => {
                 const allowedTypes = options.allowedTypes || ['image/jpeg', 'image/png', 'image/webp'];

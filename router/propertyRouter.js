@@ -199,7 +199,7 @@ propertyRouter.get('/property/:propertyId/search', authguard, async (req, res) =
                     propertyId: propertyId,
                     OR: [
                         { specy: { contains: searchTerm } },
-                        { sector: { name: { contains: searchTerm } } }
+                        { sector: { sectorName: { contains: searchTerm } } }
                     ]
                 },
                 include: { sector: true }
@@ -208,7 +208,7 @@ propertyRouter.get('/property/:propertyId/search', authguard, async (req, res) =
                 where: {
                     propertyId: propertyId,
                     OR: [
-                        { propertyName: { contains: searchTerm } },
+                        { sectorName: { contains: searchTerm } },
                         { comment: { contains: searchTerm } }
                     ],
                 },
@@ -224,8 +224,8 @@ propertyRouter.get('/property/:propertyId/search', authguard, async (req, res) =
             searchTerm: searchTerm || ''
         });
     } catch (error) {
-        console.error("Erreur lors de la recherche d'arbres et de secteurs:", error);
-        res.status(500).send("Erreur lors de la recherche d'arbres et de secteurs.");
+        req.flash('error', "Erreur lors de la recherche d'arbres et de secteurs.")
+        res.redirect('/property/' + propertyId)
     }
 })
 
@@ -356,13 +356,16 @@ propertyRouter.get('/property/:propertyId/sector/:sectorId', authguard, async (r
     const propertyId = parseInt(req.params.propertyId);
     const sectorId = parseInt(req.params.sectorId);
     try {
-        const [user, sectors, sector, trees] = await Promise.all([
+        const [user, property, sectors, sector, trees] = await Promise.all([
             prisma.user.findUnique({
                 where: {
                     id: req.session.user.id
                 }, include: {
                     properties: true
                 }
+            }),
+            prisma.property.findUnique({
+                where: {id: propertyId}
             }),
             prisma.sector.findMany({
                 where: { propertyId: propertyId }
@@ -388,9 +391,9 @@ propertyRouter.get('/property/:propertyId/sector/:sectorId', authguard, async (r
             isMainPage: true,
             title: "Détail secteur",
             user,
+            property,
             sector,
             sectors,
-            property: { id: propertyId },
             trees: trees,
             previousUrl: req.session.previousUrl || '/',
             images: trees.images,

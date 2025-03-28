@@ -16,40 +16,52 @@
 					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="w-6 h-6">
 				</a>
 				<div class="w-full flex items-center justify-center">
-					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Informations</h2>
+					<h2 class="text-white text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1 translate-x-0 sm:-translate-x-10">Informations</h2>
 				</div>
 			</div>
 		</section>
 		<section>
 			<div class="flex flex-col mx-auto mb-4 p-6 bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg gap-6">
 				<div class="flex flex-col gap-4">
-					<div class="w-full flex flex-col justify-between gap-2">
-						<div class="image-carousel relative w-full h-100 flex items-center justify-center bg-gray-200 rounded-lg overflow-hidden">
-							{% if images|length > 0 %}
-								{% for image in images %}
-									<img src="/{{image.url}}" alt="Image de l'arbre" class="object-cover w-full h-full hidden">
-								{% endfor %}
-							{% else %}
-								<img src="/assets/images/Logo_final_sans_blanc.png" alt="Image de l'arbre" class="object-cover w-full h-full">
-							{% endif %}
-						</div>
-						{% if images|length > 1 %}
-							<div class="flex justify-around">
-								<button class="text-white cursor-pointer" onclick="changeImage(-1)">&#10094;</button>
-								<button class="text-white cursor-pointer" onclick="changeImage(1)">&#10095;</button>
+					<div class="w-full flex flex-col sm:flex-row gap-2">
+						<div class="w-full sm:w-1/2 flex flex-col justify-between gap-1 sm:gap-2">
+							<div {#id="map-3"#} class="w-full h-60 sm:h-100 rounded-lg overflow-hidden">
+								<img src="/assets/images/map.webp" alt="map" class="object-cover w-full h-full"></div>
+							<div class="flex justify-center">
+								<button onclick="openModal('editGeolocTreeModal')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+									<img src="/assets/images/edit.png" alt="Modifier GPS" class="w-6 h-6">
+								</button>
 							</div>
-						{% endif %}
-						<div class="flex justify-center">
-							<button onclick="openModal('editAvatarUserModal')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
-								<img src="/assets/images/edit-photo.png" alt="Modifier" class="w-6 h-6">
-							</button>
+						</div>
+						<div class="w-full sm:w-1/2 flex flex-col justify-between gap-1">
+							<div class="image-carousel relative w-full h-60 sm:h-100 flex items-center justify-center bg-gray-200 rounded-lg overflow-hidden">
+								{% if images|length > 0 %}
+									{% for image in images %}
+										<img src="/{{image.url}}" alt="Image de l'arbre" class="object-cover w-full h-full hidden">
+									{% endfor %}
+								{% else %}
+									<img src="/assets/images/Logo_final_sans_blanc.png" alt="Image de l'arbre" class="object-cover w-full h-full">
+								{% endif %}
+							</div>
+							{% if images|length > 1 %}
+								<div class="flex justify-around">
+									<button class="text-white text-xl cursor-pointer" onclick="changeImage(-1)">&#10094;</button>
+									<button class="text-white text-xl cursor-pointer" onclick="changeImage(1)">&#10095;</button>
+								</div>
+							{% endif %}
+							<div class="flex justify-center">
+								<form action="/property/{{property.id}}/tree/{{tree.id}}/editImages" method="POST">
+									 <button type="submit" {#onclick="openModal('editImagesTreeModal')"#} class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300"> 
+										<img src="/assets/images/edit-photo.png" alt="Modifier Images" class="w-6 h-6">
+									</button>
+								</form>
+							</div>
 						</div>
 					</div>
-
 					<div class="flex flex-col justify-between w-full gap-2">
 						<div class="bg-[#C3CEA3] space-y-6 shadow-lg rounded-lg p-4">
 							<h2 class="text-2xl text-[#1B3C01] text-center font-semibold underline">Détail de
-							{{ tree.specy }}</h2>
+								{{ tree.specy }}</h2>
 							<div class="flex flex-col bg-white border border-green-500 rounded-md p-2 gap-2">
 								<div class="flex">
 									<p class="text-[#1B3C01] w-1/2">État sanitaire :
@@ -66,7 +78,7 @@
 										<span class="font-medium">{{ tree.healthStatut }}</span>
 									</p>
 									{% if tree.sectorId %}
-										<p class="text-[#1B3C01] w-1/2">secteur:
+										<p class="text-[#1B3C01] w-1/2">secteur :
 											<span class="font-medium">{{ tree.sector.sectorName }}</span>
 										</p>
 									{% else %}

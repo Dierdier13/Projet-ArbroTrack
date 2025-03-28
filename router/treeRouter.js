@@ -1,51 +1,80 @@
 const { PrismaClient } = require('@prisma/client');
 const authguard = require('../services/authguard');
-const upload = require('../services/uploadConfig');
+const path = require("path");
+const fs = require("fs");
+const sharp = require('sharp');
+const uploadMiddleware = require('../services/uploadFormidable');
 
 const treeRouter = require('express').Router();
 const prisma = new PrismaClient({ log: ['error'] });
 
 ///////////////////////////////////////////////// Ajouter Arbre //////////////////////////////////////////////////////
 
-treeRouter.post('/property/:propertyId/addTree', authguard, upload.array('images', 2), async (req, res) => {
+treeRouter.post('/property/:propertyId/addTree', authguard, uploadMiddleware(), async (req, res) => {
     const { specy, height, diameter, healthStatut, sectorId, initialSectorId, returnUrl } = req.body;
-    const propertyId = parseInt(req.params.propertyId);
+    const propertyId = parseInt(req.params.propertyId, 10);
     const finalSectorId = sectorId || initialSectorId;
+
     try {
+        if (!specy || !height || !diameter || !healthStatut) {
+            throw new Error("Tous les champs obligatoires doivent être remplis.");
+        }
+
         const tree = await prisma.tree.create({
             data: {
                 specy,
-                height: parseInt(height),
-                diameter: parseInt(diameter),
+                height: parseInt(height, 10),
+                diameter: parseInt(diameter, 10),
                 healthStatut,
-                sectorId: finalSectorId ? parseInt(finalSectorId) : null,
+                sectorId: finalSectorId ? parseInt(finalSectorId, 10) : null,
                 propertyId: propertyId
             }
         });
-        if (req.files && req.files.length > 0) {
-            const imageCreationPromises = req.files.map(file => {
-                return prisma.image.create({
-                    data: {
-                        url: file.path,
-                        treeId: tree.id,
-                    }
-                });
+
+        if (req.files && req.files.images) {
+            const images = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
+            const imageCreationPromises = images.map(async (file) => {
+                const filePath = file.filepath || file.path;
+
+                if (!fs.existsSync(filePath)) {
+                    console.error("Erreur : le fichier n'existe pas !");
+                    return;
+                }
+
+                try {
+                    const buffer = fs.readFileSync(filePath);
+                    const fileName = `tree-${tree.id}-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+                    const outputPath = path.join(__dirname, '..', 'uploads', fileName);
+
+                    await sharp(buffer)
+                        .rotate()
+                        .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                        .webp({ quality: 90 })
+                        .toFile(outputPath);
+
+                    fs.unlinkSync(filePath);
+
+                    await prisma.image.create({
+                        data: {
+                            url: `uploads/${fileName}`,
+                            treeId: tree.id,
+                        }
+                    });
+                } catch (error) {
+                    console.error("Erreur lors du traitement de l'image :", error);
+                }
             });
             await Promise.all(imageCreationPromises);
-        } 
+        }
+
         req.flash('success', 'Arbre ajouté avec succès !');
         res.redirect(returnUrl);
-        
     } catch (error) {
-        const flash = { error: "Erreur lors de l'ajout de l'arbre." };
-        res.render('pages/dashboard.html.twig', {
-            isMainPage: true,
-            title: "Dashboard",
-            error,
-            flash
-        });
+        console.error("Erreur lors de l'ajout de l'arbre :", error);
+        req.flash('error', "Erreur lors de l'ajout de l'arbre.");
+        res.redirect(returnUrl);
     }
-})
+});
 
 ///////////////////////////////////////////////// Supprimer Arbre //////////////////////////////////////////////////////
 
@@ -158,7 +187,7 @@ treeRouter.get('/property/:propertyId/deleteSectorTree/:treeId', authguard, asyn
                 sectorId: null
             }
         });
-        req.flash('success', "Secteur supprimer de l'arbre avec succé !" );
+        req.flash('success', "Secteur supprimer de l'arbre avec succé !");
         res.redirect('/property/' + propertyId + '/tree/' + treeId);
     } catch (error) {
         req.flash('error', "Erreur lors de la suppression du secteur à l'arbre.")
@@ -214,6 +243,145 @@ treeRouter.get('/property/:propertyId/tree/:treeId', authguard, async (req, res)
     }
 });
 
+//////////////////////////////////// Modifier images arbre ///////////////////////
 
+treeRouter.post('/property/:propertyId/tree/:treeId/editImages', authguard, uploadMiddleware(), async (req, res) => {
+    const propertyId = parseInt(req.params.propertyId);
+    const treeId = parseInt(req.params.treeId);
+    try {
+        const images = await prisma.image.findMany({
+            where: { treeId: treeId },
+        });
+        if (images) {
+            images.forEach(image =>{
+                const filePath = path.join(__dirname, '..', image.url); 
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error(`Erreur lors de la suppression du fichier ${filePath}:`, err);
+                    } else {
+                        console.log(`Fichier supprimé: ${filePath}`);
+                    }
+                });
+            });
+            await prisma.image.deleteMany({
+                where: { treeId: treeId }
+            });            
+        }
+
+        if (req.files && req.files.images) {
+            const images = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
+            const imageCreationPromises = images.map(async (file) => {
+                const filePath = file.filepath || file.path;
+
+                if (!fs.existsSync(filePath)) {
+                    console.error("Erreur : le fichier n'existe pas !");
+                    return;
+                }
+
+                try {
+                    const buffer = fs.readFileSync(filePath);
+                    const fileName = `tree-${tree.id}-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+                    const outputPath = path.join(__dirname, '..', 'uploads', fileName);
+
+                    await sharp(buffer)
+                        .rotate()
+                        .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                        .webp({ quality: 90 })
+                        .toFile(outputPath);
+
+                    fs.unlinkSync(filePath);
+
+                    await prisma.image.create({
+                        data: {
+                            url: `uploads/${fileName}`,
+                            treeId: tree.id,
+                        }
+                    });
+                } catch (error) {
+                    console.error("Erreur lors du traitement de l'image :", error);
+                }
+            });
+            await Promise.all(imageCreationPromises);
+        }
+        req.flash('success', "Succès lors de la modification des images.");
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
+    } catch (error) {
+        console.error('Erreur suppression images:', error);
+        req.flash('error', "Erreur lors de la modification des images");
+        res.redirect('/property/' + propertyId + '/tree/' + treeId);
+    }
+})
 
 module.exports = treeRouter;
+
+// treeRouter.post('/property/:propertyId/tree/:treeId/editImages', authguard, uploadMiddleware(), async (req, res) => {
+//     const propertyId = parseInt(req.params.propertyId);
+//     const treeId = parseInt(req.params.treeId);
+
+//     try {
+//         // Suppression des anciennes images
+//         const images = await prisma.image.findMany({ where: { treeId } });
+
+//         if (images.length > 0) {
+//             await Promise.all(images.map(async (image) => {
+//                 try {
+//                     const filePath = path.resolve(__dirname, '..', image.url);
+//                     await fs.unlink(filePath);
+//                     console.log(`Fichier supprimé : ${filePath}`);
+//                 } catch (err) {
+//                     console.error(`Erreur lors de la suppression du fichier ${image.url}:`, err);
+//                 }
+//             }));
+
+//             await prisma.image.deleteMany({ where: { treeId } });
+//         }
+
+//         // Ajout des nouvelles images
+//         if (req.files && req.files.images) {
+//             const imagesArray = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
+
+//             const imageCreationPromises = imagesArray.map(async (file) => {
+//                 try {
+//                     const filePath = file.filepath || file.newFilename;
+
+//                     if (!filePath || !(await fs.stat(filePath).catch(() => false))) {
+//                         console.error("Erreur : le fichier n'existe pas !");
+//                         return;
+//                     }
+
+//                     const buffer = await fs.readFile(filePath);
+//                     const fileName = `tree-${treeId}-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+//                     const outputPath = path.resolve(__dirname, '..', 'uploads', fileName);
+
+//                     await sharp(buffer)
+//                         .rotate()
+//                         .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+//                         .webp({ quality: 90 })
+//                         .toFile(outputPath);
+
+//                     await fs.unlink(filePath);
+
+//                     await prisma.image.create({
+//                         data: {
+//                             url: `uploads/${fileName}`,
+//                             treeId: treeId,
+//                         }
+//                     });
+
+//                 } catch (error) {
+//                     console.error("Erreur lors du traitement de l'image :", error);
+//                 }
+//             });
+
+//             await Promise.all(imageCreationPromises);
+//         }
+
+//         req.flash('success', "Succès lors de la modification des images.");
+//         res.redirect(`/property/${propertyId}/tree/${treeId}`);
+
+//     } catch (error) {
+//         console.error('Erreur lors de la modification des images :', error);
+//         req.flash('error', "Erreur lors de la modification des images.");
+//         res.redirect(`/property/${propertyId}/tree/${treeId}`);
+//     }
+// });
