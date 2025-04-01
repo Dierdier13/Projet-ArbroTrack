@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const hashPasswordExtension = require('../services/extensions/hashPasswordExtension');
 const bcrypt = require("bcrypt");
 const path = require("path");
-const fs = require("fs");
+const fs = require('fs/promises');
 const sharp = require('sharp');
 const uploadMiddleware = require('../services/uploadFormidable');
 const authguard = require('../services/authguard');
@@ -58,7 +58,7 @@ userRouter.post('/register', uploadMiddleware(), async (req, res) => {
             }
 
             const filePath = file.filepath || file.path;
-            const buffer = fs.readFileSync(filePath);
+            const buffer = await fs.readFile(filePath);
             const fileName = `avatar-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
             const outputPath = path.join(__dirname, '..', 'uploads', fileName);
 
@@ -69,7 +69,7 @@ userRouter.post('/register', uploadMiddleware(), async (req, res) => {
                 .toFile(outputPath);
 
             avatarPath = `uploads/${fileName}`;
-            fs.unlinkSync(filePath);
+            await fs.unlink(filePath);
             console.log("Avatar traité et enregistré :", avatarPath);
         } else {
             console.log("Aucun fichier avatar reçu");
@@ -310,8 +310,8 @@ userRouter.post('/editAvatarUser/:id', authguard, uploadMiddleware(), async (req
         if (currentUser?.avatar) {
             const oldAvatarPath = path.resolve(__dirname, '..', currentUser.avatar);
             try {
-                await fs.promises.access(oldAvatarPath, fs.constants.F_OK);
-                await fs.promises.unlink(oldAvatarPath);
+                await fs.access(oldAvatarPath, fs.constants.F_OK);
+                await fs.unlink(oldAvatarPath);
             } catch (err) {
                 if (err.code !== 'ENOENT') {
                     console.error("Erreur lors de la suppression de l'ancien avatar :", err);
@@ -323,18 +323,25 @@ userRouter.post('/editAvatarUser/:id', authguard, uploadMiddleware(), async (req
         if (req.files && req.files.avatar) {
             const file = req.files.avatar;
             const filePath = file.filepath || file.path;
-            const buffer = fs.readFileSync(filePath);
-            const fileName = `avatar-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
-            const outputPath = path.join(__dirname, '..', 'uploads', fileName);
 
-            await sharp(buffer)
-                .rotate()
-                .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
-                .webp({ quality: 80 })
-                .toFile(outputPath);
+            try {
+                await fs.access(filePath, fs.constants.F_OK);
+                const buffer = await fs.readFile(filePath);
+                const fileName = `avatar-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+                const outputPath = path.resolve(__dirname, '..', 'uploads', fileName);
 
-            avatarPath = `uploads/${fileName}`;
-            fs.unlinkSync(filePath);
+                await sharp(buffer)
+                    .rotate()
+                    .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                    .webp({ quality: 80 })
+                    .toFile(outputPath);
+
+                avatarPath = 'uploads/' + fileName;
+                await fs.unlink(filePath);
+
+            } catch (error) {
+                console.error("Erreur lors du traitement de l'image :", error);
+            }
         }
 
         await prisma.user.update({
@@ -343,11 +350,11 @@ userRouter.post('/editAvatarUser/:id', authguard, uploadMiddleware(), async (req
         });
 
         req.flash('success', 'Avatar modifié avec succès !');
-        res.redirect(`/profil/${userId}`);
+        res.redirect('/profil/' + userId);
     } catch (error) {
         console.error("Erreur lors de la modification de l'avatar :", error);
-        req.flash('error', `Échec de la modification : ${error.message}`);
-        res.redirect(`/profil/${userId}`);
+        req.flash('error', "Échec de la modification : " + error.message);
+        res.redirect('/profil/' + userId);
     }
 });
 
