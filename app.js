@@ -7,6 +7,7 @@ const sectorRouter = require("./router/sectorRouter");
 const treeRouter = require("./router/treeRouter");
 const historyRouter = require("./router/historyRouter");
 const commentRouter = require("./router/commentRouter");
+const apiRouter = require("./router/apiRouter");
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(sectorRouter);
 app.use(treeRouter);
 app.use(historyRouter);
 app.use(commentRouter);
+app.use(apiRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Écoute sur le port 3002");

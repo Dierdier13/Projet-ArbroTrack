@@ -7,10 +7,10 @@ function uploadMiddleware(options = {}) {
             multiples: true,
             keepExtensions: true,
             uploadDir: options.uploadDir || path.join(__dirname, '..', 'uploads'),
-            maxTotalFileSize: 20 * 1024 * 1024,
-            maxFileSize:  options.maxFileSize || 5 * 1024 * 1024,
+            maxTotalFileSize: 25 * 1024 * 1024,
+            maxFileSize: options.maxFileSize || 10 * 1024 * 1024,
             filter: (part) => {
-                const allowedTypes = options.allowedTypes || ['image/jpeg', 'image/png', 'image/webp'];
+                const allowedTypes = options.allowedTypes || ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
                 if (!allowedTypes.includes(part.mimetype)) {
                     console.error(`Type MIME non autorisé : ${part.mimetype}`);
                     return false;
@@ -28,16 +28,14 @@ function uploadMiddleware(options = {}) {
 
             for (const key in fields) {
                 if (Array.isArray(fields[key])) {
-                    // Si le champ est un tableau, on prend le premier élément
                     req.body[key] = fields[key][0];
                 } else {
-                    // Sinon, on assigne la valeur directement
                     req.body[key] = fields[key];
                 }
             }
             req.files = files;
             if (files.avatar && Array.isArray(files.avatar)) {
-                req.files.avatar = files.avatar[0]; // Prend le premier fichier si c'est un tableau
+                req.files.avatar = files.avatar[0];
             }
             next();
         });

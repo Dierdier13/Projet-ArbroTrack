@@ -50,8 +50,6 @@ userRouter.post('/register', uploadMiddleware(), async (req, res) => {
         if (req.files && req.files.avatar) {
             const file = Array.isArray(req.files.avatar) ? req.files.avatar[0] : req.files.avatar;
 
-            console.log("Fichier reçu :", file);
-
             if (!file.filepath && !file.path) {
                 console.error("Erreur : filepath est undefined !");
                 return res.status(400).json({ error: "Problème avec l'upload du fichier." });

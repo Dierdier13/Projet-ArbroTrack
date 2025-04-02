@@ -27,10 +27,10 @@
 			</div>
 			<div id="map-2" data-polygon={{property.polygon}} data-lat={{property.latitude}} data-lon={{property.longitude}} data-cp={{property.codePostal}} class="w-full h-60 sm:h-80 rounded-lg"></div>
 			<div class="flex justify-between flex-wrap md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
-				<button class="cursor-pointer w-40 bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openModal('sectorModal')">
-					<img src="/assets/images/add-photo.png" alt="API PlantNet" class="h-6">
-					<span>API PlantNet</span>
-				</button>
+				<a href="/apiPlantNet" class="max-w-60 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
+					<img src="/assets/images/add-photo.png" alt="API plantNet" class="w-6 h-6">
+					<span>Identification PlantNet</span>
+				</a>
 				<div class="flex justify-center items-center">
 					<span class="mr-3 font-medium text-white">Article</span>
 					<label class="relative inline-flex items-center cursor-pointer">
@@ -54,7 +54,7 @@
 			<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg p-4">
 				<div id="listView" class="view hidden">
 					<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
-						<button class="w-32 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ property.id }}/sector/{{ sector.id }}')">
+						<button class="w-32 z-20 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ property.id }}/sector/{{ sector.id }}')">
 							<img src="/assets/images/add.png" alt="Ajouter arbre" class="h-6">
 							<span>Arbre</span>
 						</button>
@@ -138,7 +138,7 @@
 
 				<div id="articleView" class="view">
 					<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
-						<button class="w-32 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ property.id }}/sector/{{ sector.id }}')">
+						<button class="w-32 z-20 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-3 py-1 rounded flex gap-2 items-center justify-center transition duration-300" onclick="openAddTreeModal('/property/{{ property.id }}/sector/{{ sector.id }}')">
 							<img src="/assets/images/add.png" alt="Ajouter Arbre" class="h-6">
 							<span>Arbre</span>
 						</button>
