@@ -586,6 +586,12 @@
   .z-50 {
     z-index: 50;
   }
+  .order-1 {
+    order: 1;
+  }
+  .order-2 {
+    order: 2;
+  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -604,6 +610,9 @@
       max-width: 96rem;
     }
   }
+  .m-2 {
+    margin: calc(var(--spacing) * 2);
+  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -621,6 +630,9 @@
   }
   .-my-1\.5 {
     margin-block: calc(var(--spacing) * -1.5);
+  }
+  .my-2 {
+    margin-block: calc(var(--spacing) * 2);
   }
   .my-8 {
     margin-block: calc(var(--spacing) * 8);
@@ -813,6 +825,9 @@
   }
   .w-32 {
     width: calc(var(--spacing) * 32);
+  }
+  .w-40 {
+    width: calc(var(--spacing) * 40);
   }
   .w-full {
     width: 100%;
@@ -1838,6 +1853,11 @@
       display: none;
     }
   }
+  .lg\:w-1\/2 {
+    @media (width >= 64rem) {
+      width: calc(1/2 * 100%);
+    }
+  }
   .lg\:w-1\/4 {
     @media (width >= 64rem) {
       width: calc(1/4 * 100%);
@@ -1931,6 +1951,16 @@
       line-height: var(--tw-leading, var(--text-4xl--line-height));
     }
   }
+  .xl\:order-1 {
+    @media (width >= 80rem) {
+      order: 1;
+    }
+  }
+  .xl\:order-2 {
+    @media (width >= 80rem) {
+      order: 2;
+    }
+  }
   .xl\:ml-\[14\.258\%\] {
     @media (width >= 80rem) {
       margin-left: 14.258%;
@@ -1939,6 +1969,11 @@
   .xl\:ml-\[14\.259\%\] {
     @media (width >= 80rem) {
       margin-left: 14.259%;
+    }
+  }
+  .xl\:w-1\/2 {
+    @media (width >= 80rem) {
+      width: calc(1/2 * 100%);
     }
   }
   .xl\:w-1\/7 {
@@ -1956,14 +1991,34 @@
       width: calc(33% - 0.17rem);
     }
   }
+  .xl\:flex-row {
+    @media (width >= 80rem) {
+      flex-direction: row;
+    }
+  }
   .xl\:px-32 {
     @media (width >= 80rem) {
       padding-inline: calc(var(--spacing) * 32);
     }
   }
+  .\32 xl\:order-1 {
+    @media (width >= 96rem) {
+      order: 1;
+    }
+  }
+  .\32 xl\:order-2 {
+    @media (width >= 96rem) {
+      order: 2;
+    }
+  }
   .\32 xl\:ml-\[12\.5\%\] {
     @media (width >= 96rem) {
       margin-left: 12.5%;
+    }
+  }
+  .\32 xl\:w-1\/2 {
+    @media (width >= 96rem) {
+      width: calc(1/2 * 100%);
     }
   }
   .\32 xl\:w-1\/8 {
@@ -1979,6 +2034,11 @@
   .\32 xl\:w-\[calc\(25\%-0\.40rem\)\] {
     @media (width >= 96rem) {
       width: calc(25% - 0.40rem);
+    }
+  }
+  .\32 xl\:flex-row {
+    @media (width >= 96rem) {
+      flex-direction: row;
     }
   }
   .dark\:bg-gray-800 {
