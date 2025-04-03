@@ -4,10 +4,11 @@ const fs = require('fs/promises');
 const sharp = require('sharp');
 const uploadMiddleware = require('../services/uploadFormidable');
 const fetch = (...args) =>
-	import('node-fetch').then(({default: fetch}) => fetch(...args));
+    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const FormData = require('form-data');
 
 const apiRouter = require('express').Router();
-const PLANTNET_API_URL = 'https://my-api.plantnet.org/v2/identify/all';
+const PLANTNET_API_URL = 'https://my-api.plantnet.org/v2/identify/all?include-related-images=true&no-reject=true&nb-results=2&lang=fr&';
 
 //////////////////////////////////////////// PlantNet ////////////////////////////////////////////////
 
@@ -31,32 +32,42 @@ apiRouter.post('/apiPlantNet', authguard, uploadMiddleware(), async (req, res) =
     }
 
     const images = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
-    let processedImages = [];
 
     try {
-        for (const file of images) {
+        const imageBuffers = await Promise.all(images.map(async (file) => {
             const filePath = file.filepath || file.path;
-            const webpFileName = `converted-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
-            const outputPath = path.join(__dirname, '..', 'uploads', webpFileName);
+            try {
+                const buffer = await fs.readFile(filePath);
+                const jpegBuffer = await sharp(buffer)
+                    .rotate()
+                    .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                    .jpeg({ quality: 80 })
+                    .toBuffer();
+                await fs.unlink(filePath);
+                return jpegBuffer;
+            } catch (error) {
+                console.error("Erreur lors du traitement de l'image :", error);
+                return null;
+            }
+        }));
 
-            await sharp(filePath)
-                .rotate()
-                .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
-                .webp({ quality: 90 })
-                .toFile(outputPath);
-
-            processedImages.push(outputPath);
-            await fs.unlink(filePath);
+        const validImages = imageBuffers.filter(buffer => buffer !== null);
+        if (validImages.length === 0) {
+            return res.status(500).json({ error: 'Erreur lors du traitement des images.' });
         }
 
-        const formData = new FormData();
-        processedImages.forEach((imagePath) => {
-            formData.append('images', fs.createReadStream(imagePath));
-        });
-        formData.append('organs', 'leaf');
-        formData.append('api-key', process.env.PLANTNET_API_KEY);
+        const apiUrlWithKey = PLANTNET_API_URL + 'api-key=' + process.env.PLANTNET_API_KEY;
 
-        const response = await fetch(PLANTNET_API_URL, {
+        const organs = req.body.organs;
+        const organsArray = Array.isArray(organs) ? organs : [organs];
+
+        const formData = new FormData();
+        validImages.forEach((buffer, index) => {
+            formData.append(`images`, buffer, `image-${index}.jpeg`);
+        });
+        formData.append('organs', organsArray.join(','));
+
+        const response = await fetch(apiUrlWithKey, {
             method: 'POST',
             body: formData,
             headers: formData.getHeaders()
@@ -64,9 +75,16 @@ apiRouter.post('/apiPlantNet', authguard, uploadMiddleware(), async (req, res) =
 
         const responseData = await response.json();
 
-        await Promise.all(processedImages.map(img => fs.unlink(img)));
-
-        res.json(responseData);
+        if (response.ok) {
+            res.render('pages/plantNet.html.twig', {
+                title: "Identification des arbres - PlantNet",
+                isMainPage: true,
+                isPropertyPage: true,
+                data: responseData
+            });
+        } else {
+            res.status(response.status).json(responseData);
+        }
     } catch (error) {
         console.error('Erreur lors de l’identification de l’espèce :', error);
         res.status(500).json({ error: 'Erreur lors de l’identification de l’espèce.' });
