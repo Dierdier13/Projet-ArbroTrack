@@ -87,7 +87,7 @@ apiRouter.post('/apiPlantNet', authguard, uploadMiddleware(), async (req, res) =
         }
     } catch (error) {
         console.error('Erreur lors de l’identification de l’espèce :', error);
-        res.status(500).json({ error: 'Erreur lors de l’identification de l’espèce.' });
+        res.status(500).json({ message: 'Erreur lors de l’identification de l’espèce.',error: error.message });
     }
 });
 
