@@ -3,8 +3,7 @@ const path = require("path");
 const fs = require('fs/promises');
 const sharp = require('sharp');
 const uploadMiddleware = require('../services/uploadFormidable');
-const fetch = (...args) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = require('node-fetch');
 const FormData = require('form-data');
 
 const apiRouter = require('express').Router();
