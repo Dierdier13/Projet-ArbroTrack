@@ -16,6 +16,14 @@
 			<input type="number" id="diameter" name="diameter" placeholder="Circonférence du tronc" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" required>
 		</div>
 		<div class="mb-4">
+			<label for="latitude" class="block text-sm font-medium text-white mb-2">Latitude :</label>
+			<input type="text" id="latitude" name="latitude" placeholder="Latitude" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" required>
+		</div>
+		<div class="mb-4">
+			<label for="longitude" class="block text-sm font-medium text-white mb-2">Longitude :</label>
+			<input type="text" id="longitude" name="longitude" placeholder="Longitude" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" required>
+		</div>
+		<div class="mb-4">
 			<label for="healthStatut" class="block text-sm font-medium text-white mb-2">État Sanitaire :</label>
 			<select id="healthStatut" name="healthStatut" required class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
 				<option value="Sain">Sain</option>
@@ -67,6 +75,14 @@
 		<div class="mb-4">
 			<label for="diameter" class="block text-sm font-medium text-white mb-2">Circonférence (cm) :</label>
 			<input type="number" id="diameter" name="diameter" value="{{ tree.diameter}}" placeholder="Circonférence (cm)" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+		</div>
+		<div class="mb-4">
+			<label for="latitude" class="block text-sm font-medium text-white mb-2">Latitude :</label>
+			<input type="text" id="latitude" name="latitude" value="{{ tree.latitude}}" placeholder="Latitude" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+		</div>
+		<div class="mb-4">
+			<label for="longitude" class="block text-sm font-medium text-white mb-2">Longitude :</label>
+			<input type="text" id="longitude" name="longitude" value="{{ tree.longitude}}" placeholder="Longitude" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
 		</div>
 		<div class="mb-4">
 			<label for="healthStatut" class="block text-sm font-medium text-white mb-2">État Sanitaire :</label>
@@ -139,55 +155,59 @@
 
 
 <script>
-    let selectedFiles = [];
+	let selectedFiles = [];
 
-    function handleFileSelection(event) {
-        const input = event.target;
-        const previewContainer = document.getElementById("file-preview-container");
+function handleFileSelection(event) {
+const input = event.target;
+const previewContainer = document.getElementById("file-preview-container");
 
-        // Convertir FileList en Array pour manipulation
-        selectedFiles = Array.from(input.files);
+// Convertir FileList en Array pour manipulation
+selectedFiles = Array.from(input.files);
 
-        // Vérifier si l'utilisateur dépasse la limite de 2 fichiers
-        if (selectedFiles.length > 2) {
-            alert("Vous ne pouvez sélectionner que 2 fichiers au maximum.");
-            selectedFiles = selectedFiles.slice(0, 2); // Garde seulement les 2 premiers fichiers
-        }
+// Vérifier si l'utilisateur dépasse la limite de 2 fichiers
+if (selectedFiles.length > 2) {
+alert("Vous ne pouvez sélectionner que 2 fichiers au maximum.");
+selectedFiles = selectedFiles.slice(0, 2); // Garde seulement les 2 premiers fichiers
+}
 
-        // Afficher les fichiers sélectionnés
-        previewContainer.innerHTML = ""; // Réinitialiser la liste
-        selectedFiles.forEach((file, index) => {
-            const fileRow = document.createElement("div");
-            fileRow.classList.add("flex", "items-center", "justify-between", "bg-gray-100", "p-2", "rounded-md", "shadow");
+// Afficher les fichiers sélectionnés
+previewContainer.innerHTML = ""; // Réinitialiser la liste
+selectedFiles.forEach((file, index) => {
+const fileRow = document.createElement("div");
+fileRow.classList.add("flex", "items-center", "justify-between", "bg-gray-100", "p-2", "rounded-md", "shadow");
 
-            const fileName = document.createElement("span");
-            fileName.textContent = file.name;
-            fileName.classList.add("text-sm", "text-gray-800");
+const fileName = document.createElement("span");
+fileName.textContent = file.name;
+fileName.classList.add("text-sm", "text-gray-800");
 
-            const removeBtn = document.createElement("button");
-            removeBtn.innerHTML = "❌";
-            removeBtn.classList.add("ml-2", "text-red-500", "hover:text-red-700", "text-sm");
-            removeBtn.onclick = () => removeFile(index);
+const removeBtn = document.createElement("button");
+removeBtn.innerHTML = "❌";
+removeBtn.classList.add("ml-2", "text-red-500", "hover:text-red-700", "text-sm");
+removeBtn.onclick = () => removeFile(index);
 
-            fileRow.appendChild(fileName);
-            fileRow.appendChild(removeBtn);
-            previewContainer.appendChild(fileRow);
-        });
+fileRow.appendChild(fileName);
+fileRow.appendChild(removeBtn);
+previewContainer.appendChild(fileRow);
+});
 
-        // Mettre à jour l'input file avec les fichiers restants
-        updateInputFiles();
-    }
+// Mettre à jour l'input file avec les fichiers restants
+updateInputFiles();
+}
 
-    function removeFile(index) {
-        selectedFiles.splice(index, 1); // Supprimer le fichier sélectionné
-        handleFileSelection({ target: { files: selectedFiles } }); // Rafraîchir la liste
-    }
+function removeFile(index) {
+selectedFiles.splice(index, 1); // Supprimer le fichier sélectionné
+handleFileSelection({
+target: {
+files: selectedFiles
+}
+}); // Rafraîchir la liste
+}
 
-    function updateInputFiles() {
-        const input = document.getElementById("images");
-        const dataTransfer = new DataTransfer();
+function updateInputFiles() {
+const input = document.getElementById("images");
+const dataTransfer = new DataTransfer();
 
-        selectedFiles.forEach(file => dataTransfer.items.add(file));
-        input.files = dataTransfer.files; // Mettre à jour l'input avec les fichiers restants
-    }
+selectedFiles.forEach(file => dataTransfer.items.add(file));
+input.files = dataTransfer.files; // Mettre à jour l'input avec les fichiers restants
+}
 </script>

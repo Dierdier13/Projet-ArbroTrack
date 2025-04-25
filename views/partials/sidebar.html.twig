@@ -34,7 +34,12 @@
 					<span class="ml-2 text-lg tracking-wide truncate">Propriétés</span>
 				</a>
 			</li>
-			{% if not isPropertyPage %}
+		</ul>
+		{% if not isPropertyPage %}
+			<div class="w-4/5 mx-auto">
+				<hr class="border-t border-[#C3CEA3]">
+			</div>
+			<ul class="flex flex-col space-y-1">
 				<li>
 					<a href="/property/{{ property.id }}" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-green-50 text-white hover:text-green-800 border-l-4 border-transparent hover:border-green-500 pr-3">
 						<span class="inline-flex justify-center items-center ml-2">

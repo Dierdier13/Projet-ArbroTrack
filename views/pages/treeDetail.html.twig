@@ -2,6 +2,7 @@
 
 {% block style %}
 	<link rel="stylesheet" href="/assets/css/main.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 {% endblock %}
 
 {% block title %}
@@ -20,8 +21,11 @@
 				<div class="flex flex-col gap-4">
 					<div class="w-full flex flex-col sm:flex-row gap-2">
 						<div class="w-full sm:w-1/2 flex flex-col justify-between gap-1 sm:gap-2">
-							<div {#id="map-3"#} class="w-full h-60 sm:h-100 rounded-lg overflow-hidden">
-								<img src="/assets/images/map.webp" alt="map" class="object-cover w-full h-full"></div>
+							{% if tree.latitude and tree.longitude %}
+								<div id="map-4" data-lat="{{tree.latitude}}" data-lon="{{tree.longitude}}" data-name="{{tree.specy}}" data-sector="{{tree.sector.sectorName}}" class="w-full h-60 sm:h-100 rounded-lg overflow-hidden"></div>
+							{% else %}
+								<img src="/assets/images/map.webp" alt="map" class="object-cover w-full h-full">
+							{% endif %}
 							<div class="flex justify-center">
 								<button onclick="openModal('editGeolocTreeModal')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 									<img src="/assets/images/edit.png" alt="Modifier GPS" class="w-6 h-6">
@@ -190,8 +194,10 @@
 	</main>
 {% endblock %}
 {% block script %}
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 	<script src="/assets/js/sidebar.js"></script>
 	<script src="/assets/js/modal.js"></script>
+	<script src="/assets/js/map4.js"></script>
 	<script src="/assets/js/main.js"></script>
 	<script src="/assets/js/treeDetail.js"></script>
 {% endblock %}
