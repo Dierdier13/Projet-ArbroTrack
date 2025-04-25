@@ -33,15 +33,15 @@ document.addEventListener('DOMContentLoaded', initToasts);
 
 ////////////////////////////////// Bouton retour ///////////////////////////////
 
-document.addEventListener('DOMContentLoaded', function () {
-    const boutonRetour = document.getElementById('bouton-retour');
-    if (boutonRetour) {
-        boutonRetour.addEventListener('click', function (e) {
-            e.preventDefault();
-            window.history.back();
-        });
-    }
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     const boutonRetour = document.getElementById('bouton-retour');
+//     if (boutonRetour) {
+//         boutonRetour.addEventListener('click', function (e) {
+//             e.preventDefault();
+//             window.history.back();
+//         });
+//     }
+// });
 
 /////////////////////////////////// Drag and Drop Sortable ////////////////////////////
 

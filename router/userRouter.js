@@ -29,6 +29,17 @@ userRouter.get('/register', (req, res) => {
     res.render('pages/register.html.twig', { title: "Inscription - ArboTrack", isMainPage: false });
 })
 
+///////////////////////////////////////////////// Afficher page Contact //////////////////////////////////////////////////////
+
+userRouter.get('/contact', (req, res) => {
+    res.render('pages/contact.html.twig', { title: "Contact - ArboTrack", isMainPage: false });
+})
+
+userRouter.post('/contact', async (req, res) => {
+    const { objet, mail, content } = req.body;
+    
+})
+
 ///////////////////////////////////////////////// S'Enregistrer //////////////////////////////////////////////////////
 
 userRouter.post('/register', uploadMiddleware(), async (req, res) => {

@@ -11,15 +11,10 @@
 {% block main %}
 	<main class="flex flex-col gap-8 w-full ml-0 lg:w-5/6 lg:ml-[16.666%] xl:w-6/7 xl:ml-[14.258%] 2xl:w-7/8 2xl:ml-[12.5%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-8 md:px-16 lg:px-24 xl:px-32 py-8">
 		<section>
-			<div class="w-full flex items-center justify-center gap-2">
-				<a href="{{ previousUrl }}" id="bouton-retour" class="w-20 bg-green-500 hover:bg-green-700 px-3 py-1 rounded flex items-center justify-center transition duration-300">
-					<img src="/assets/images/annuler.png" alt="Retour page précédente" class="w-6 h-6">
-				</a>
-				<div class="w-full flex items-center justify-center">
-					<h2 class="text-white text-xl md:text-2xl lg:text-4xl text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Profil de
-						{{ user.lastname }}
-						{{ user.firstname }}</h2>
-				</div>
+			<div class="w-full flex items-center justify-center">
+				<h2 class="text-white text-xl md:text-2xl lg:text-4xl text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Profil de
+					{{ user.lastname }}
+					{{ user.firstname }}</h2>
 			</div>
 		</section>
 		<section>

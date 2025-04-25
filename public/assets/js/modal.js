@@ -62,7 +62,7 @@ async function openEditPropertyModal(propertyId) {
         const form = modal.querySelector('form');
 
         form.elements['propertyId'].value = property.id;
-        form.elements['name'].value = property.name;
+        form.elements['propertyName'].value = property.propertyName;
         form.elements['adress'].value = property.adress;
         form.elements['codePostal'].value = property.codePostal;
         form.elements['city'].value = property.city;
@@ -87,7 +87,7 @@ async function openEditSectorModal(sectorId) {
         const form = modal.querySelector('form');
 
         form.elements['sectorId'].value = sector.id;
-        form.elements['name'].value = sector.name;
+        form.elements['sectorName'].value = sector.sectorName;
         form.elements['comment'].value = sector.comment;
         
         form.action = `/editSector/${sectorId}`;

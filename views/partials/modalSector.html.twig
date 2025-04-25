@@ -2,9 +2,11 @@
 	<form action="/property/{{ property.id }}/addSector" method="POST" class="w-full max-w-md mx-auto p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
 		<h2 class="text-white text-2xl font-semibold text-center mb-4">Ajouter un Secteur</h2>
 		<div class="mb-4">
+			<label for="sectorName" class="block text-sm font-medium text-white mb-2">Nom du secteur :</label>
 			<input type="text" id="sectorName" name="sectorName" placeholder="Nom du secteur" autocomplete="on" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
 		</div>
 		<div class="mb-4">
+			<label for="comment" class="block text-sm font-medium text-white mb-2">Descriptions détaillés :</label>
 			<input type="text" id="comment" name="comment" placeholder="Descriptions détaillés" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
 		</div>
 		<div class="flex justify-center space-x-4">
@@ -23,14 +25,16 @@
 		<h2 class="text-white text-2xl font-semibold text-center mb-4">Modifier le Secteur</h2>
 		<input type="hidden" id="sectorId" name="sectorId">
 		<div class="mb-4">
-			<input type="text" id="sectorName" name="sectorName" value="{{ sector.sectorName }}" autocomplete="off" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<label for="sectorName" class="block text-sm font-medium text-white mb-2">Nom du secteur :</label>
+			<input type="text" id="sectorName" name="sectorName" value="{{ sector.sectorName }}" placeholder="Nom du secteur" autocomplete="off" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
 		</div>
 		<div class="mb-4">
-			<input type="text" id="comment" name="comment" value="{{ sector.comment }}" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
+			<label for="comment" class="block text-sm font-medium text-white mb-2">Descriptions détaillés :</label>
+			<input type="text" id="comment" name="comment" value="{{ sector.comment }}" placeholder="Descriptions détaillés" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
 		</div>
 		<div class="flex justify-center space-x-4">
 			<button type="submit" class="cursor-pointer w-1/3 py-2 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300 flex items-center justify-center">
-				<img src="/assets/images/edit.png" alt="Modifier secteur" class="h-6">
+				<img src="/assets/images/check.png" alt="Modifier secteur" class="h-6">
 			</button>
 			<button type="button" onclick="closeModal('editSectorModal')" class="cursor-pointer w-1/3 py-2 bg-gray-600 text-white font-medium rounded-md shadow hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:outline-none transition duration-300 flex items-center justify-center">
 				<img src="/assets/images/annuler.png" alt="Annuler" class="h-6">

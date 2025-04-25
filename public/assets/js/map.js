@@ -10,13 +10,13 @@ const propertiesLayer = L.layerGroup().addTo(map);
 
 function displayProperty(property) {
     if (!property.latitude || !property.longitude) {
-        console.warn('Propriété sans coordonnées:', property.name);
+        console.warn('Propriété sans coordonnées:', property.propertyName);
         return;
     }
 
     try {
         const marker = L.marker([property.latitude, property.longitude])
-            .bindPopup(`<b>${property.name}</b><br>${property.adress}</b><br>${property.codePostal} ${property.city}`);
+            .bindPopup(`<b>${property.propertyName}</b><br>${property.adress}</b><br>${property.codePostal} ${property.city}`);
 
         let polygon = null;
         if (property.polygon) {

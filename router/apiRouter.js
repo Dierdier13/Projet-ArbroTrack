@@ -7,7 +7,8 @@ const fetch = require('node-fetch');
 const FormData = require('form-data');
 
 const apiRouter = require('express').Router();
-const PLANTNET_API_URL = 'https://my-api.plantnet.org/v2/identify/all?include-related-images=true&no-reject=true&nb-results=2&lang=fr&';
+const PLANTNET_API_URL = 'https://my-api.plantnet.org/v2/identify/all?include-related-images=true&no-reject=true&nb-results=2&lang=fr&api-key=';
+const PERENUAL_API_URL = 'https://perenual.com/api/v2/species/details/[ID]?key='
 
 //////////////////////////////////////////// PlantNet ////////////////////////////////////////////////
 
@@ -22,7 +23,6 @@ apiRouter.get('/apiPlantNet', authguard, async (req, res) => {
         req.flash('error', "Erreur d'affichage page API PlantNet");
         res.redirect('/')
     }
-
 })
 
 apiRouter.post('/apiPlantNet', authguard, uploadMiddleware(), async (req, res) => {
@@ -55,7 +55,7 @@ apiRouter.post('/apiPlantNet', authguard, uploadMiddleware(), async (req, res) =
             return res.status(500).json({ error: 'Erreur lors du traitement des images.' });
         }
 
-        const apiUrlWithKey = PLANTNET_API_URL + 'api-key=' + process.env.PLANTNET_API_KEY;
+        const apiUrlWithKey = PLANTNET_API_URL + process.env.PLANTNET_API_KEY;
 
         const organs = req.body.organs;
         const organsArray = Array.isArray(organs) ? organs : [organs];
@@ -89,5 +89,22 @@ apiRouter.post('/apiPlantNet', authguard, uploadMiddleware(), async (req, res) =
         res.status(500).json({ message: 'Erreur lors de l’identification de l’espèce.',error: error.message });
     }
 });
+
+///////////////////////////////////////////// Perenual ///////////////////////////////////////
+
+apiRouter.get('/apiPerenual', authguard, async (req, res) =>{
+    try {
+        res.render('pages/perenual.html.twig', {
+            title: "Données botaniques sur les arbres - Perenual",
+            isMainPage: true,
+            isPropertyPage: true
+        });
+    } catch (error) {
+        req.flash('error', "Erreur d'affichage page API Perenual");
+        res.redirect('/')
+    }
+})
+
+
 
 module.exports = apiRouter
