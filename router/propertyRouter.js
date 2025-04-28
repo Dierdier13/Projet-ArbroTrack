@@ -3,8 +3,7 @@ const authguard = require('../services/authguard');
 
 const propertyRouter = require('express').Router();
 const prisma = new PrismaClient({ log: ['error'] });
-const fetch = (...args) =>
-	import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch');
 
 ///////////////////////////////////////////////// Ajouter Propriété //////////////////////////////////////////////////////
 
@@ -475,5 +474,59 @@ propertyRouter.get('/property/:propertyId/sector/:sectorId/search', authguard, a
         res.status(500).send("Erreur lors de la recherche d'arbres");
     }
 })
+
+/////////////////////////////////// Afficher arbre dans Map2 //////////////////////////////
+
+propertyRouter.get('/property/:propertyId/trees', authguard, async (req, res) => {
+    const propertyId = parseInt(req.params.propertyId);
+
+    const trees = await prisma.tree.findMany({
+        where: {
+            propertyId: propertyId,
+            latitude: {
+                not: null
+            },
+            longitude: {
+                not: null
+            }
+        },
+        select: {
+            id: true,
+            specy: true,
+            latitude: true,
+            longitude: true
+        }
+    });
+
+    res.json(trees);
+});
+
+/////////////////////////////////// Afficher arbre dans Map3 //////////////////////////////
+
+propertyRouter.get('/property/:propertyId/sector/:sectorId/trees', authguard, async (req, res) => {
+    const propertyId = parseInt(req.params.propertyId);
+    const sectorId = parseInt(req.params.sectorId)
+
+    const trees = await prisma.tree.findMany({
+        where: {
+            propertyId: propertyId,
+            sectorId: sectorId,
+            latitude: {
+                not: null
+            },
+            longitude: {
+                not: null
+            }
+        },
+        select: {
+            id: true,
+            specy: true,
+            latitude: true,
+            longitude: true
+        }
+    });
+
+    res.json(trees);
+});
 
 module.exports = propertyRouter;
