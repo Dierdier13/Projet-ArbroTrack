@@ -86,13 +86,13 @@ apiRouter.post('/apiPlantNet', authguard, uploadMiddleware(), async (req, res) =
         }
     } catch (error) {
         console.error('Erreur lors de l’identification de l’espèce :', error);
-        res.status(500).json({ message: 'Erreur lors de l’identification de l’espèce.',error: error.message });
+        res.status(500).json({ message: 'Erreur lors de l’identification de l’espèce.', error: error.message });
     }
 });
 
-///////////////////////////////////////////// Perenual ///////////////////////////////////////
+///////////////////////////////////////////// Encyclopédie ///////////////////////////////////////
 
-apiRouter.get('/apiPerenual', authguard, async (req, res) =>{
+apiRouter.get('/apiPerenual', authguard, async (req, res) => {
     try {
         res.render('pages/perenual.html.twig', {
             title: "Données botaniques sur les arbres - Perenual",
@@ -101,10 +101,23 @@ apiRouter.get('/apiPerenual', authguard, async (req, res) =>{
         });
     } catch (error) {
         req.flash('error', "Erreur d'affichage page API Perenual");
-        res.redirect('/')
+        res.redirect('/');
     }
 })
 
+///////////////////////////////////////////// Expertise ///////////////////////////////////////////
 
+apiRouter.get('/expertise', authguard, async (req, res) => {
+    try {
+        res.render('pages/expertise.html.twig', {
+            title: "Données botaniques sur les arbres - Perenual",
+            isMainPage: true,
+            isPropertyPage: true
+        });
+    } catch (error) {
+        req.flash('error', "Erreur d'affichage page API Perenual");
+        res.redirect('/');
+    }
+})
 
 module.exports = apiRouter

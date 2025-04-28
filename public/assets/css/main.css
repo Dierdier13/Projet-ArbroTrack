@@ -1,6 +1,6 @@
 :root {
-    --sidebar-width-mobile: 50vw;
-    --sidebar-width-desktop: 25vw;
+    --sidebar-width-mobile: 100vw;
+    --sidebar-width-desktop: 50vw;
 }
 
 body {
@@ -19,7 +19,7 @@ body {
 }
 
 .sidebar-open #mobile-menu-toggle {
-    transform: translateX(calc(var(--sidebar-width-mobile) - 2.5rem));
+    transform: translateX(calc(var(--sidebar-width-mobile) - 3rem));
 }
 
 @media (min-width: 640px) {
