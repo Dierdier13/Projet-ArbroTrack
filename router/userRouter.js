@@ -245,19 +245,9 @@ userRouter.get('/logout', authguard, async (req, res) => {
     res.redirect('/login');
 })
 
-userRouter.get("/test", async (req, res) => {
-    try {
-        const user = await prisma.user.findMany();
-        res.json(user)
-    } catch (error) {
-        res.json(error.message)
-    }
-})
-
 ///////////////////////////////////////////////// Afficher Profil User //////////////////////////////////////////////////////
 
 userRouter.get('/profil/:id', authguard, async (req, res) => {
-    const propertyCount = await prisma.property.count();
     try {
         const user = await prisma.user.findUnique({
             where: {
@@ -272,8 +262,7 @@ userRouter.get('/profil/:id', authguard, async (req, res) => {
             user,
             properties: user.properties,
             isMainPage: true,
-            isPropertyPage: true,
-            propertyCount: propertyCount
+            isPropertyPage: true
         });
 
     } catch (error) {

@@ -16,6 +16,7 @@ apiRouter.get('/apiPlantNet', authguard, async (req, res) => {
     try {
         res.render('pages/plantNet.html.twig', {
             title: "Identification des arbres - PlantNet",
+            user: req.session.user,
             isMainPage: true,
             isPropertyPage: true
         });
@@ -96,6 +97,7 @@ apiRouter.get('/apiPerenual', authguard, async (req, res) => {
     try {
         res.render('pages/perenual.html.twig', {
             title: "Données botaniques sur les arbres - Perenual",
+            user: req.session.user,
             isMainPage: true,
             isPropertyPage: true
         });
@@ -111,6 +113,7 @@ apiRouter.get('/expertise', authguard, async (req, res) => {
     try {
         res.render('pages/expertise.html.twig', {
             title: "Données botaniques sur les arbres - Perenual",
+            user: req.session.user,
             isMainPage: true,
             isPropertyPage: true
         });
