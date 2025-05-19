@@ -11,7 +11,7 @@ const prisma = new PrismaClient({ log: ['error'] });
 ///////////////////////////////////////////////// Ajouter Arbre //////////////////////////////////////////////////////
 
 treeRouter.post('/property/:propertyId/addTree', authguard, uploadMiddleware(), async (req, res) => {
-    const { specy, height, diameter, healthStatut, sectorId, initialSectorId, returnUrl } = req.body;
+    const { specy, height, diameter, latitude, longitude, healthStatut, sectorId, initialSectorId, returnUrl } = req.body;
     const propertyId = parseInt(req.params.propertyId, 10);
     const finalSectorId = sectorId || initialSectorId;
 
@@ -25,6 +25,8 @@ treeRouter.post('/property/:propertyId/addTree', authguard, uploadMiddleware(), 
                 specy,
                 height: parseInt(height, 10),
                 diameter: parseInt(diameter, 10),
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
                 healthStatut,
                 sectorId: finalSectorId ? parseInt(finalSectorId, 10) : null,
                 propertyId: propertyId
