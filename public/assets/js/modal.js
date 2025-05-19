@@ -124,3 +124,25 @@ async function openEditTreeModal(propertyId ,treeId) {
         console.error('Erreur:', error);
     }
 }
+
+async function openEditGPSTreeModal(propertyId ,treeId){
+    try {
+        const response = await fetch(`/property/${propertyId}/editGPSTree/${treeId}`);
+
+        if (!response.ok) throw new Error("Erreur lors de la récupération des données de l'arbre");
+        const tree = await response.json();
+
+        const modal = document.getElementById('editGPSTreeModal');
+        const form = modal.querySelector('form');
+
+        form.elements['treeId'].value = tree.id;
+        form.elements['latitude'].value = tree.latitude;
+        form.elements['longitude'].value = tree.longitude;
+        form.action = `/property/${propertyId}/editGPSTree/${treeId}`;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    } catch (error) {
+        console.error('Erreur:', error);
+    }
+}

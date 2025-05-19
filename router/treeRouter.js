@@ -148,6 +148,27 @@ treeRouter.post('/property/:propertyId/editTree/:treeId', authguard, async (req,
     }
 })
 
+treeRouter.post('/property/:propertyId/editGPSTree/:treeId', authguard, async (req, res) => {
+    const propertyId = parseInt(req.params.propertyId, 10);
+    const treeId = parseInt(req.params.treeId, 10);
+    const { latitude, longitude} = req.body;
+    try {
+        const tree = await prisma.tree.update({
+            where: {
+                id: treeId
+            },
+            data: {
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude)
+            }
+        });
+        req.flash('success', 'Coordonnées GPS modifié avec succés !');
+        res.redirect('/property/' + propertyId + '/tree/' + treeId)
+    } catch (error) {
+        res.render("pages/dashboard.html.twig", { error: error })
+    }
+})
+
 ///////////////////////////////////////// Ajouter secteur a l'arbre //////////////////////////////////////////////////
 
 treeRouter.post('/property/:propertyId/addSectorTree/:treeId', authguard, async (req, res) => {
