@@ -1,14 +1,14 @@
 <header class="sticky top-0 z-50">
-	<nav class="bg-[#C3CEA3]/60 backdrop-blur-2xl border-green-200 px-12 py-1">
+	<nav class="text-white bg-[#1B3C01]/60 backdrop-blur-2xl border-green-200 px-12 py-1">
 		<div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-4xl">
 			<a href="/login" class="flex items-center">
 				<img src="/assets/images/Logo_final_sans_blanc.png" class="mr-3 w-12 md:w-14 h-12 md:h-14" alt="Logo"/>
-				<span class="text-green-900 text-2xl md:text-3xl font-semibold whitespace-nowrap">ArboTrack</span>
+				<span class="text-2xl md:text-3xl font-semibold whitespace-nowrap">ArboTrack</span>
 			</a>
 			<div class="flex items-center lg:order-2">
-				<a href="/login" class="hidden sm:flex text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base sm:text-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none">Connection</a>
-				<a href="/register" class="hidden sm:flex text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base sm:text-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none">Inscription</a>
-				<button id="mobile-menu-toggle" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-green-800 rounded-lg lg:hidden hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-200" aria-controls="mobile-menu" aria-expanded="false">
+				<a href="/login" class="hidden sm:flex hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base sm:text-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none">Connection</a>
+				<a href="/register" class="hidden sm:flex hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base sm:text-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none">Inscription</a>
+				<button id="mobile-menu-toggle" type="button" class="inline-flex items-center p-2 ml-1 text-sm hover:text-green-800 rounded-lg lg:hidden hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-200" aria-controls="mobile-menu" aria-expanded="false">
 					<span class="sr-only">Open main menu</span>
 					<svg id="menu-icon" class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -21,30 +21,30 @@
 			<div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="desktop-menu">
 				<ul class="flex flex-col font-medium lg:flex-row">
 					<li>
-						<a href="/login" class="text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none" aria-current="page">Home</a>
+						<a href="/login" class="hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none" aria-current="page">Home</a>
 					</li>
 					<li>
-						<a href="#" class="text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none">Professionnel</a>
+						<a href="/login#pro" class="hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none">Professionnel</a>
 					</li>
 					<li>
-						<a href="#" class="text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none">Particulier</a>
+						<a href="/login#part" class="hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none">Particulier</a>
 					</li>
 					<li>
-						<a href="/contact" class="text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none">Contact</a>
+						<a href="/contact" class="hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 focus:outline-none">Contact</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<!-- Menu mobile -->
-	<div id="mobile-menu" class="hidden lg:hidden absolute right-0 mt-2 mr-2 bg-[#C3CEA3]/60 backdrop-blur-2xl rounded-lg shadow-lg">
+	<div id="mobile-menu" class="hidden lg:hidden absolute right-0 mt-2 mr-2 text-white bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-lg">
 		<div class="px-4 py-2 space-y-1 text-end whitespace-nowrap">
-			<a href="/login" class="block text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Home</a>
-			<a href="#" class="block text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Professionnel</a>
-			<a href="#" class="block text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Particulier</a>
-			<a href="#" class="block text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Contact</a>
-			<a href="/login" class="block sm:hidden text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Connection</a>
-			<a href="/register" class="block sm:hidden text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Inscription</a>
+			<a href="/login" class="block hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Home</a>
+			<a href="/login#pro" class="block hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Professionnel</a>
+			<a href="/login#part" class="block hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Particulier</a>
+			<a href="/contact" class="block hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Contact</a>
+			<a href="/login" class="block sm:hidden hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Connection</a>
+			<a href="/register" class="block sm:hidden hover:text-green-800 hover:bg-green-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-3 py-2 focus:outline-none">Inscription</a>
 		</div>
 	</div>
 </header>

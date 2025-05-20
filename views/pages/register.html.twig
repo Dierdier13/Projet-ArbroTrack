@@ -12,7 +12,7 @@
 {% block main %}
 	<main class="flex-grow flex items-center justify-center">
 		<section class="flex flex-col gap-8 w-3xl my-8 mx-2">
-			<h1 class="text-green-800 text-center bg-[#C3CEA3]/60 backdrop-blur-xl py-2 rounded-md text-2xl sm:text-3xl lg:text-4xl font-semibold">Inscription
+			<h1 class="text-white text-center bg-[#1B3C01]/60 backdrop-blur-xl py-2 rounded-md text-2xl sm:text-3xl lg:text-4xl font-semibold">Inscription
 				<strong>ArboTrack</strong>
 			</h1>
 			<div id="container" class="container rounded-md shadow-md relative overflow-hidden max-w-full h-150">
@@ -62,9 +62,9 @@
 										<a href="/login" class="text-green-800 font-semibold underline">Connexion</a>
 									</form>
 								</div> #}
-				<div id="in" class="in form-container sign-in-container p-6 bg-[#C3CEA3]/60 backdrop-blur-2xl">
+				<div id="in" class="in form-container sign-in-container p-6 bg-[#1B3C01]/60 backdrop-blur-2xl">
 					<form action="/register" method="POST" enctype="multipart/form-data">
-						<h2 class="text-green-800 text-2xl font-semibold text-center mb-4">Particulier</h2>
+						<h2 class="text-white text-2xl font-semibold text-center mb-4">Particulier</h2>
 						<div class="mb-4">
 							<input type="text" id="lastname" name="lastname" value="{{ lastname|default('') }}" autocomplete="on" placeholder="Entrez votre Nom" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
 						</div>
@@ -105,11 +105,11 @@
 						{% endif %}
 
 						<button type="submit" class="cursor-pointer w-full mb-4 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 focus:ring-2 focus:ring-green-500 focus:outline-none transition duration-300">S'enregistrer</button>
-						<a href="/login" class="text-green-800 font-semibold underline">Connexion</a>
+						<a href="/login" class="text-white font-semibold underline">Connexion</a>
 					</form>
 				</div>
 				<div class="overlay-container">
-					<div class="overlay bg-radial-[at_25%_25%] from-[#C3CEA3]/60 to-green-800/60 to-75% backdrop-blur-2xl">
+					<div class="overlay bg-radial-[at_25%_25%] from-[#C3CEA3]/60 to-[#1B3C01]/60 to-75% backdrop-blur-2xl">
 						<div class="overlay-panel overlay-left flex flex-col gap-8">
 							<h2 class="text-green-800 text-3xl font-semibold">Incription Particulier</h2>
 							<p>Si vous etes un particulier, pour vous inscrire cliquez sur le bouton ci dessous.</p>
