@@ -619,6 +619,9 @@
   .mx-2 {
     margin-inline: calc(var(--spacing) * 2);
   }
+  .mx-8 {
+    margin-inline: calc(var(--spacing) * 8);
+  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -639,9 +642,6 @@
   }
   .ms-auto {
     margin-inline-start: auto;
-  }
-  .mt-0 {
-    margin-top: calc(var(--spacing) * 0);
   }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
@@ -675,9 +675,6 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
-  }
-  .mb-16 {
-    margin-bottom: calc(var(--spacing) * 16);
   }
   .ml-0 {
     margin-left: calc(var(--spacing) * 0);
@@ -759,12 +756,6 @@
   }
   .h-\[calc\(100vh-3\.5rem\)\] {
     height: calc(100vh - 3.5rem);
-  }
-  .h-\[calc\(100vh-4rem\)\] {
-    height: calc(100vh - 4rem);
-  }
-  .h-\[calc\(100vh-5rem\)\] {
-    height: calc(100vh - 5rem);
   }
   .h-full {
     height: 100%;
@@ -1074,9 +1065,6 @@
   .bg-\[\#C3CEA3\]\/30 {
     background-color: color-mix(in oklab, #C3CEA3 30%, transparent);
   }
-  .bg-\[\#C3CEA3\]\/50 {
-    background-color: color-mix(in oklab, #C3CEA3 50%, transparent);
-  }
   .bg-\[\#C3CEA3\]\/60 {
     background-color: color-mix(in oklab, #C3CEA3 60%, transparent);
   }
@@ -1113,12 +1101,6 @@
   .bg-green-700 {
     background-color: var(--color-green-700);
   }
-  .bg-green-800 {
-    background-color: var(--color-green-800);
-  }
-  .bg-green-800\/60 {
-    background-color: color-mix(in oklab, var(--color-green-800) 60%, transparent);
-  }
   .bg-red-100 {
     background-color: var(--color-red-100);
   }
@@ -1152,14 +1134,6 @@
     --tw-gradient-to: color-mix(in oklab, #1B3C01 60%, transparent);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .to-green-800 {
-    --tw-gradient-to: var(--color-green-800);
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-  .to-green-800\/60 {
-    --tw-gradient-to: color-mix(in oklab, var(--color-green-800) 60%, transparent);
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
   .to-75\% {
     --tw-gradient-to-position: 75%;
   }
@@ -1184,11 +1158,11 @@
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
+  .p-7 {
+    padding: calc(var(--spacing) * 7);
+  }
   .p-8 {
     padding: calc(var(--spacing) * 8);
-  }
-  .p-16 {
-    padding: calc(var(--spacing) * 16);
   }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
@@ -1323,9 +1297,6 @@
   .text-gray-600 {
     color: var(--color-gray-600);
   }
-  .text-gray-700 {
-    color: var(--color-gray-700);
-  }
   .text-gray-800 {
     color: var(--color-gray-800);
   }
@@ -1340,9 +1311,6 @@
   }
   .text-green-800 {
     color: var(--color-green-800);
-  }
-  .text-green-900 {
-    color: var(--color-green-900);
   }
   .text-lime-300 {
     color: var(--color-lime-300);
@@ -1910,29 +1878,9 @@
       margin-top: calc(var(--spacing) * 0);
     }
   }
-  .lg\:mb-16 {
-    @media (width >= 64rem) {
-      margin-bottom: calc(var(--spacing) * 16);
-    }
-  }
   .lg\:mb-32 {
     @media (width >= 64rem) {
       margin-bottom: calc(var(--spacing) * 32);
-    }
-  }
-  .lg\:mb-35 {
-    @media (width >= 64rem) {
-      margin-bottom: calc(var(--spacing) * 35);
-    }
-  }
-  .lg\:mb-40 {
-    @media (width >= 64rem) {
-      margin-bottom: calc(var(--spacing) * 40);
-    }
-  }
-  .lg\:mb-50 {
-    @media (width >= 64rem) {
-      margin-bottom: calc(var(--spacing) * 50);
     }
   }
   .lg\:ml-\[16\.666\%\] {
@@ -1958,6 +1906,11 @@
   .lg\:h-80 {
     @media (width >= 64rem) {
       height: calc(var(--spacing) * 80);
+    }
+  }
+  .lg\:h-\[calc\(100vh-5rem\)\] {
+    @media (width >= 64rem) {
+      height: calc(100vh - 5rem);
     }
   }
   .lg\:w-1\/2 {
@@ -2051,11 +2004,6 @@
       padding-inline: calc(var(--spacing) * 5);
     }
   }
-  .lg\:px-16 {
-    @media (width >= 64rem) {
-      padding-inline: calc(var(--spacing) * 16);
-    }
-  }
   .lg\:px-24 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 24);
@@ -2111,11 +2059,6 @@
   .xl\:w-\[calc\(33\%-0\.17rem\)\] {
     @media (width >= 80rem) {
       width: calc(33% - 0.17rem);
-    }
-  }
-  .xl\:px-16 {
-    @media (width >= 80rem) {
-      padding-inline: calc(var(--spacing) * 16);
     }
   }
   .xl\:px-32 {

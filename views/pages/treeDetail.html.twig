@@ -24,7 +24,7 @@
 							{% if tree.latitude and tree.longitude %}
 								<div id="map-4" data-lat="{{tree.latitude}}" data-lon="{{tree.longitude}}" data-name="{{tree.specy}}" data-sector="{{tree.sector.sectorName}}" class="w-full h-60 sm:h-100 rounded-lg overflow-hidden"></div>
 							{% else %}
-								<img src="/assets/images/map.webp" alt="map" class="object-cover w-full h-full">
+								<img src="/assets/images/map.avif" alt="map" class="object-cover w-full h-60 sm:h-100 rounded-lg overflow-hidden">
 							{% endif %}
 							<div class="flex justify-center">
 								<button onclick="openModal('editTreeGPSModal')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
