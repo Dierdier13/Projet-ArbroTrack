@@ -27,7 +27,7 @@
 								<img src="/assets/images/map.avif" alt="map" class="object-cover w-full h-60 sm:h-100 rounded-lg overflow-hidden">
 							{% endif %}
 							<div class="flex justify-center">
-								<button onclick="openModal('editTreeGPSModal')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+								<button onclick="openEditTreeGPSModal('{{ property.id }}', '{{ tree.id }}')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 									<img src="/assets/images/edit.png" alt="Modifier GPS" class="w-6 h-6">
 								</button>
 							</div>
@@ -91,7 +91,15 @@
 									</p>
 									<p class="text-[#1B3C01] w-1/2">Circonférence :
 										<span class="font-medium">{{ tree.diameter }}
-											centimètres</span>
+											</span>
+									</p>
+								</div>
+								<div class="flex">
+									<p class="text-[#1B3C01] w-1/2">Latitude :
+										<span class="font-medium">{{ tree.latitude }}</span>
+									</p>
+									<p class="text-[#1B3C01] w-1/2">Longitude :
+										<span class="font-medium">{{ tree.longitude }}</span>
 									</p>
 								</div>
 							</div>

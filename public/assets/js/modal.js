@@ -125,20 +125,21 @@ async function openEditTreeModal(propertyId ,treeId) {
     }
 }
 
-async function openEditGPSTreeModal(propertyId ,treeId){
+async function openEditTreeGPSModal(propertyId ,treeId){
     try {
-        const response = await fetch(`/property/${propertyId}/editGPSTree/${treeId}`);
+        const response = await fetch(`/property/${propertyId}/editTree/${treeId}`);
 
         if (!response.ok) throw new Error("Erreur lors de la récupération des données de l'arbre");
         const tree = await response.json();
 
-        const modal = document.getElementById('editGPSTreeModal');
+        const modal = document.getElementById('editTreeGPSModal');
         const form = modal.querySelector('form');
 
         form.elements['treeId'].value = tree.id;
         form.elements['latitude'].value = tree.latitude;
         form.elements['longitude'].value = tree.longitude;
-        form.action = `/property/${propertyId}/editGPSTree/${treeId}`;
+
+        form.action = `/property/${propertyId}/editTreeGPS/${treeId}`;
 
         modal.classList.remove('hidden');
         modal.classList.add('flex');

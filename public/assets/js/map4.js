@@ -25,4 +25,4 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 const marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
-marker.bindPopup(`<strong>${treeName}</strong><br>Secteur : ${sector}`).openPopup();
+marker.bindPopup(`<strong>${treeName}</strong><br>Secteur : ${sector}<br>GPS : ${latitude}, ${longitude}`).openPopup();

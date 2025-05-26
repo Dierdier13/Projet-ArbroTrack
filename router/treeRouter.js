@@ -148,7 +148,7 @@ treeRouter.post('/property/:propertyId/editTree/:treeId', authguard, async (req,
     }
 })
 
-treeRouter.post('/property/:propertyId/editGPSTree/:treeId', authguard, async (req, res) => {
+treeRouter.post('/property/:propertyId/editTreeGPS/:treeId', authguard, async (req, res) => {
     const propertyId = parseInt(req.params.propertyId, 10);
     const treeId = parseInt(req.params.treeId, 10);
     const { latitude, longitude} = req.body;
