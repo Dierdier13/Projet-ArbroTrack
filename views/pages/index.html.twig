@@ -19,7 +19,7 @@
 			</div>
 			<div id="map" class="w-full h-60 sm:h-80 rounded-lg"></div>
 			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
-				<a href="/apiPlantNet" class="max-w-60 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
+				<a href="/apiPlantNet" title="PlantNet Reconnaissance des végétaux" class="max-w-60 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
 					<img src="/assets/images/add-photo.png" alt="API plantNet" class="w-6 h-6">
 					<span>Identification PlantNet</span>
 				</a>
@@ -39,7 +39,7 @@
 		<section class="flex flex-col gap-4">
 			<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg p-4 relative">
 				<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
-					<button class="max-w-1/3 z-20 cursor-pointer bg-green-600 hover:bg-green-800 text-white text-sm md:text-lg font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openModal('propertyModal')">
+					<button title="Ajouter une propriété" class="max-w-1/3 z-20 cursor-pointer bg-green-600 hover:bg-green-800 text-white text-sm md:text-lg font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openModal('propertyModal')">
 						<img src="/assets/images/add.png" alt="Ajouter propriété" class="w-6 h-6">
 						<span>Propriété</span>
 					</button>
@@ -51,24 +51,32 @@
 				</div>
 				{% if properties|length > 0 %}
 					<div id="property-container" class="sortable-container flex flex-col gap-2">
+						<div class="hidden md:flex justify-between w-full text-white gap-1">
+							<div class="flex w-4/5 gap-2 lg:gap-8">
+								<h3 class="w-1/3">Dénomination</h3>
+								<h3 class="w-1/3">Adresse</h3>
+								<h3 class="w-1/3">Code Postal</h3>
+							</div>
+							<h3 class="w-1/5 text-end">Action</h3>
+						</div>
 						{% for property in properties %}
-							<article data-id="{{ property.id }}" class="flex flex-col md:flex-row justify-between items-center w-full p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1">
-								<div class="flex flex-col md:flex-row items-center gap-1 md:gap-2 lg:gap-8 w-full  md:w-4/5">
-									<a href="/property/{{ property.id }}" class="text-lg text-center md:text-start font-semibold text-[#1B3C01] hover:text-white w-full md:w-1/3">
+							<article data-id="{{ property.id }}" class="flex flex-col md:flex-row justify-between items-center w-full p-2 bg-[#C3CEA3] backdrop-blur-3xl shadow-md rounded-lg border border-green-600 gap-1">
+								<div class="text-[#1B3C01] flex flex-col md:flex-row items-center gap-1 md:gap-2 lg:gap-8 w-full  md:w-4/5">
+									<a href="/property/{{ property.id }}" title="Accéder au dasboard de la propriété" class="text-lg text-center md:text-start font-semibold hover:text-white w-full md:w-1/3">
 										<h3>{{ property.propertyName }}</h3>
 									</a>
-									<p class="text-[#1B3C01] w-full md:w-1/3">{{ property.adress }}</p>
-									<p class="text-[#1B3C01] w-full md:w-1/3">{{ property.codePostal }}
+									<p class="w-full md:w-1/3">{{ property.adress }}</p>
+									<p class="w-full md:w-1/3">{{ property.codePostal }}
 										{{ property.city }}</p>
 								</div>
 								<div class="flex justify-center md:justify-end gap-1 w-full md:w-1/5">
-									<a href="/property/{{ property.id }}" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+									<a href="/property/{{ property.id }}" title="Accéder au dasboard de la propriété" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 										<img src="/assets/images/dashboard.png" alt="Dashboard" class="w-6 h-6">
 									</a>
-									<button onclick="openEditPropertyModal('{{ property.id }}')" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+									<button onclick="openEditPropertyModal('{{ property.id }}')" title="Modification de la propriété" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 										<img src="/assets/images/edit.png" alt="Modifier propriété" class="w-6 h-6">
 									</button>
-									<button onclick="openDeleteModal('deletePropertyConfirmModal', this)" data-id="{{ property.id }}" data-name="{{ property.propertyName }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+									<button onclick="openDeleteModal('deletePropertyConfirmModal', this)"title="Suppréssion de la propriété" data-id="{{ property.id }}" data-name="{{ property.propertyName }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 										<img src="/assets/images/delete.png" alt="Supprimer propriété" class="w-6 h-6">
 									</button>
 								</div>

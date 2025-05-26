@@ -16,39 +16,39 @@
 			</div>
 		</section>
 		<section>
-			<div class="flex flex-col 2xl:flex-row mx-auto p-6 bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg gap-6">
-				<div class="w-full 2xl:w-1/2 order-2 2xl:order-1 bg-[#C3CEA3] space-y-6 shadow-lg rounded-lg p-4">
-					<h3 class="text-xl text-[#1B3C01] font-medium">Identifiez facilement les arbres grâce à Pl@ntNet</h3>
-					<p class="text-[#1B3C01]">Vous vous demandez quel est cet arbre que vous croisez en promenade ou dans votre jardin ?<br>
+			<div class="flex flex-col 2xl:flex-row mx-auto p-6 text-white bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg gap-6">
+				<div class="w-full h-full 2xl:w-1/2 order-2 2xl:order-1 bg-[#C3CEA3]/30 backdrop-blur-3xl space-y-6 shadow-lg rounded-lg p-4">
+					<h3 class="text-2xl font-medium">Identifiez facilement les arbres grâce à Pl@ntNet</h3>
+					<p>Vous vous demandez quel est cet arbre que vous croisez en promenade ou dans votre jardin ?<br>
 						Grâce à l'outil Pl@ntNet intégré à notre site, vous pouvez désormais identifier rapidement et simplement les arbres qui vous entourent.
 					</p>
-					<h3 class="text-xl text-[#1B3C01] font-medium">Comment ça fonctionne ?</h3>
-					<p class="text-[#1B3C01]">Pl@ntNet est une plateforme scientifique qui utilise la reconnaissance visuelle pour identifier les plantes. Voici comment vous pouvez l'utiliser :<br>
+					<h3 class="text-2xl font-medium">Comment ça fonctionne ?</h3>
+					<p>Pl@ntNet est une plateforme scientifique qui utilise la reconnaissance visuelle pour identifier les plantes. Voici comment vous pouvez l'utiliser :<br>
 						• Prenez une photo claire de l'arbre ou d'une partie spécifique (comme une feuille, une fleur ou un fruit).<br>
 						• Téléchargez cette image via notre interface.<br>
 						• En quelques secondes, Pl@ntNet vous indique les espèces probables et fournit des informations détaillées sur celles-ci.<br>
 					</p>
-					<h3 class="text-xl text-[#1B3C01] font-medium">Pourquoi utiliser cet outil ?</h3>
-					<p class="text-[#1B3C01]">• Simplicité : Pas besoin d’être un expert en botanique, l’outil est conçu pour être accessible à tous.<br>
+					<h3 class="text-2xl font-medium">Pourquoi utiliser cet outil ?</h3>
+					<p>• Simplicité : Pas besoin d’être un expert en botanique, l’outil est conçu pour être accessible à tous.<br>
 						• Rapidité : Obtenez des résultats instantanés pour satisfaire votre curiosité.<br>
 						• Participation scientifique : Chaque identification contribue à enrichir une base de données mondiale sur la biodiversité.
 					</p>
-					<h3 class="text-xl text-[#1B3C01] font-medium">Explorez et apprenez</h3>
-					<p class="text-[#1B3C01]">Que ce soit pour découvrir la nature autour de vous, enrichir vos connaissances ou simplement satisfaire votre curiosité, Pl@ntNet est là pour vous accompagner.<br>
+					<h3 class="text-2xl font-medium">Explorez et apprenez</h3>
+					<p>Que ce soit pour découvrir la nature autour de vous, enrichir vos connaissances ou simplement satisfaire votre curiosité, Pl@ntNet est là pour vous accompagner.<br>
 						Identifiez, apprenez et participez à la préservation de notre patrimoine naturel, tout cela en quelques clics !
 					</p>
 				</div>
-				<div class="w-full 2xl:w-1/2 order-1 2xl:order-2 flex flex-col bg-[#C3CEA3] shadow-lg rounded-lg p-4">
+				<div class="w-full h-full 2xl:w-1/2 order-1 2xl:order-2 flex flex-col text-white bg-[#C3CEA3]/30 backdrop-blur-3xl shadow-lg rounded-lg p-4">
 					<form action="/apiPlantNet" method="POST" enctype="multipart/form-data">
 						<div class="mb-4">
-							<label for="images" class="block text-lg font-medium text-[#1B3C01] mb-2">Télécharger des images (max 5) :</label>
+							<label for="images" class="block text-xl font-medium mb-2">Télécharger des images (max 5) :</label>
 							<input type="file" id="images" name="images" multiple accept="image/png, image/jpeg, image/jpg, image/webp" onchange="handleFileSelection(event)" class="bg-white w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none">
-							<p class="mt-1 text-sm text-[#1B3C01]">PNG, JPG, JPEG, WEBP jusqu'à 5Mo par images</p>
+							<p class="mt-1 text-sm">PNG, JPG, JPEG, WEBP jusqu'à 5Mo par images</p>
 							<div id="file-preview-container" class="mt-2 space-y-2"></div>
 						</div>
 						<div class="mb-4">
-							<label class="block text-lg font-medium text-[#1B3C01] mb-2">Sélectionnez les organes à analyser :</label>
-							<div class="flex flex-wrap gap-2 text-[#1B3C01]">
+							<label class="block text-xl font-medium mb-2">Sélectionnez les organes à analyser :</label>
+							<div class="flex flex-wrap gap-2">
 								<label><input type="checkbox" name="organs" value="leaf" checked>
 									Feuille 🌿</label>
 								<label><input type="checkbox" name="organs" value="flower">
@@ -71,7 +71,7 @@
 					</form>
 					<div>
 						{% if data.results %}
-							<h3 class="text-[#1B3C01] text-xl font-medium">Résultat de l'Identification</h3>
+							<h3 class="text-xl font-medium">Résultat de l'Identification</h3>
 							{% for result in data.results %}
 								<div class="bg-white shadow-md rounded-lg p-4 border border-green-500 mt-2">
 									<div class="flex flex-col gap-2">

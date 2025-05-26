@@ -27,7 +27,7 @@
 								<img src="/assets/images/map.avif" alt="map" class="object-cover w-full h-60 sm:h-100 rounded-lg overflow-hidden">
 							{% endif %}
 							<div class="flex justify-center">
-								<button onclick="openEditTreeGPSModal('{{ property.id }}', '{{ tree.id }}')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+								<button onclick="openEditTreeGPSModal('{{ property.id }}', '{{ tree.id }}')" title="Modifier les coordonnées de l'arbre" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 									<img src="/assets/images/edit.png" alt="Modifier GPS" class="w-6 h-6">
 								</button>
 							</div>
@@ -49,15 +49,15 @@
 								</div>
 							{% endif %}
 							<div class="flex justify-center">
-								<button onclick="openModal('editImagesTreeModal')" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+								<button onclick="openModal('editImagesTreeModal')" title="Modifier les images de l'arbre" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 									<img src="/assets/images/edit-photo.png" alt="Modifier" class="w-6 h-6">
 								</button>
 							</div>
 						</div>
 					</div>
 					<div class="flex flex-col justify-between w-full gap-2">
-						<div class="bg-[#C3CEA3] space-y-6 shadow-lg rounded-lg p-4">
-							<h2 class="text-2xl text-[#1B3C01] text-center font-semibold underline">Détail de
+						<div class="bg-[#C3CEA3]/30 backdrop-blur-3xl space-y-6 shadow-lg rounded-lg p-4">
+							<h2 class="text-2xl text-white text-center font-semibold underline">Détail de
 								{{ tree.specy }}</h2>
 							<div class="flex flex-col bg-white border border-green-500 rounded-md p-2 gap-2">
 								<div class="flex">
@@ -104,13 +104,13 @@
 								</div>
 							</div>
 							<div class="flex flex-col gap-2">
-								<h3 class="text-xl text-[#1B3C01] font-semibold">Secteur</h3>
+								<h3 class="text-xl text-white font-semibold">Secteur</h3>
 								<div class="flex bg-white border border-green-500 rounded-md p-2 gap-2">
 									{% if tree.sectorId %}
-										<p class="text-[#1B3C01] w-full">-
-											{{ tree.sector.sectorName }}
+										<p class="text-[#1B3C01] w-full">-<span class="font-medium">
+											{{ tree.sector.sectorName }}</span>
 										</p>
-										<a href="/property/{{ property.id }}/deleteSectorTree/{{ tree.id }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+										<a href="/property/{{ property.id }}/deleteSectorTree/{{ tree.id }}" title="Supprimer le secteur de l'arbre" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 											<img src="/assets/images/delete.png" alt="Supprimer historique" class="w-6 h-6">
 										</a>
 									{% else %}
@@ -124,7 +124,7 @@
 													<option value="{{ sector.id }}">{{ sector.sectorName }}</option>
 												{% endfor %}
 											</select>
-											<button type="submit" class="flex justify-center items-center cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md">
+											<button type="submit" title="Ajouter un secteur à l'arbre" class="flex justify-center items-center cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md">
 												<img src="/assets/images/add.png" alt="Ajouter historique" class="w-6 h-6">
 											</button>
 										</form>
@@ -133,8 +133,8 @@
 							</div>
 							<div class="flex flex-col gap-2">
 								<div class="flex gap-6">
-									<h3 class="text-xl text-[#1B3C01] font-semibold">Historique</h3>
-									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('historyModal')">
+									<h3 class="text-xl text-white font-semibold">Historique</h3>
+									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('historyModal')" title="Ajouter un historique à l'arbre">
 										<img src="/assets/images/add.png" alt="Ajouter historique" class="w-6 h-6">
 									</button>
 								</div>
@@ -148,7 +148,7 @@
 													</span>
 													{{ history.action }}
 												</p>
-												<button onclick="openDeleteModal('deleteHistoryConfirmModal', this)" data-id="{{ history.id }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+												<button onclick="openDeleteModal('deleteHistoryConfirmModal', this)" title="Supprimer l'historique de l'arbre" data-id="{{ history.id }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 													<img src="/assets/images/delete.png" alt="Supprimer historique" class="w-6 h-6">
 												</button>
 											</div>
@@ -163,8 +163,8 @@
 
 							<div class="flex flex-col gap-2">
 								<div class="flex gap-6">
-									<h3 class="text-xl font-semibold text-[#1B3C01]">Commentaires</h3>
-									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('commentModal')">
+									<h3 class="text-xl font-semibold text-white">Commentaires</h3>
+									<button class="cursor-pointer bg-green-600 hover:bg-green-800  px-1 py-0.5 rounded-md" onclick="openModal('commentModal')" title="Ajouter un commentaire à l'arbre">
 										<img src="/assets/images/add.png" alt="Ajouter commentaire" class="w-6 h-6">
 									</button>
 								</div>
@@ -174,7 +174,7 @@
 											<div class="flex justify-between">
 												<p class="text-[#1B3C01] w-full">-
 													{{ comment.comment }}</p>
-												<button onclick="openDeleteModal('deleteCommentConfirmModal', this)" data-id="{{ comment.id }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+												<button onclick="openDeleteModal('deleteCommentConfirmModal', this)" title="Supprimer le commentaire de l'arbre" data-id="{{ comment.id }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 													<img src="/assets/images/delete.png" alt="Supprimer commentaire" class="w-6 h-6">
 												</button>
 											</div>
@@ -188,10 +188,10 @@
 							</div>
 						</div>
 						<div class="flex justify-center gap-4">
-							<button onclick="openEditTreeModal('{{ property.id }}', '{{ tree.id }}')" class="w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
+							<button onclick="openEditTreeModal('{{ property.id }}', '{{ tree.id }}')" title="Modifier l'arbre" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-green-600 rounded-md shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400/75 transition duration-300">
 								<img src="/assets/images/edit.png" alt="Modifier Arbre" class="w-6 h-6">
 							</button>
-							<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
+							<button onclick="openDeleteModal('deleteTreeConfirmModal', this)" title="supprimer l'arbre" data-id="{{ tree.id }}" data-name="{{ tree.specy }}" class="cursor-pointer w-10 h-8 min-w-[2.5rem] min-h-[2rem] flex items-center justify-center px-2 py-1 bg-red-600 rounded-md shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400/75 transition duration-300">
 								<img src="/assets/images/delete.png" alt="Supprimer arbre" class="w-6 h-6">
 							</button>
 						</div>
