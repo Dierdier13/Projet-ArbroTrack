@@ -37,6 +37,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  const fullUrl = `${baseUrl}${req.originalUrl}`;
+  res.locals.canonicalUrl = fullUrl;
+  next();
+});
+
 app.use(userRouter);
 app.use(propertyRouter);
 app.use(sectorRouter);
