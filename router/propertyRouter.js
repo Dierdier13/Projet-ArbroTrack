@@ -270,7 +270,7 @@ propertyRouter.get('/property/:propertyId/treeList', authguard, async (req, res)
 
         res.render('pages/treeList.html.twig', {
             isMainPage: true,
-            title: "Liste des arbres",
+            title: "Arbotrack - Liste des arbres",
             user,
             property,
             propertyId: property.id,
@@ -388,7 +388,7 @@ propertyRouter.get('/property/:propertyId/sector/:sectorId', authguard, async (r
         ])
         res.render('pages/sectorDetail.html.twig', {
             isMainPage: true,
-            title: "Détail secteur",
+            title: "Arbotrack - Détail secteur",
             user,
             property,
             sector,
@@ -456,7 +456,7 @@ propertyRouter.get('/property/:propertyId/sector/:sectorId/search', authguard, a
         }
         res.render('pages/sectorDetail.html.twig', {
             isMainPage: true,
-            title: "Détail secteur",
+            title: "Arbotrack - Détail secteur",
             user,
             sector,
             sectorId: sectorId,

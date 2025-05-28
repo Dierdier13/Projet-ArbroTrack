@@ -16,7 +16,7 @@ const prisma = new PrismaClient({ log: ['error'] }).$extends(hashPasswordExtensi
 userRouter.get('/login', async (req, res) => {
     try {
         const user = await prisma.user.findMany();
-        res.render('pages/login.html.twig', { title: "Connexion - ArboTrack", isMainPage: false });
+        res.render('pages/login.html.twig', { title: "ArboTrack - Gestion Arboricole Simplifiée", isMainPage: false });
     } catch (error) {
         console.error('Erreur lors du chargement de la page de connexion:', error);
         res.status(500).send('Une erreur est survenue. Veuillez réessayer plus tard.');
@@ -26,13 +26,13 @@ userRouter.get('/login', async (req, res) => {
 ///////////////////////////////////////////////// Afficher page Inscription //////////////////////////////////////////////////////
 
 userRouter.get('/register', (req, res) => {
-    res.render('pages/register.html.twig', { title: "Inscription - ArboTrack", isMainPage: false });
+    res.render('pages/register.html.twig', { title: "ArboTrack - Inscription", isMainPage: false });
 })
 
 ///////////////////////////////////////////////// Afficher page Contact //////////////////////////////////////////////////////
 
 userRouter.get('/contact', (req, res) => {
-    res.render('pages/contact.html.twig', { title: "Contact - ArboTrack", isMainPage: false });
+    res.render('pages/contact.html.twig', { title: "ArboTrack - Contact", isMainPage: false });
 })
 
 userRouter.post('/contact', async (req, res) => {
@@ -94,7 +94,7 @@ userRouter.post('/register', uploadMiddleware(), async (req, res) => {
     } catch (error) {
         const flash = { error: "Erreur lors de la création du compte." };
         res.render('pages/register.html.twig', {
-            title: "inscription - ArboTrack",
+            title: "ArboTrack - inscription",
             error,
             flash,
             lastname,
@@ -153,7 +153,7 @@ userRouter.post('/login', async (req, res) => {
     } catch (error) {
         const flash = { error: "Erreur lors de la connexion au compte." };
         res.render('pages/login.html.twig', {
-            title: "Connexion - ArboTrack",
+            title: "ArboTrack - Gestion Arboricole Simplifiée",
             error,
             flash,
             mail
@@ -208,7 +208,7 @@ userRouter.get('/', authguard, async (req, res) => {
             res.render('pages/index.html.twig', {
                 isMainPage: true,
                 isPropertyPage: true,
-                title: "Property choice",
+                title: "Arbotrack - Gestion des propriétés",
                 user: req.session.user,
                 properties: properties,
                 isSearch: isSearch,
@@ -258,7 +258,7 @@ userRouter.get('/profil/:id', authguard, async (req, res) => {
             }
         });
         res.render('pages/profil.html.twig', {
-            title: "Profil utilisateur - ArboTrack",
+            title: "ArboTrack - Profil utilisateur",
             user,
             properties: user.properties,
             isMainPage: true,

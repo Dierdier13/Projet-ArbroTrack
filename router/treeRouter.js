@@ -253,7 +253,7 @@ treeRouter.get('/property/:propertyId/tree/:treeId', authguard, async (req, res)
         }));
         res.render('pages/treeDetail.html.twig', {
             isMainPage: true,
-            title: "Détail de l'arbre",
+            title: "Arbotrack - Détail de l'arbre",
             user: req.session.user,
             property,
             sectors,
