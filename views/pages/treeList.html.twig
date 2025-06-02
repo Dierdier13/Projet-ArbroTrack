@@ -10,13 +10,13 @@
 {% endblock %}
 
 {% block main %}
-	<main class="flex flex-col gap-8 w-full ml-0 lg:w-4/5 lg:ml-[20%] xl:w-5/6 xl:ml-[16.666%] 2xl:w-7/8 2xl:ml-[12.5%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-8 md:px-16 lg:px-24 xl:px-32 py-8">
+	<main class="flex flex-col gap-8 w-full ml-0 lg:w-4/5 lg:ml-[20%] xl:w-5/6 xl:ml-[16.666%] 2xl:w-7/8 2xl:ml-[12.5%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-3 md:px-16 lg:px-24 xl:px-32 py-8">
 		<section class="flex flex-col gap-6">
 			<div class="w-full flex items-center justify-center">
 				<h2 class="text-white text-xl md:text-2xl lg:text-4xl text-center font-semibold bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Liste de tous les arbres</h2>
 			</div>
 			<div id="map-2" data-polygon={{property.polygon}} data-lat="{{property.latitude}}" data-lon="{{property.longitude}}" data-id="{{ property.id }}" class="w-full h-60 sm:h-80 rounded-lg"></div>
-			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
+			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-2 lg:p-4 gap-2 lg:gap-0">
 				<a href="/apiPlantNet" title="PlantNet Reconnaissance des végétaux" class="max-w-60 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
 					<img src="/assets/images/add-photo.png" alt="API plantNet" class="w-6 h-6">
 					<span>Identification PlantNet</span>
@@ -42,7 +42,7 @@
 		</section>
 
 		<section class="flex flex-col gap-4">
-			<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg p-4">
+			<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg p-2 lg:p-4">
 				<div id="listView" class="view hidden">
 					<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
 						<button onclick="openAddTreeModal('/property/{{ property.id }}/treeList')" title="Ajouter un arbre" class="max-w-1/3 z-20 cursor-pointer bg-green-600 hover:bg-green-800 text-white text-sm md:text-lg font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300">

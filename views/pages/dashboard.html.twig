@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block main %}
-	<main class="flex flex-col gap-8 w-full ml-0 lg:w-4/5 lg:ml-[20%] xl:w-5/6 xl:ml-[16.666%] 2xl:w-7/8 2xl:ml-[12.5%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-8 md:px-16 lg:px-24 xl:px-32 py-8">
+	<main class="flex flex-col gap-8 w-full ml-0 lg:w-4/5 lg:ml-[20%] xl:w-5/6 xl:ml-[16.666%] 2xl:w-7/8 2xl:ml-[12.5%] min-h-[calc(100vh-3.5rem)] bg-[#50693C]/50 backdrop-blur-xs px-3 md:px-16 lg:px-24 xl:px-32 py-8">
 		<section class="flex flex-col gap-6">
 			<div class="w-full flex items-center justify-center gap-4">
 				<h2 class="text-white text-xl md:text-2xl lg:text-4xl font-semibold text-center bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg px-2 py-1">Propriété :
@@ -21,7 +21,7 @@
 				</button>
 			</div>
 			<div id="map-2" data-polygon={{property.polygon}} data-lat="{{property.latitude}}" data-lon="{{property.longitude}}" data-id="{{ property.id }}" class="w-full h-60 sm:h-80 rounded-lg"></div>
-			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-4 gap-2 lg:gap-0">
+			<div class="flex justify-between flex-col md:flex-row w-full bg-[#1B3C01]/60 backdrop-blur-2xl shadow-lg rounded-lg p-2 lg:p-4 gap-2 lg:gap-0">
 				<a href="/apiPlantNet" title="PlantNet Reconnaissance des végétaux" class="max-w-60 cursor-pointer bg-green-600 hover:bg-green-800 text-white font-medium px-2 py-1 rounded flex gap-2 flex-shrink-0 items-center justify-center transition duration-300">
 					<img src="/assets/images/add-photo.png" alt="API plantNet" class="w-6 h-6">
 					<span>Identification PlantNet</span>
@@ -40,7 +40,7 @@
 
 		<section class="flex flex-col gap-4">
 			{% if searchTerm|length > 0 %}
-				<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg flex flex-col gap-8 p-4 relative">
+				<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg flex flex-col gap-8 p-2 lg:p-4 relative">
 					<div class="flex flex-col gap-2">
 						<h2 class="w-full text-lg md:text-2xl lg:text-4xl text-white text-center font-semibold">Résultats de la recherche pour "{{ searchTerm }}"</h2>
 						{% if sectors|length > 0 %}
@@ -147,7 +147,7 @@
 						{% endif %}
 					</div>
 				{% else %}
-					<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg flex flex-col gap-8 p-4 relative">
+					<div class="bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg flex flex-col gap-8 p-2 lg:p-4 relative">
 						<div>
 							<div class="flex w-full items-center mb-8 relative gap-4 md:gap-0">
 								<button class="max-w-1/3 z-20 cursor-pointer bg-green-600 hover:bg-green-800 text-white text-sm md:text-lg font-medium px-3 py-1 rounded flex gap-1 items-center justify-center transition duration-300" onclick="openModal('sectorModal')" title="Ajouter un secteur">
@@ -160,15 +160,15 @@
 								<div id="sectors-container" class="sortable-container flex flex-wrap gap-2 mx-auto">
 									{% for sector in sectors %}
 										<article data-id="{{ sector.id }}" class="sector-article flex flex-col justify-between items-center p-2 bg-[#C3CEA3] backdrop-blur-xs shadow-md rounded-lg border border-green-600 gap-1 md:gap-2 w-full sm:w-[calc(50%-0.35rem)] md:w-[calc(33%-0.22rem)] 2xl:w-[calc(25%-0.40rem)]">
-											<div class="flex flex-col gap-0.5 md:gap-1">
+											<div class="flex flex-col items-center gap-0.5 md:gap-2 w-full">
 												<a href="/property/{{ propertyId }}/sector/{{ sector.id }}" title="Afficher détail du secteur" class="text-lg font-semibold text-[#1B3C01] text-center hover:text-white">
 													<h3>{{ sector.sectorName }}</h3>
 												</a>
-												<p class="text-[#1B3C01]">
+												<p class="text-[#1B3C01] w-full">
 													<span class="font-bold">Description:
 													</span>
 													{{ sector.comment }}</p>
-												<p class="text-[#1B3C01]">
+												<p class="text-[#1B3C01] w-full">
 													<span class="font-bold">Nb Arbre:
 													</span>
 													{{ sectorTreeCountsMap[sector.id]|default(0) }}</p>

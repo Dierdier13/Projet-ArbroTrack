@@ -11,9 +11,9 @@
 
 {% block main %}
 	<main class="flex-grow flex flex-col items-center justify-center gap-16">
-		<section class="w-full h-full lg:h-[calc(100vh-5rem)] flex flex-col lg:flex-row lg:justify-around mt-8 lg:mt-0 px-8 gap-8">
+		<section class="w-full h-full lg:h-[calc(100vh-5rem)] flex flex-col lg:flex-row lg:justify-around mt-8 lg:mt-0 px-2 lg:px-8 gap-8">
 			<div class="w-full lg:w-3/5 flex items-center justify-center ">
-				<article class="max-w-full p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
+				<article class="max-w-full p-3 lg:p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
 					<div class="flex items-center mb-8">
 						<img src="/assets/images/Logo_final_sans_blanc.png" class="mr-3 w-14 sm:w-20 h-14 sm:h-20" alt="Logo"/>
 						<h2 class="text-white text-xl md:text-2xl lg:text-3xl font-semibold text-center">
@@ -34,22 +34,24 @@
 				</article>
 			</div>
 			<div class="w-full lg:w-2/5 flex items-center justify-center">
-				<div class="w-full max-w-lg p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
+				<div class="w-full max-w-lg p-3 lg:p-6 bg-[#1B3C01]/60 backdrop-blur-2xl rounded-lg shadow-md">
 					<form action="/login" method="POST" class="w-full">
 						<h2 class="text-white text-xl md:text-2xl font-bold text-center mb-4">Se Connecter</h2>
 						{% if error.mail %}
 							<span class="text-red-500 text-sm text-center">{{ error.mail }}</span>
 						{% endif %}
 						<div class="mb-4">
-							<input type="text" id="mail" name="mail" value="{{ mail|default('') }}" placeholder="Entrez votre Mail" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:outline-none
-																																																       {% if error.mail %}border-red-500 focus:ring-red-500 bg-red-200{% else %}border-green-300 focus:ring-green-500 bg-white{% endif %}">
+							<label for="mail" class="block mb-1 font-semibold text-white">Email :</label>
+							<input type="text" id="mail" name="mail" value="{{ mail|default('') }}" placeholder="Entrez votre Email" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:outline-none
+																																																							       {% if error.mail %}border-red-500 focus:ring-red-500 bg-red-200{% else %}border-green-300 focus:ring-green-500 bg-white{% endif %}">
 						</div>
 						{% if error.password %}
 							<span class="text-red-500 text-sm text-center">{{ error.password }}</span>
 						{% endif %}
-						<div class="mb-4">
+						<div class="mb-6">
+							<label for="password" class="block mb-1 font-semibold text-white">Mot de passe :</label>
 							<input type="password" id="password" name="password" placeholder="Entrez votre Mot de passe" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:outline-none
-																																																	    {% if error.password %}border-red-500 focus:ring-red-500 bg-red-200{% else %}border-green-300 focus:ring-green-500 bg-white{% endif %}"/>
+																																																								    {% if error.password %}border-red-500 focus:ring-red-500 bg-red-200{% else %}border-green-300 focus:ring-green-500 bg-white{% endif %}"/>
 						</div>
 						{% if error.fields %}
 							<span class="block text-red-500 text-sm text-center mb-4">{{ error.fields }}</span>
@@ -60,24 +62,24 @@
 				</div>
 			</div>
 		</section>
-		<section class="bg-[#1B3C01]/60 backdrop-blur-2xl w-full flex flex-col lg:flex-row  mb-8 lg:mb-32 xl:mb-50 p-8 lg:p-16 gap-8 lg:gap-16">
+		<section class="bg-[#1B3C01]/60 backdrop-blur-2xl w-full flex flex-col lg:flex-row  mb-8 lg:mb-32 xl:mb-50 p-2 lg:p-16 gap-8 lg:gap-16">
 			<div id="part" class="w-full lg:w-1/2">
-				<article class="max-w-full p-6 bg-[#C3CEA3]/30 backdrop-blur-3xl rounded-lg shadow-md">
+				<article class="max-w-full p-2 lg:p-6 bg-[#C3CEA3]/30 backdrop-blur-3xl rounded-lg shadow-md">
 					<h2 class="text-green-500 text-xl md:text-2xl lg:text-4xl font-semibold text-center mb-6">Pour les particuliers – Suivez vos arbres avec attention et respect</h2>
 					<p class="text-justify text-white">
-					Vous aimez vos arbres et souhaitez en prendre soin comme il se doit ? Notre application vous permet de créer un véritable carnet de santé numérique pour chaque arbre de votre jardin.<br>
-					Ajoutez votre propriété, localisez-la sur une carte, puis divisez-la en secteurs si besoin. Pour chaque arbre, enregistrez son essence, sa position GPS, son état de santé, et ajoutez des photos pour suivre son évolution. Notez vos observations, vos ressentis, ou les interventions passées (taille, traitement, diagnostic).<br>
-					Pensée pour les amoureux de la nature, l’application vous aide à respecter et mieux comprendre vos arbres, en gardant une trace vivante de leur histoire.
+						Vous aimez vos arbres et souhaitez en prendre soin comme il se doit ? Notre application vous permet de créer un véritable carnet de santé numérique pour chaque arbre de votre jardin.<br>
+						Ajoutez votre propriété, localisez-la sur une carte, puis divisez-la en secteurs si besoin. Pour chaque arbre, enregistrez son essence, sa position GPS, son état de santé, et ajoutez des photos pour suivre son évolution. Notez vos observations, vos ressentis, ou les interventions passées (taille, traitement, diagnostic).<br>
+						Pensée pour les amoureux de la nature, l’application vous aide à respecter et mieux comprendre vos arbres, en gardant une trace vivante de leur histoire.
 					</p>
 				</article>
 			</div>
 			<div id="pro" class="w-full lg:w-1/2">
-				<article class="max-w-full p-6 bg-[#C3CEA3]/30 backdrop-blur-3xl rounded-lg shadow-md">
+				<article class="max-w-full p-2 lg:p-6 bg-[#C3CEA3]/30 backdrop-blur-3xl rounded-lg shadow-md">
 					<h2 class="text-green-500 text-xl md:text-2xl lg:text-4xl font-semibold text-center mb-6">Pour les professionnels – Gagnez du temps dans la gestion de vos propriétés arborées</h2>
 					<p class="text-justify text-white">
-					Que vous soyez paysagiste, gestionnaire de patrimoine arboré ou responsable d’espaces verts, cette application est conçue pour simplifier et centraliser votre suivi terrain.<br>
-					Ajoutez vos différentes propriétés, localisez-les précisément, et organisez-les par secteurs (parc, lotissement, espace public…). Pour chaque arbre, vous pouvez enregistrer son emplacement GPS, son état sanitaire, des photos, ainsi que l’historique complet des interventions réalisées. Chaque secteur ou arbre peut être annoté avec des commentaires pour faciliter le travail en équipe.<br>
-					Grâce à un tableau de bord clair et une interface intuitive, vous optimisez vos visites, planifiez vos entretiens, et conservez un historique fiable de vos actions, pour une gestion rigoureuse, professionnelle et durable.
+						Que vous soyez paysagiste, gestionnaire de patrimoine arboré ou responsable d’espaces verts, cette application est conçue pour simplifier et centraliser votre suivi terrain.<br>
+						Ajoutez vos différentes propriétés, localisez-les précisément, et organisez-les par secteurs (parc, lotissement, espace public…). Pour chaque arbre, vous pouvez enregistrer son emplacement GPS, son état sanitaire, des photos, ainsi que l’historique complet des interventions réalisées. Chaque secteur ou arbre peut être annoté avec des commentaires pour faciliter le travail en équipe.<br>
+						Grâce à un tableau de bord clair et une interface intuitive, vous optimisez vos visites, planifiez vos entretiens, et conservez un historique fiable de vos actions, pour une gestion rigoureuse, professionnelle et durable.
 					</p>
 				</article>
 			</div>
